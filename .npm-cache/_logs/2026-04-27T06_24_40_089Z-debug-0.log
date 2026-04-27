@@ -1,0 +1,938 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.9.2
+2 info using node@v22.17.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/.npmrc
+5 silly config load:file:/Users/himanshuchaturvedi/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install
+8 verbose argv "install" "--cache" ".npm-cache"
+9 verbose logfile logs-max:10 dir:/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/.npm-cache/_logs/2026-04-27T06_24_40_089Z-
+10 verbose logfile /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/.npm-cache/_logs/2026-04-27T06_24_40_089Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly reify moves {}
+15 silly audit bulk request {
+15 silly audit   '@babel/runtime': [ '7.26.9' ],
+15 silly audit   '@googlemaps/js-api-loader': [ '1.16.8' ],
+15 silly audit   '@googlemaps/markerclusterer': [ '2.5.3' ],
+15 silly audit   '@img/sharp-win32-x64': [ '0.33.5' ],
+15 silly audit   '@kurkle/color': [ '0.3.4' ],
+15 silly audit   '@next/env': [ '15.1.7' ],
+15 silly audit   '@next/swc-darwin-arm64': [ '15.1.7' ],
+15 silly audit   '@next/swc-darwin-x64': [ '15.1.7' ],
+15 silly audit   '@next/swc-linux-arm64-gnu': [ '15.1.7' ],
+15 silly audit   '@next/swc-linux-arm64-musl': [ '15.1.7' ],
+15 silly audit   '@next/swc-linux-x64-gnu': [ '15.1.7' ],
+15 silly audit   '@next/swc-linux-x64-musl': [ '15.1.7' ],
+15 silly audit   '@next/swc-win32-arm64-msvc': [ '15.1.7' ],
+15 silly audit   '@next/swc-win32-x64-msvc': [ '15.1.7' ],
+15 silly audit   '@parcel/watcher': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-android-arm64': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-darwin-arm64': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-darwin-x64': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-freebsd-x64': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-linux-arm-glibc': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-linux-arm-musl': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-linux-arm64-glibc': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-linux-arm64-musl': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-linux-x64-glibc': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-linux-x64-musl': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-win32-arm64': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-win32-ia32': [ '2.5.1' ],
+15 silly audit   '@parcel/watcher-win32-x64': [ '2.5.1' ],
+15 silly audit   'detect-libc': [ '1.0.3', '2.0.3' ],
+15 silly audit   '@popperjs/core': [ '2.11.8' ],
+15 silly audit   '@react-google-maps/api': [ '2.20.6' ],
+15 silly audit   '@react-google-maps/infobox': [ '2.20.0' ],
+15 silly audit   '@react-google-maps/marker-clusterer': [ '2.20.0' ],
+15 silly audit   '@swc/counter': [ '0.1.3' ],
+15 silly audit   '@swc/helpers': [ '0.5.15' ],
+15 silly audit   '@types/google.maps': [ '3.58.1' ],
+15 silly audit   asynckit: [ '0.4.0' ],
+15 silly audit   axios: [ '1.7.9' ],
+15 silly audit   bootstrap: [ '5.3.2' ],
+15 silly audit   braces: [ '3.0.3' ],
+15 silly audit   busboy: [ '1.6.0' ],
+15 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+15 silly audit   'caniuse-lite': [ '1.0.30001699' ],
+15 silly audit   'chart.js': [ '4.4.7' ],
+15 silly audit   chokidar: [ '4.0.3' ],
+15 silly audit   classnames: [ '2.5.1' ],
+15 silly audit   'client-only': [ '0.0.1' ],
+15 silly audit   color: [ '4.2.3' ],
+15 silly audit   'color-convert': [ '2.0.1' ],
+15 silly audit   'color-name': [ '1.1.4' ],
+15 silly audit   'color-string': [ '1.9.1' ],
+15 silly audit   'combined-stream': [ '1.0.8' ],
+15 silly audit   'delayed-stream': [ '1.0.0' ],
+15 silly audit   'dunder-proto': [ '1.0.1' ],
+15 silly audit   'es-define-property': [ '1.0.1' ],
+15 silly audit   'es-errors': [ '1.3.0' ],
+15 silly audit   'es-object-atoms': [ '1.1.1' ],
+15 silly audit   'es-set-tostringtag': [ '2.1.0' ],
+15 silly audit   'fast-deep-equal': [ '3.1.3' ],
+15 silly audit   'fill-range': [ '7.1.1' ],
+15 silly audit   'follow-redirects': [ '1.15.9' ],
+15 silly audit   'form-data': [ '4.0.2' ],
+15 silly audit   'function-bind': [ '1.1.2' ],
+15 silly audit   'get-intrinsic': [ '1.3.0' ],
+15 silly audit   'get-proto': [ '1.0.1' ],
+15 silly audit   gopd: [ '1.2.0' ],
+15 silly audit   gsap: [ '3.12.7' ],
+15 silly audit   'gsap-trial': [ '3.12.7' ],
+15 silly audit   'has-symbols': [ '1.1.0' ],
+15 silly audit   'has-tostringtag': [ '1.0.2' ],
+15 silly audit   hasown: [ '2.0.2' ],
+15 silly audit   immutable: [ '5.0.3' ],
+15 silly audit   invariant: [ '2.2.4' ],
+15 silly audit   'is-arrayish': [ '0.3.2' ],
+15 silly audit   'is-extglob': [ '2.1.1' ],
+15 silly audit   'is-glob': [ '4.0.3' ],
+15 silly audit   'is-number': [ '7.0.0' ],
+15 silly audit   'js-tokens': [ '4.0.0' ],
+15 silly audit   kdbush: [ '4.0.2' ],
+15 silly audit   'loose-envify': [ '1.4.0' ],
+15 silly audit   'math-intrinsics': [ '1.1.0' ],
+15 silly audit   micromatch: [ '4.0.8' ],
+15 silly audit   'mime-db': [ '1.52.0' ],
+15 silly audit   'mime-types': [ '2.1.35' ],
+15 silly audit   nanoid: [ '3.3.8' ],
+15 silly audit   next: [ '15.1.7' ],
+15 silly audit   'node-addon-api': [ '7.1.1' ],
+15 silly audit   'object-assign': [ '4.1.1' ],
+15 silly audit   odometer: [ '0.4.8' ],
+15 silly audit   photoswipe: [ '5.4.4' ],
+15 silly audit   picocolors: [ '1.1.1' ],
+15 silly audit   picomatch: [ '2.3.1' ],
+15 silly audit   postcss: [ '8.4.31' ],
+15 silly audit   'prop-types': [ '15.8.1' ],
+15 silly audit   'proxy-from-env': [ '1.1.0' ],
+15 silly audit   'rc-slider': [ '11.1.8' ],
+15 silly audit   'rc-util': [ '5.44.4' ],
+15 silly audit   'react-is': [ '18.3.1', '16.13.1' ],
+15 silly audit   react: [ '19.0.0' ],
+15 silly audit   'react-dom': [ '19.0.0' ],
+15 silly audit   'react-odometerjs': [ '3.1.3' ],
+15 silly audit   'react-photoswipe-gallery': [ '3.0.2' ],
+15 silly audit   readdirp: [ '4.1.2' ],
+15 silly audit   'regenerator-runtime': [ '0.14.1' ],
+15 silly audit   sass: [ '1.85.0' ],
+15 silly audit   scheduler: [ '0.25.0' ],
+15 silly audit   semver: [ '7.7.1' ],
+15 silly audit   sharp: [ '0.33.5' ],
+15 silly audit   'simple-swizzle': [ '0.2.2' ],
+15 silly audit   'source-map-js': [ '1.2.1' ],
+15 silly audit   streamsearch: [ '1.1.0' ],
+15 silly audit   'styled-jsx': [ '5.1.6' ],
+15 silly audit   supercluster: [ '8.0.1' ],
+15 silly audit   swiper: [ '11.2.4' ],
+15 silly audit   'to-regex-range': [ '5.0.1' ],
+15 silly audit   tslib: [ '2.8.1' ]
+15 silly audit }
+16 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-win32-x64
+17 silly reify mark deleted [
+17 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-win32-x64'
+17 silly reify ]
+18 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-win32-ia32
+19 silly reify mark deleted [
+19 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-win32-ia32'
+19 silly reify ]
+20 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-win32-arm64
+21 silly reify mark deleted [
+21 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-win32-arm64'
+21 silly reify ]
+22 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-x64-musl
+23 silly reify mark deleted [
+23 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-x64-musl'
+23 silly reify ]
+24 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-x64-glibc
+25 silly reify mark deleted [
+25 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-x64-glibc'
+25 silly reify ]
+26 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-arm64-musl
+27 silly reify mark deleted [
+27 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-arm64-musl'
+27 silly reify ]
+28 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-arm64-glibc
+29 silly reify mark deleted [
+29 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-arm64-glibc'
+29 silly reify ]
+30 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-arm-musl
+31 silly reify mark deleted [
+31 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-arm-musl'
+31 silly reify ]
+32 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-arm-glibc
+33 silly reify mark deleted [
+33 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-linux-arm-glibc'
+33 silly reify ]
+34 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-freebsd-x64
+35 silly reify mark deleted [
+35 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-freebsd-x64'
+35 silly reify ]
+36 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-darwin-x64
+37 silly reify mark deleted [
+37 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-darwin-x64'
+37 silly reify ]
+38 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-android-arm64
+39 silly reify mark deleted [
+39 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@parcel/watcher-android-arm64'
+39 silly reify ]
+40 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-win32-x64-msvc
+41 silly reify mark deleted [
+41 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-win32-x64-msvc'
+41 silly reify ]
+42 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-win32-arm64-msvc
+43 silly reify mark deleted [
+43 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-win32-arm64-msvc'
+43 silly reify ]
+44 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-linux-x64-musl
+45 silly reify mark deleted [
+45 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-linux-x64-musl'
+45 silly reify ]
+46 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-linux-x64-gnu
+47 silly reify mark deleted [
+47 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-linux-x64-gnu'
+47 silly reify ]
+48 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-linux-arm64-musl
+49 silly reify mark deleted [
+49 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-linux-arm64-musl'
+49 silly reify ]
+50 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-linux-arm64-gnu
+51 silly reify mark deleted [
+51 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-linux-arm64-gnu'
+51 silly reify ]
+52 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-darwin-x64
+53 silly reify mark deleted [
+53 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@next/swc-darwin-x64'
+53 silly reify ]
+54 verbose reify failed optional dependency /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@img/sharp-win32-x64
+55 silly reify mark deleted [
+55 silly reify   '/Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs/node_modules/@img/sharp-win32-x64'
+55 silly reify ]
+56 http cache tslib@https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz 0ms (cache hit)
+57 http cache to-regex-range@https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz 0ms (cache hit)
+58 http cache swiper@https://registry.npmjs.org/swiper/-/swiper-11.2.4.tgz 0ms (cache hit)
+59 http cache supercluster@https://registry.npmjs.org/supercluster/-/supercluster-8.0.1.tgz 0ms (cache hit)
+60 http cache styled-jsx@https://registry.npmjs.org/styled-jsx/-/styled-jsx-5.1.6.tgz 0ms (cache hit)
+61 http cache streamsearch@https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz 0ms (cache hit)
+62 http cache source-map-js@https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz 0ms (cache hit)
+63 http cache simple-swizzle@https://registry.npmjs.org/simple-swizzle/-/simple-swizzle-0.2.2.tgz 0ms (cache hit)
+64 http cache sharp@https://registry.npmjs.org/sharp/-/sharp-0.33.5.tgz 0ms (cache hit)
+65 http cache semver@https://registry.npmjs.org/semver/-/semver-7.7.1.tgz 0ms (cache hit)
+66 http cache scheduler@https://registry.npmjs.org/scheduler/-/scheduler-0.25.0.tgz 0ms (cache hit)
+67 http cache sass@https://registry.npmjs.org/sass/-/sass-1.85.0.tgz 0ms (cache hit)
+68 http cache readdirp@https://registry.npmjs.org/readdirp/-/readdirp-4.1.2.tgz 0ms (cache hit)
+69 http cache regenerator-runtime@https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.14.1.tgz 0ms (cache hit)
+70 http cache react-photoswipe-gallery@https://registry.npmjs.org/react-photoswipe-gallery/-/react-photoswipe-gallery-3.0.2.tgz 0ms (cache hit)
+71 http cache react-odometerjs@https://registry.npmjs.org/react-odometerjs/-/react-odometerjs-3.1.3.tgz 0ms (cache hit)
+72 http cache react-is@https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz 0ms (cache hit)
+73 http cache react@https://registry.npmjs.org/react/-/react-19.0.0.tgz 0ms (cache hit)
+74 http cache react-dom@https://registry.npmjs.org/react-dom/-/react-dom-19.0.0.tgz 0ms (cache hit)
+75 http cache rc-util@https://registry.npmjs.org/rc-util/-/rc-util-5.44.4.tgz 0ms (cache hit)
+76 http cache prop-types@https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz 0ms (cache hit)
+77 http cache proxy-from-env@https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz 0ms (cache hit)
+78 http cache rc-slider@https://registry.npmjs.org/rc-slider/-/rc-slider-11.1.8.tgz 0ms (cache hit)
+79 http cache picomatch@https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz 0ms (cache hit)
+80 http cache picocolors@https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz 0ms (cache hit)
+81 http cache photoswipe@https://registry.npmjs.org/photoswipe/-/photoswipe-5.4.4.tgz 0ms (cache hit)
+82 http cache odometer@https://registry.npmjs.org/odometer/-/odometer-0.4.8.tgz 0ms (cache hit)
+83 http cache postcss@https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz 0ms (cache hit)
+84 http cache node-addon-api@https://registry.npmjs.org/node-addon-api/-/node-addon-api-7.1.1.tgz 0ms (cache hit)
+85 http cache object-assign@https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz 0ms (cache hit)
+86 http cache nanoid@https://registry.npmjs.org/nanoid/-/nanoid-3.3.8.tgz 0ms (cache hit)
+87 http cache next@https://registry.npmjs.org/next/-/next-15.1.7.tgz 0ms (cache hit)
+88 http cache mime-types@https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz 0ms (cache hit)
+89 http cache mime-db@https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz 0ms (cache hit)
+90 http cache micromatch@https://registry.npmjs.org/micromatch/-/micromatch-4.0.8.tgz 0ms (cache hit)
+91 http cache math-intrinsics@https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz 0ms (cache hit)
+92 http cache kdbush@https://registry.npmjs.org/kdbush/-/kdbush-4.0.2.tgz 0ms (cache hit)
+93 http cache loose-envify@https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz 0ms (cache hit)
+94 http cache js-tokens@https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz 0ms (cache hit)
+95 http cache is-number@https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz 0ms (cache hit)
+96 http cache is-glob@https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz 0ms (cache hit)
+97 http cache is-extglob@https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz 0ms (cache hit)
+98 http cache is-arrayish@https://registry.npmjs.org/is-arrayish/-/is-arrayish-0.3.2.tgz 0ms (cache hit)
+99 http cache invariant@https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz 0ms (cache hit)
+100 http cache immutable@https://registry.npmjs.org/immutable/-/immutable-5.0.3.tgz 0ms (cache hit)
+101 http cache hasown@https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz 0ms (cache hit)
+102 http cache has-tostringtag@https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz 0ms (cache hit)
+103 http cache has-symbols@https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz 0ms (cache hit)
+104 http cache gsap-trial@https://registry.npmjs.org/gsap-trial/-/gsap-trial-3.12.7.tgz 0ms (cache hit)
+105 http cache gsap@https://registry.npmjs.org/gsap/-/gsap-3.12.7.tgz 0ms (cache hit)
+106 http cache get-proto@https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz 0ms (cache hit)
+107 http cache gopd@https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz 0ms (cache hit)
+108 http cache get-intrinsic@https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz 0ms (cache hit)
+109 http cache function-bind@https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz 0ms (cache hit)
+110 http cache form-data@https://registry.npmjs.org/form-data/-/form-data-4.0.2.tgz 0ms (cache hit)
+111 http cache fill-range@https://registry.npmjs.org/fill-range/-/fill-range-7.1.1.tgz 0ms (cache hit)
+112 http cache follow-redirects@https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz 0ms (cache hit)
+113 http cache fast-deep-equal@https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz 0ms (cache hit)
+114 http cache es-set-tostringtag@https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz 0ms (cache hit)
+115 http cache es-errors@https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz 0ms (cache hit)
+116 http cache es-define-property@https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz 0ms (cache hit)
+117 http cache dunder-proto@https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz 0ms (cache hit)
+118 http cache detect-libc@https://registry.npmjs.org/detect-libc/-/detect-libc-2.0.3.tgz 0ms (cache hit)
+119 http cache delayed-stream@https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz 0ms (cache hit)
+120 http cache combined-stream@https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz 0ms (cache hit)
+121 http cache color-string@https://registry.npmjs.org/color-string/-/color-string-1.9.1.tgz 0ms (cache hit)
+122 http cache color-convert@https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz 0ms (cache hit)
+123 http cache es-object-atoms@https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.1.tgz 0ms (cache hit)
+124 http cache color@https://registry.npmjs.org/color/-/color-4.2.3.tgz 0ms (cache hit)
+125 http cache color-name@https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz 0ms (cache hit)
+126 http cache client-only@https://registry.npmjs.org/client-only/-/client-only-0.0.1.tgz 0ms (cache hit)
+127 http cache chokidar@https://registry.npmjs.org/chokidar/-/chokidar-4.0.3.tgz 0ms (cache hit)
+128 http cache classnames@https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz 0ms (cache hit)
+129 http cache chart.js@https://registry.npmjs.org/chart.js/-/chart.js-4.4.7.tgz 0ms (cache hit)
+130 http cache caniuse-lite@https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001699.tgz 0ms (cache hit)
+131 http cache busboy@https://registry.npmjs.org/busboy/-/busboy-1.6.0.tgz 0ms (cache hit)
+132 http cache braces@https://registry.npmjs.org/braces/-/braces-3.0.3.tgz 0ms (cache hit)
+133 http cache bootstrap@https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.2.tgz 0ms (cache hit)
+134 http cache axios@https://registry.npmjs.org/axios/-/axios-1.7.9.tgz 0ms (cache hit)
+135 http cache asynckit@https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz 1ms (cache hit)
+136 http cache @types/google.maps@https://registry.npmjs.org/@types/google.maps/-/google.maps-3.58.1.tgz 0ms (cache hit)
+137 http cache @swc/helpers@https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.15.tgz 0ms (cache hit)
+138 http cache @swc/counter@https://registry.npmjs.org/@swc/counter/-/counter-0.1.3.tgz 0ms (cache hit)
+139 http cache @react-google-maps/marker-clusterer@https://registry.npmjs.org/@react-google-maps/marker-clusterer/-/marker-clusterer-2.20.0.tgz 0ms (cache hit)
+140 http cache call-bind-apply-helpers@https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz 0ms (cache hit)
+141 http cache @react-google-maps/infobox@https://registry.npmjs.org/@react-google-maps/infobox/-/infobox-2.20.0.tgz 0ms (cache hit)
+142 http cache @react-google-maps/api@https://registry.npmjs.org/@react-google-maps/api/-/api-2.20.6.tgz 0ms (cache hit)
+143 http cache @popperjs/core@https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz 0ms (cache hit)
+144 http cache @next/swc-darwin-arm64@https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-15.1.7.tgz 0ms (cache hit)
+145 http cache @next/env@https://registry.npmjs.org/@next/env/-/env-15.1.7.tgz 0ms (cache hit)
+146 http cache @kurkle/color@https://registry.npmjs.org/@kurkle/color/-/color-0.3.4.tgz 0ms (cache hit)
+147 http cache @parcel/watcher@https://registry.npmjs.org/@parcel/watcher/-/watcher-2.5.1.tgz 0ms (cache hit)
+148 http cache @googlemaps/markerclusterer@https://registry.npmjs.org/@googlemaps/markerclusterer/-/markerclusterer-2.5.3.tgz 0ms (cache hit)
+149 http cache @googlemaps/js-api-loader@https://registry.npmjs.org/@googlemaps/js-api-loader/-/js-api-loader-1.16.8.tgz 0ms (cache hit)
+150 http cache @babel/runtime@https://registry.npmjs.org/@babel/runtime/-/runtime-7.26.9.tgz 0ms (cache hit)
+151 http cache react-is@https://registry.npmjs.org/react-is/-/react-is-18.3.1.tgz 0ms (cache hit)
+152 http cache detect-libc@https://registry.npmjs.org/detect-libc/-/detect-libc-1.0.3.tgz 0ms (cache hit)
+153 http cache @parcel/watcher-darwin-arm64@https://registry.npmjs.org/@parcel/watcher-darwin-arm64/-/watcher-darwin-arm64-2.5.1.tgz 0ms (cache hit)
+154 silly tarball no local data for tslib@https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz. Extracting by manifest.
+155 silly tarball no local data for to-regex-range@https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz. Extracting by manifest.
+156 silly tarball no local data for swiper@https://registry.npmjs.org/swiper/-/swiper-11.2.4.tgz. Extracting by manifest.
+157 silly tarball no local data for supercluster@https://registry.npmjs.org/supercluster/-/supercluster-8.0.1.tgz. Extracting by manifest.
+158 silly tarball no local data for styled-jsx@https://registry.npmjs.org/styled-jsx/-/styled-jsx-5.1.6.tgz. Extracting by manifest.
+159 silly tarball no local data for streamsearch@https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz. Extracting by manifest.
+160 silly tarball no local data for source-map-js@https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz. Extracting by manifest.
+161 silly tarball no local data for simple-swizzle@https://registry.npmjs.org/simple-swizzle/-/simple-swizzle-0.2.2.tgz. Extracting by manifest.
+162 silly tarball no local data for sharp@https://registry.npmjs.org/sharp/-/sharp-0.33.5.tgz. Extracting by manifest.
+163 silly tarball no local data for semver@https://registry.npmjs.org/semver/-/semver-7.7.1.tgz. Extracting by manifest.
+164 silly tarball no local data for scheduler@https://registry.npmjs.org/scheduler/-/scheduler-0.25.0.tgz. Extracting by manifest.
+165 silly tarball no local data for sass@https://registry.npmjs.org/sass/-/sass-1.85.0.tgz. Extracting by manifest.
+166 silly tarball no local data for readdirp@https://registry.npmjs.org/readdirp/-/readdirp-4.1.2.tgz. Extracting by manifest.
+167 silly tarball no local data for regenerator-runtime@https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.14.1.tgz. Extracting by manifest.
+168 silly tarball no local data for react-photoswipe-gallery@https://registry.npmjs.org/react-photoswipe-gallery/-/react-photoswipe-gallery-3.0.2.tgz. Extracting by manifest.
+169 silly tarball no local data for react-odometerjs@https://registry.npmjs.org/react-odometerjs/-/react-odometerjs-3.1.3.tgz. Extracting by manifest.
+170 silly tarball no local data for react-is@https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz. Extracting by manifest.
+171 silly tarball no local data for react@https://registry.npmjs.org/react/-/react-19.0.0.tgz. Extracting by manifest.
+172 silly tarball no local data for react-dom@https://registry.npmjs.org/react-dom/-/react-dom-19.0.0.tgz. Extracting by manifest.
+173 silly tarball no local data for rc-util@https://registry.npmjs.org/rc-util/-/rc-util-5.44.4.tgz. Extracting by manifest.
+174 silly tarball no local data for prop-types@https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz. Extracting by manifest.
+175 silly tarball no local data for proxy-from-env@https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz. Extracting by manifest.
+176 silly tarball no local data for rc-slider@https://registry.npmjs.org/rc-slider/-/rc-slider-11.1.8.tgz. Extracting by manifest.
+177 silly tarball no local data for picomatch@https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz. Extracting by manifest.
+178 silly tarball no local data for picocolors@https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz. Extracting by manifest.
+179 silly tarball no local data for photoswipe@https://registry.npmjs.org/photoswipe/-/photoswipe-5.4.4.tgz. Extracting by manifest.
+180 silly tarball no local data for odometer@https://registry.npmjs.org/odometer/-/odometer-0.4.8.tgz. Extracting by manifest.
+181 silly tarball no local data for postcss@https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz. Extracting by manifest.
+182 silly tarball no local data for node-addon-api@https://registry.npmjs.org/node-addon-api/-/node-addon-api-7.1.1.tgz. Extracting by manifest.
+183 silly tarball no local data for object-assign@https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz. Extracting by manifest.
+184 silly tarball no local data for nanoid@https://registry.npmjs.org/nanoid/-/nanoid-3.3.8.tgz. Extracting by manifest.
+185 silly tarball no local data for next@https://registry.npmjs.org/next/-/next-15.1.7.tgz. Extracting by manifest.
+186 silly tarball no local data for mime-types@https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz. Extracting by manifest.
+187 silly tarball no local data for mime-db@https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz. Extracting by manifest.
+188 silly tarball no local data for micromatch@https://registry.npmjs.org/micromatch/-/micromatch-4.0.8.tgz. Extracting by manifest.
+189 silly tarball no local data for math-intrinsics@https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz. Extracting by manifest.
+190 silly tarball no local data for kdbush@https://registry.npmjs.org/kdbush/-/kdbush-4.0.2.tgz. Extracting by manifest.
+191 silly tarball no local data for loose-envify@https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz. Extracting by manifest.
+192 silly tarball no local data for js-tokens@https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz. Extracting by manifest.
+193 silly tarball no local data for is-number@https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz. Extracting by manifest.
+194 silly tarball no local data for is-glob@https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz. Extracting by manifest.
+195 silly tarball no local data for is-extglob@https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz. Extracting by manifest.
+196 silly tarball no local data for is-arrayish@https://registry.npmjs.org/is-arrayish/-/is-arrayish-0.3.2.tgz. Extracting by manifest.
+197 silly tarball no local data for invariant@https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz. Extracting by manifest.
+198 silly tarball no local data for immutable@https://registry.npmjs.org/immutable/-/immutable-5.0.3.tgz. Extracting by manifest.
+199 silly tarball no local data for hasown@https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz. Extracting by manifest.
+200 silly tarball no local data for has-tostringtag@https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz. Extracting by manifest.
+201 silly tarball no local data for has-symbols@https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz. Extracting by manifest.
+202 silly tarball no local data for gsap-trial@https://registry.npmjs.org/gsap-trial/-/gsap-trial-3.12.7.tgz. Extracting by manifest.
+203 silly tarball no local data for gsap@https://registry.npmjs.org/gsap/-/gsap-3.12.7.tgz. Extracting by manifest.
+204 silly tarball no local data for get-proto@https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz. Extracting by manifest.
+205 silly tarball no local data for gopd@https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz. Extracting by manifest.
+206 silly tarball no local data for get-intrinsic@https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz. Extracting by manifest.
+207 silly tarball no local data for function-bind@https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz. Extracting by manifest.
+208 silly tarball no local data for form-data@https://registry.npmjs.org/form-data/-/form-data-4.0.2.tgz. Extracting by manifest.
+209 silly tarball no local data for fill-range@https://registry.npmjs.org/fill-range/-/fill-range-7.1.1.tgz. Extracting by manifest.
+210 silly tarball no local data for follow-redirects@https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz. Extracting by manifest.
+211 silly tarball no local data for fast-deep-equal@https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz. Extracting by manifest.
+212 silly tarball no local data for es-set-tostringtag@https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz. Extracting by manifest.
+213 silly tarball no local data for es-errors@https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz. Extracting by manifest.
+214 silly tarball no local data for es-define-property@https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz. Extracting by manifest.
+215 silly tarball no local data for dunder-proto@https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz. Extracting by manifest.
+216 silly tarball no local data for detect-libc@https://registry.npmjs.org/detect-libc/-/detect-libc-2.0.3.tgz. Extracting by manifest.
+217 silly tarball no local data for delayed-stream@https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz. Extracting by manifest.
+218 silly tarball no local data for combined-stream@https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz. Extracting by manifest.
+219 silly tarball no local data for color-string@https://registry.npmjs.org/color-string/-/color-string-1.9.1.tgz. Extracting by manifest.
+220 silly tarball no local data for color-convert@https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz. Extracting by manifest.
+221 silly tarball no local data for es-object-atoms@https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.1.tgz. Extracting by manifest.
+222 silly tarball no local data for color@https://registry.npmjs.org/color/-/color-4.2.3.tgz. Extracting by manifest.
+223 silly tarball no local data for color-name@https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz. Extracting by manifest.
+224 silly tarball no local data for client-only@https://registry.npmjs.org/client-only/-/client-only-0.0.1.tgz. Extracting by manifest.
+225 silly tarball no local data for chokidar@https://registry.npmjs.org/chokidar/-/chokidar-4.0.3.tgz. Extracting by manifest.
+226 silly tarball no local data for classnames@https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz. Extracting by manifest.
+227 silly tarball no local data for chart.js@https://registry.npmjs.org/chart.js/-/chart.js-4.4.7.tgz. Extracting by manifest.
+228 silly tarball no local data for caniuse-lite@https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001699.tgz. Extracting by manifest.
+229 silly tarball no local data for busboy@https://registry.npmjs.org/busboy/-/busboy-1.6.0.tgz. Extracting by manifest.
+230 silly tarball no local data for braces@https://registry.npmjs.org/braces/-/braces-3.0.3.tgz. Extracting by manifest.
+231 silly tarball no local data for bootstrap@https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.2.tgz. Extracting by manifest.
+232 silly tarball no local data for axios@https://registry.npmjs.org/axios/-/axios-1.7.9.tgz. Extracting by manifest.
+233 silly tarball no local data for asynckit@https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz. Extracting by manifest.
+234 silly tarball no local data for @types/google.maps@https://registry.npmjs.org/@types/google.maps/-/google.maps-3.58.1.tgz. Extracting by manifest.
+235 silly tarball no local data for @swc/helpers@https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.15.tgz. Extracting by manifest.
+236 silly tarball no local data for @swc/counter@https://registry.npmjs.org/@swc/counter/-/counter-0.1.3.tgz. Extracting by manifest.
+237 silly tarball no local data for @react-google-maps/marker-clusterer@https://registry.npmjs.org/@react-google-maps/marker-clusterer/-/marker-clusterer-2.20.0.tgz. Extracting by manifest.
+238 silly tarball no local data for call-bind-apply-helpers@https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz. Extracting by manifest.
+239 silly tarball no local data for @react-google-maps/infobox@https://registry.npmjs.org/@react-google-maps/infobox/-/infobox-2.20.0.tgz. Extracting by manifest.
+240 silly tarball no local data for @react-google-maps/api@https://registry.npmjs.org/@react-google-maps/api/-/api-2.20.6.tgz. Extracting by manifest.
+241 silly tarball no local data for @popperjs/core@https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz. Extracting by manifest.
+242 silly tarball no local data for @next/swc-darwin-arm64@https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-15.1.7.tgz. Extracting by manifest.
+243 silly tarball no local data for @next/env@https://registry.npmjs.org/@next/env/-/env-15.1.7.tgz. Extracting by manifest.
+244 silly tarball no local data for @kurkle/color@https://registry.npmjs.org/@kurkle/color/-/color-0.3.4.tgz. Extracting by manifest.
+245 silly tarball no local data for @parcel/watcher@https://registry.npmjs.org/@parcel/watcher/-/watcher-2.5.1.tgz. Extracting by manifest.
+246 silly tarball no local data for @googlemaps/markerclusterer@https://registry.npmjs.org/@googlemaps/markerclusterer/-/markerclusterer-2.5.3.tgz. Extracting by manifest.
+247 silly tarball no local data for @googlemaps/js-api-loader@https://registry.npmjs.org/@googlemaps/js-api-loader/-/js-api-loader-1.16.8.tgz. Extracting by manifest.
+248 silly tarball no local data for @babel/runtime@https://registry.npmjs.org/@babel/runtime/-/runtime-7.26.9.tgz. Extracting by manifest.
+249 silly tarball no local data for react-is@https://registry.npmjs.org/react-is/-/react-is-18.3.1.tgz. Extracting by manifest.
+250 silly tarball no local data for detect-libc@https://registry.npmjs.org/detect-libc/-/detect-libc-1.0.3.tgz. Extracting by manifest.
+251 silly tarball no local data for @parcel/watcher-darwin-arm64@https://registry.npmjs.org/@parcel/watcher-darwin-arm64/-/watcher-darwin-arm64-2.5.1.tgz. Extracting by manifest.
+252 http fetch GET 200 https://registry.npmjs.org/simple-swizzle/-/simple-swizzle-0.2.2.tgz 99ms (cache miss)
+253 http fetch GET 200 https://registry.npmjs.org/readdirp/-/readdirp-4.1.2.tgz 98ms (cache miss)
+254 http fetch GET 200 https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz 101ms (cache miss)
+255 http fetch GET 200 https://registry.npmjs.org/supercluster/-/supercluster-8.0.1.tgz 100ms (cache miss)
+256 http fetch GET 200 https://registry.npmjs.org/sharp/-/sharp-0.33.5.tgz 110ms (cache miss)
+257 http fetch GET 200 https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz 166ms (cache miss)
+258 http fetch GET 200 https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz 191ms (cache miss)
+259 http fetch GET 200 https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz 193ms (cache miss)
+260 http fetch GET 200 https://registry.npmjs.org/rc-util/-/rc-util-5.44.4.tgz 230ms (cache miss)
+261 http fetch GET 200 https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz 268ms (cache miss)
+262 http fetch GET 200 https://registry.npmjs.org/react-odometerjs/-/react-odometerjs-3.1.3.tgz 547ms (cache miss)
+263 http fetch GET 200 https://registry.npmjs.org/scheduler/-/scheduler-0.25.0.tgz 567ms (cache miss)
+264 http fetch GET 200 https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz 574ms (cache miss)
+265 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 607ms
+266 silly audit report {
+266 silly audit report   '@babel/runtime': [
+266 silly audit report     {
+266 silly audit report       id: 1104000,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-968p-4wvh-cqc8',
+266 silly audit report       title: 'Babel has inefficient RegExp complexity in generated code with .replace when transpiling named capturing groups',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '<7.26.10',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ],
+266 silly audit report   axios: [
+266 silly audit report     {
+266 silly audit report       id: 1111035,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-jr5f-v2jv-69x6',
+266 silly audit report       title: 'axios Requests Vulnerable To Possible SSRF and Credential Leakage via Absolute URL',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '>=1.0.0 <1.8.2',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1112195,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-4hjh-wcwx-xvwj',
+266 silly audit report       title: 'Axios is vulnerable to DoS attack through lack of data size check',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '>=1.0.0 <1.12.0',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1113275,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-43fc-jf86-j433',
+266 silly audit report       title: 'Axios is Vulnerable to Denial of Service via __proto__ Key in mergeConfig',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '>=1.0.0 <=1.13.4',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1116673,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-3p68-rc4w-qgx5',
+266 silly audit report       title: 'Axios has a NO_PROXY Hostname Normalization Bypass that Leads to SSRF',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=1.0.0 <1.15.0',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1116675,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-fvcv-3m26-pcqx',
+266 silly audit report       title: 'Axios has Unrestricted Cloud Metadata Exfiltration via Header Injection Chain',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=1.0.0 <1.15.0',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ],
+266 silly audit report   'follow-redirects': [
+266 silly audit report     {
+266 silly audit report       id: 1116560,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-r4q5-vmmm-2653',
+266 silly audit report       title: 'follow-redirects leaks Custom Authentication Headers to Cross-Domain Redirect Targets',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '<=1.15.11',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ],
+266 silly audit report   'form-data': [
+266 silly audit report     {
+266 silly audit report       id: 1109538,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-fjxv-7rqg-78g4',
+266 silly audit report       title: 'form-data uses unsafe random function in form-data for choosing boundary',
+266 silly audit report       severity: 'critical',
+266 silly audit report       vulnerable_versions: '>=4.0.0 <4.0.4',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ],
+266 silly audit report   immutable: [
+266 silly audit report     {
+266 silly audit report       id: 1117068,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-wf6x-7x77-mvgw',
+266 silly audit report       title: 'Immutable is vulnerable to Prototype Pollution',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '>=5.0.0 <5.1.5',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ],
+266 silly audit report   next: [
+266 silly audit report     {
+266 silly audit report       id: 1105462,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-3h52-269p-cp9r',
+266 silly audit report       title: 'Information exposure in Next.js dev server due to lack of origin verification',
+266 silly audit report       severity: 'low',
+266 silly audit report       vulnerable_versions: '>=15.0.0 <15.2.2',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1105948,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-67rr-84xm-4c7r',
+266 silly audit report       title: 'Next.JS vulnerability can lead to DoS via cache poisoning ',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '>=15.0.4-canary.51 <15.1.8',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1111367,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-9qr9-h5gf-34mp',
+266 silly audit report       title: 'Next.js is vulnerable to RCE in React flight protocol',
+266 silly audit report       severity: 'critical',
+266 silly audit report       vulnerable_versions: '>=15.1.0-canary.0 <15.1.9',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1111380,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-w37m-7fhw-fmv9',
+266 silly audit report       title: 'Next Server Actions Source Code Exposure ',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=15.1.1-canary.0 <15.1.10',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1111389,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-mwv6-3258-q52c',
+266 silly audit report       title: 'Next Vulnerable to Denial of Service with Server Components',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '>=15.1.1-canary.0 <15.1.10',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1107228,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-g5qg-72qw-gw5v',
+266 silly audit report       title: 'Next.js Affected by Cache Key Confusion for Image Optimization API Routes',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=15.0.0 <=15.4.4',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1107514,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-xv57-4mr9-wg8v',
+266 silly audit report       title: 'Next.js Content Injection Vulnerability for Image Optimization',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=15.0.0 <=15.4.4',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1107515,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-4342-x723-ch2f',
+266 silly audit report       title: 'Next.js Improper Middleware Redirect Handling Leads to SSRF',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=15.0.0-canary.0 <15.4.7',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1112593,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-9g9p-9gw9-jx7f',
+266 silly audit report       title: 'Next.js self-hosted applications vulnerable to DoS via Image Optimizer remotePatterns configuration',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=10.0.0 <15.5.10',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1112652,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-h25m-26qc-wcjf',
+266 silly audit report       title: 'Next.js HTTP request deserialization can lead to DoS when using insecure React Server Components',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '>=15.1.1-canary.0 <15.1.12',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1113688,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-f82v-jwr5-mffw',
+266 silly audit report       title: 'Authorization Bypass in Next.js Middleware',
+266 silly audit report       severity: 'critical',
+266 silly audit report       vulnerable_versions: '>=15.0.0 <15.2.3',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1114897,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-ggv3-7p47-pfv8',
+266 silly audit report       title: 'Next.js: HTTP request smuggling in rewrites',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=9.5.0 <15.5.13',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1114940,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-3x4c-7xq6-9pq8',
+266 silly audit report       title: 'Next.js: Unbounded next/image disk cache growth can exhaust storage',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '>=10.0.0 <15.5.14',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1116376,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-q4gf-8mx6-v5v3',
+266 silly audit report       title: 'Next.js has a Denial of Service with Server Components',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '>=13.0.0 <15.5.15',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ],
+266 silly audit report   picomatch: [
+266 silly audit report     {
+266 silly audit report       id: 1115549,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-3v7f-55p6-f55p',
+266 silly audit report       title: 'Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '<2.3.2',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     },
+266 silly audit report     {
+266 silly audit report       id: 1115552,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-c2c7-rcm5-vvqj',
+266 silly audit report       title: 'Picomatch has a ReDoS vulnerability via extglob quantifiers',
+266 silly audit report       severity: 'high',
+266 silly audit report       vulnerable_versions: '<2.3.2',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ],
+266 silly audit report   postcss: [
+266 silly audit report     {
+266 silly audit report       id: 1117015,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-qx2v-qp2m-jg93',
+266 silly audit report       title: 'PostCSS has XSS via Unescaped </style> in its CSS Stringify Output',
+266 silly audit report       severity: 'moderate',
+266 silly audit report       vulnerable_versions: '<8.5.10',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ],
+266 silly audit report   swiper: [
+266 silly audit report     {
+266 silly audit report       id: 1113431,
+266 silly audit report       url: 'https://github.com/advisories/GHSA-hmx5-qpq5-p643',
+266 silly audit report       title: 'Prototype pollution in swiper',
+266 silly audit report       severity: 'critical',
+266 silly audit report       vulnerable_versions: '>=6.5.1 <12.1.2',
+266 silly audit report       cwe: [Array],
+266 silly audit report       cvss: [Object]
+266 silly audit report     }
+266 silly audit report   ]
+266 silly audit report }
+267 silly packumentCache corgi:https://registry.npmjs.org/@babel%2fruntime cache-miss
+268 silly packumentCache corgi:https://registry.npmjs.org/axios cache-miss
+269 silly packumentCache corgi:https://registry.npmjs.org/follow-redirects cache-miss
+270 silly packumentCache corgi:https://registry.npmjs.org/form-data cache-miss
+271 silly packumentCache corgi:https://registry.npmjs.org/immutable cache-miss
+272 silly packumentCache corgi:https://registry.npmjs.org/next cache-miss
+273 silly packumentCache corgi:https://registry.npmjs.org/picomatch cache-miss
+274 silly packumentCache corgi:https://registry.npmjs.org/postcss cache-miss
+275 silly packumentCache corgi:https://registry.npmjs.org/swiper cache-miss
+276 http fetch GET 200 https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz 587ms (cache miss)
+277 http fetch GET 200 https://registry.npmjs.org/rc-slider/-/rc-slider-11.1.8.tgz 588ms (cache miss)
+278 http fetch GET 200 https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.14.1.tgz 602ms (cache miss)
+279 http fetch GET 200 https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz 627ms (cache miss)
+280 http fetch GET 200 https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz 667ms (cache miss)
+281 http fetch GET 200 https://registry.npmjs.org/react/-/react-19.0.0.tgz 819ms (cache miss)
+282 http fetch GET 200 https://registry.npmjs.org/photoswipe/-/photoswipe-5.4.4.tgz 830ms (cache miss)
+283 http fetch GET 200 https://registry.npmjs.org/node-addon-api/-/node-addon-api-7.1.1.tgz 830ms (cache miss)
+284 http fetch GET 200 https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz 871ms (cache miss)
+285 http fetch GET 200 https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz 888ms (cache miss)
+286 http fetch GET 200 https://registry.npmjs.org/micromatch/-/micromatch-4.0.8.tgz 890ms (cache miss)
+287 http fetch GET 200 https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz 920ms (cache miss)
+288 http fetch GET 200 https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz 922ms (cache miss)
+289 http fetch GET 200 https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz 923ms (cache miss)
+290 http fetch GET 200 https://registry.npmjs.org/kdbush/-/kdbush-4.0.2.tgz 943ms (cache miss)
+291 http fetch GET 200 https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz 955ms (cache miss)
+292 http fetch GET 200 https://registry.npmjs.org/is-number/-/is-number-7.0.0.tgz 954ms (cache miss)
+293 http fetch GET 200 https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz 955ms (cache miss)
+294 http fetch GET 200 https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz 960ms (cache miss)
+295 http fetch GET 200 https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz 981ms (cache miss)
+296 http fetch GET 200 https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz 989ms (cache miss)
+297 http fetch GET 200 https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz 1000ms (cache miss)
+298 http fetch GET 200 https://registry.npmjs.org/semver/-/semver-7.7.1.tgz 1010ms (cache miss)
+299 http fetch GET 200 https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz 1047ms (cache miss)
+300 http fetch GET 200 https://registry.npmjs.org/nanoid/-/nanoid-3.3.8.tgz 1116ms (cache miss)
+301 http fetch GET 200 https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz 1195ms (cache miss)
+302 http fetch GET 200 https://registry.npmjs.org/immutable/-/immutable-5.0.3.tgz 1246ms (cache miss)
+303 http fetch GET 200 https://registry.npmjs.org/is-arrayish/-/is-arrayish-0.3.2.tgz 1274ms (cache miss)
+304 http fetch GET 200 https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz 1288ms (cache miss)
+305 http fetch GET 200 https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz 1292ms (cache miss)
+306 http fetch GET 200 https://registry.npmjs.org/form-data/-/form-data-4.0.2.tgz 1292ms (cache miss)
+307 http fetch GET 200 https://registry.npmjs.org/odometer/-/odometer-0.4.8.tgz 1326ms (cache miss)
+308 http fetch GET 200 https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz 1323ms (cache miss)
+309 http fetch GET 200 https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz 1327ms (cache miss)
+310 http fetch GET 200 https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz 1328ms (cache miss)
+311 http fetch GET 200 https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz 1335ms (cache miss)
+312 http fetch GET 200 https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz 1356ms (cache miss)
+313 http fetch GET 200 https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz 1364ms (cache miss)
+314 http fetch GET 200 https://registry.npmjs.org/detect-libc/-/detect-libc-2.0.3.tgz 1369ms (cache miss)
+315 http fetch GET 200 https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz 1383ms (cache miss)
+316 http fetch GET 200 https://registry.npmjs.org/color-string/-/color-string-1.9.1.tgz 1390ms (cache miss)
+317 http fetch GET 200 https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz 1390ms (cache miss)
+318 http fetch GET 200 https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.1.tgz 1410ms (cache miss)
+319 http fetch GET 200 https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz 1422ms (cache miss)
+320 http fetch GET 200 https://registry.npmjs.org/client-only/-/client-only-0.0.1.tgz 1458ms (cache miss)
+321 http fetch GET 200 https://registry.npmjs.org/react-dom/-/react-dom-19.0.0.tgz 1464ms (cache miss)
+322 http fetch GET 200 https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz 1461ms (cache miss)
+323 http fetch GET 200 https://registry.npmjs.org/color/-/color-4.2.3.tgz 1467ms (cache miss)
+324 http fetch GET 200 https://registry.npmjs.org/fill-range/-/fill-range-7.1.1.tgz 1544ms (cache miss)
+325 http fetch GET 200 https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz 1608ms (cache miss)
+326 http fetch GET 200 https://registry.npmjs.org/braces/-/braces-3.0.3.tgz 1625ms (cache miss)
+327 http fetch GET 200 https://registry.npmjs.org/gsap-trial/-/gsap-trial-3.12.7.tgz 1720ms (cache miss)
+328 http fetch GET 200 https://registry.npmjs.org/chokidar/-/chokidar-4.0.3.tgz 1745ms (cache miss)
+329 http fetch GET 200 https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz 1767ms (cache miss)
+330 http fetch GET 200 https://registry.npmjs.org/react-photoswipe-gallery/-/react-photoswipe-gallery-3.0.2.tgz 1971ms (cache miss)
+331 http fetch GET 200 https://registry.npmjs.org/@types/google.maps/-/google.maps-3.58.1.tgz 1964ms (cache miss)
+332 http fetch GET 200 https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.15.tgz 1991ms (cache miss)
+333 http fetch GET 200 https://registry.npmjs.org/@swc/counter/-/counter-0.1.3.tgz 2004ms (cache miss)
+334 http fetch GET 200 https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz 2109ms (cache miss)
+335 http fetch GET 200 https://registry.npmjs.org/styled-jsx/-/styled-jsx-5.1.6.tgz 2125ms (cache miss)
+336 http fetch GET 200 https://registry.npmjs.org/classnames/-/classnames-2.5.1.tgz 2144ms (cache miss)
+337 http fetch GET 200 https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz 2223ms (cache miss)
+338 http fetch GET 200 https://registry.npmjs.org/@next/env/-/env-15.1.7.tgz 2338ms (cache miss)
+339 http fetch GET 200 https://registry.npmjs.org/busboy/-/busboy-1.6.0.tgz 2359ms (cache miss)
+340 http fetch GET 200 https://registry.npmjs.org/@kurkle/color/-/color-0.3.4.tgz 2743ms (cache miss)
+341 http fetch GET 200 https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001699.tgz 2874ms (cache miss)
+342 http fetch GET 200 https://registry.npmjs.org/@react-google-maps/marker-clusterer/-/marker-clusterer-2.20.0.tgz 2888ms (cache miss)
+343 http fetch GET 200 https://registry.npmjs.org/swiper/-/swiper-11.2.4.tgz 2972ms (cache miss)
+344 http fetch GET 200 https://registry.npmjs.org/react-is/-/react-is-18.3.1.tgz 3034ms (cache miss)
+345 http fetch GET 200 https://registry.npmjs.org/@babel/runtime/-/runtime-7.26.9.tgz 3379ms (cache miss)
+346 http fetch GET 200 https://registry.npmjs.org/@react-google-maps/infobox/-/infobox-2.20.0.tgz 3410ms (cache miss)
+347 http fetch GET 200 https://registry.npmjs.org/@googlemaps/markerclusterer/-/markerclusterer-2.5.3.tgz 3555ms (cache miss)
+348 http fetch GET 200 https://registry.npmjs.org/@babel%2fruntime 3136ms (cache miss)
+349 silly packumentCache corgi:https://registry.npmjs.org/@babel%2fruntime set size:undefined disposed:false
+350 http fetch GET 200 https://registry.npmjs.org/axios 3169ms (cache miss)
+351 silly packumentCache corgi:https://registry.npmjs.org/axios set size:undefined disposed:false
+352 http fetch GET 200 https://registry.npmjs.org/@parcel/watcher/-/watcher-2.5.1.tgz 3754ms (cache miss)
+353 http fetch GET 200 https://registry.npmjs.org/detect-libc/-/detect-libc-1.0.3.tgz 3797ms (cache miss)
+354 http fetch GET 200 https://registry.npmjs.org/follow-redirects 3252ms (cache miss)
+355 silly packumentCache corgi:https://registry.npmjs.org/follow-redirects set size:undefined disposed:false
+356 http fetch GET 200 https://registry.npmjs.org/form-data 3255ms (cache miss)
+357 silly packumentCache corgi:https://registry.npmjs.org/form-data set size:undefined disposed:false
+358 http fetch GET 200 https://registry.npmjs.org/axios/-/axios-1.7.9.tgz 3907ms (cache miss)
+359 http fetch GET 200 https://registry.npmjs.org/picomatch 3334ms (cache miss)
+360 silly packumentCache corgi:https://registry.npmjs.org/picomatch set size:undefined disposed:false
+361 http fetch GET 200 https://registry.npmjs.org/immutable 3409ms (cache miss)
+362 silly packumentCache corgi:https://registry.npmjs.org/immutable set size:undefined disposed:false
+363 http fetch GET 200 https://registry.npmjs.org/@googlemaps/js-api-loader/-/js-api-loader-1.16.8.tgz 3994ms (cache miss)
+364 http fetch GET 200 https://registry.npmjs.org/postcss 3507ms (cache miss)
+365 silly packumentCache corgi:https://registry.npmjs.org/postcss set size:undefined disposed:false
+366 http fetch GET 200 https://registry.npmjs.org/swiper 3848ms (cache miss)
+367 silly packumentCache corgi:https://registry.npmjs.org/swiper set size:undefined disposed:false
+368 http fetch GET 200 https://registry.npmjs.org/@parcel/watcher-darwin-arm64/-/watcher-darwin-arm64-2.5.1.tgz 4659ms (cache miss)
+369 http fetch GET 200 https://registry.npmjs.org/chart.js/-/chart.js-4.4.7.tgz 5002ms (cache miss)
+370 http fetch GET 200 https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz 5086ms (cache miss)
+371 http fetch GET 200 https://registry.npmjs.org/sass/-/sass-1.85.0.tgz 5144ms (cache miss)
+372 http fetch GET 200 https://registry.npmjs.org/@react-google-maps/api/-/api-2.20.6.tgz 5335ms (cache miss)
+373 http fetch GET 200 https://registry.npmjs.org/gsap/-/gsap-3.12.7.tgz 5418ms (cache miss)
+374 http fetch GET 200 https://registry.npmjs.org/next 6605ms (cache miss)
+375 silly packumentCache corgi:https://registry.npmjs.org/next set size:undefined disposed:false
+376 silly packumentCache corgi:https://registry.npmjs.org/rc-slider cache-miss
+377 silly packumentCache corgi:https://registry.npmjs.org/rc-util cache-miss
+378 http fetch GET 200 https://registry.npmjs.org/rc-slider 150ms (cache miss)
+379 silly packumentCache corgi:https://registry.npmjs.org/rc-slider set size:undefined disposed:false
+380 http fetch GET 200 https://registry.npmjs.org/rc-util 531ms (cache miss)
+381 silly packumentCache corgi:https://registry.npmjs.org/rc-util set size:undefined disposed:false
+382 silly packumentCache corgi:https://registry.npmjs.org/sass cache-miss
+383 http fetch GET 200 https://registry.npmjs.org/sass 701ms (cache miss)
+384 silly packumentCache corgi:https://registry.npmjs.org/sass set size:undefined disposed:false
+385 silly packumentCache corgi:https://registry.npmjs.org/micromatch cache-miss
+386 http fetch GET 200 https://registry.npmjs.org/micromatch 54ms (cache miss)
+387 silly packumentCache corgi:https://registry.npmjs.org/micromatch set size:undefined disposed:false
+388 http fetch GET 200 https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.2.tgz 9474ms (cache miss)
+389 http fetch GET 200 https://registry.npmjs.org/next/-/next-15.1.7.tgz 19569ms (cache miss)
+390 http fetch GET 200 https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-15.1.7.tgz 27045ms (cache miss)
+391 info run @parcel/watcher@2.5.1 install node_modules/@parcel/watcher node scripts/build-from-source.js
+392 info run sharp@0.33.5 install node_modules/sharp node install/check
+393 info run @parcel/watcher@2.5.1 install { code: 0, signal: null }
+394 info run sharp@0.33.5 install { code: 0, signal: null }
+395 silly ADD node_modules/tslib
+396 silly ADD node_modules/to-regex-range
+397 silly ADD node_modules/swiper
+398 silly ADD node_modules/supercluster
+399 silly ADD node_modules/styled-jsx
+400 silly ADD node_modules/streamsearch
+401 silly ADD node_modules/source-map-js
+402 silly ADD node_modules/simple-swizzle
+403 silly ADD node_modules/sharp
+404 silly ADD node_modules/semver
+405 silly ADD node_modules/scheduler
+406 silly ADD node_modules/sass
+407 silly ADD node_modules/regenerator-runtime
+408 silly ADD node_modules/readdirp
+409 silly ADD node_modules/react-photoswipe-gallery
+410 silly ADD node_modules/react-odometerjs
+411 silly ADD node_modules/react-is
+412 silly ADD node_modules/react-dom
+413 silly ADD node_modules/react
+414 silly ADD node_modules/rc-util
+415 silly ADD node_modules/rc-util/node_modules/react-is
+416 silly ADD node_modules/rc-slider
+417 silly ADD node_modules/proxy-from-env
+418 silly ADD node_modules/prop-types
+419 silly ADD node_modules/postcss
+420 silly ADD node_modules/picomatch
+421 silly ADD node_modules/picocolors
+422 silly ADD node_modules/photoswipe
+423 silly ADD node_modules/odometer
+424 silly ADD node_modules/object-assign
+425 silly ADD node_modules/node-addon-api
+426 silly ADD node_modules/next
+427 silly ADD node_modules/nanoid
+428 silly ADD node_modules/mime-types
+429 silly ADD node_modules/mime-db
+430 silly ADD node_modules/micromatch
+431 silly ADD node_modules/math-intrinsics
+432 silly ADD node_modules/loose-envify
+433 silly ADD node_modules/kdbush
+434 silly ADD node_modules/js-tokens
+435 silly ADD node_modules/is-number
+436 silly ADD node_modules/is-glob
+437 silly ADD node_modules/is-extglob
+438 silly ADD node_modules/is-arrayish
+439 silly ADD node_modules/invariant
+440 silly ADD node_modules/immutable
+441 silly ADD node_modules/hasown
+442 silly ADD node_modules/has-tostringtag
+443 silly ADD node_modules/has-symbols
+444 silly ADD node_modules/gsap-trial
+445 silly ADD node_modules/gsap
+446 silly ADD node_modules/gopd
+447 silly ADD node_modules/get-proto
+448 silly ADD node_modules/get-intrinsic
+449 silly ADD node_modules/function-bind
+450 silly ADD node_modules/form-data
+451 silly ADD node_modules/follow-redirects
+452 silly ADD node_modules/fill-range
+453 silly ADD node_modules/fast-deep-equal
+454 silly ADD node_modules/es-set-tostringtag
+455 silly ADD node_modules/es-object-atoms
+456 silly ADD node_modules/es-errors
+457 silly ADD node_modules/es-define-property
+458 silly ADD node_modules/dunder-proto
+459 silly ADD node_modules/detect-libc
+460 silly ADD node_modules/delayed-stream
+461 silly ADD node_modules/combined-stream
+462 silly ADD node_modules/color-string
+463 silly ADD node_modules/color-name
+464 silly ADD node_modules/color-convert
+465 silly ADD node_modules/color
+466 silly ADD node_modules/client-only
+467 silly ADD node_modules/classnames
+468 silly ADD node_modules/chokidar
+469 silly ADD node_modules/chart.js
+470 silly ADD node_modules/caniuse-lite
+471 silly ADD node_modules/call-bind-apply-helpers
+472 silly ADD node_modules/busboy
+473 silly ADD node_modules/braces
+474 silly ADD node_modules/bootstrap
+475 silly ADD node_modules/axios
+476 silly ADD node_modules/asynckit
+477 silly ADD node_modules/@types/google.maps
+478 silly ADD node_modules/@swc/helpers
+479 silly ADD node_modules/@swc/counter
+480 silly ADD node_modules/@react-google-maps/marker-clusterer
+481 silly ADD node_modules/@react-google-maps/infobox
+482 silly ADD node_modules/@react-google-maps/api
+483 silly ADD node_modules/@popperjs/core
+484 silly ADD
+485 silly ADD
+486 silly ADD
+487 silly ADD
+488 silly ADD
+489 silly ADD
+490 silly ADD
+491 silly ADD
+492 silly ADD
+493 silly ADD
+494 silly ADD
+495 silly ADD node_modules/@parcel/watcher-darwin-arm64
+496 silly ADD
+497 silly ADD node_modules/@parcel/watcher
+498 silly ADD node_modules/@parcel/watcher/node_modules/detect-libc
+499 silly ADD
+500 silly ADD
+501 silly ADD
+502 silly ADD
+503 silly ADD
+504 silly ADD
+505 silly ADD
+506 silly ADD node_modules/@next/swc-darwin-arm64
+507 silly ADD node_modules/@next/env
+508 silly ADD node_modules/@kurkle/color
+509 silly ADD
+510 silly ADD node_modules/@googlemaps/markerclusterer
+511 silly ADD node_modules/@googlemaps/js-api-loader
+512 silly ADD node_modules/@babel/runtime
+513 verbose cwd /Users/himanshuchaturvedi/Downloads/proty-package/proty-nextjs
+514 verbose os Darwin 25.3.0
+515 verbose node v22.17.0
+516 verbose npm  v10.9.2
+517 verbose exit 0
+518 info ok
