@@ -1,6 +1,11 @@
+require("dotenv").config({ path: ".env.local" });
+
 const { MongoClient } = require("mongodb");
+const bcrypt = require("bcryptjs");
 
 const uri = process.env.MONGODB_URI;
+const adminUsername = process.env.ADMIN_DEFAULT_USERNAME || "admin";
+const adminPassword = process.env.ADMIN_DEFAULT_PASSWORD || "admin123";
 
 if (!uri) {
   throw new Error("MONGODB_URI is required");
@@ -137,8 +142,14 @@ async function run() {
     const db = client.db();
 
     await db.collection("admins").updateOne(
-      { username: "admin" },
-      { $set: { username: "admin", password: "admin123", role: "super-admin" } },
+      { username: adminUsername },
+      {
+        $set: {
+          username: adminUsername,
+          password: await bcrypt.hash(adminPassword, 10),
+          role: "super-admin",
+        },
+      },
       { upsert: true }
     );
 
@@ -149,7 +160,9 @@ async function run() {
     );
 
     console.log("Dashboard seed completed successfully.");
-    console.log("Admin login -> username: admin | password: admin123");
+    console.log(
+      `Admin login -> username: ${adminUsername} | password: ${adminPassword}`
+    );
   } finally {
     await client.close();
   }

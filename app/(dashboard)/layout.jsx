@@ -9,14 +9,14 @@ export const metadata = {
 };
 
 export default async function Page({ children }) {
-  await requireAdminSession();
+  const admin = await requireAdminSession();
 
   return (
     <div className="bg-dashboard">
       <div id="wrapper" className="bg-4">
         <Header1 parentClass="header dashboard" />
         <div className="page-layout">
-          <Sidebar />
+          <Sidebar role={admin.role} />
           {children}
         </div>
       </div>

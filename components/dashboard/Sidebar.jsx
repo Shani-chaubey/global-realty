@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-export default function Sidebar() {
+export default function Sidebar({ role }) {
   const pathname = usePathname();
   return (
     <div className="wrap-sidebar">
@@ -391,8 +391,57 @@ export default function Sidebar() {
                 Add property
               </Link>
             </li>
+            {role === "super-admin" ? (
+              <li
+                className={`nav-menu-item ${
+                  pathname == "/admin-users" ? "active" : ""
+                } `}
+              >
+                <Link className="nav-menu-link" href={`/admin-users`}>
+                  <svg
+                    width={20}
+                    height={20}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16 21V19C16 17.9391 15.5786 16.9217 14.8284 16.1716C14.0783 15.4214 13.0609 15 12 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
+                      stroke="#A8ABAE"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <circle
+                      cx="8.5"
+                      cy="7"
+                      r="4"
+                      stroke="#A8ABAE"
+                      strokeWidth="1.4"
+                    />
+                    <path
+                      d="M20 8V14"
+                      stroke="#A8ABAE"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M17 11H23"
+                      stroke="#A8ABAE"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  Admin Users
+                </Link>
+              </li>
+            ) : null}
             <li className={`nav-menu-item `}>
-              <Link className="nav-menu-link" href={`/`}>
+              <Link
+                className="nav-menu-link"
+                href={`/api/admin/logout`}
+                prefetch={false}
+              >
                 <svg
                   width={20}
                   height={20}

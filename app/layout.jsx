@@ -1,7 +1,8 @@
 "use client";
 import { useEffect } from "react";
+import "./globals.css";
+import "./odometer-theme-fixed.css";
 import "../public/main.scss";
-import "odometer/themes/odometer-theme-default.css"; // Import theme
 import "photoswipe/style.css";
 import "rc-slider/assets/index.css";
 import { usePathname } from "next/navigation";

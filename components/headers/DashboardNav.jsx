@@ -390,7 +390,11 @@ export default function DashboardNav({ color = "" }) {
             </a>
           </div>
         </div>
-        <Link className="dropdown-item" href={`/api/admin/logout`}>
+        <Link
+          className="dropdown-item"
+          href={`/api/admin/logout`}
+          prefetch={false}
+        >
           <svg
             width={20}
             height={20}
