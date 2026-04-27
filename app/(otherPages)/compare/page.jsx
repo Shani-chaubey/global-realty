@@ -2,18 +2,24 @@ import Breadcumb from "@/components/common/Breadcumb";
 import Cta from "@/components/common/Cta";
 import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
-import Compare from "@/components/otherPages/Compare";
+import PropertyComparison from "@/components/compare/PropertyComparison";
 
-import React from "react";
+export const metadata = {
+  title: "Compare Properties | Proty Real Estate",
+};
 
 export default function page() {
   return (
     <>
       <div id="wrapper" className="counter-scroll">
         <Header1 />
-        <Breadcumb pageName="Compare" />
+        <Breadcumb pageName="Compare Properties" />
         <div className="main-content">
-          <Compare />
+          <section className="flat-section">
+            <div className="tf-container">
+              <PropertyComparison />
+            </div>
+          </section>
           <Cta />
         </div>
         <Footer1 />

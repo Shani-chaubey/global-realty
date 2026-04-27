@@ -1,105 +1,211 @@
 "use client";
-import React from "react";
-import DropdownSelect from "../common/DropdownSelect";
-import MapComponent from "../common/MapComponent";
+import { useState } from "react";
+import useSWR from "swr";
+import toast from "react-hot-toast";
+import api from "@/lib/axios";
+
+const fetcher = (url) => api.get(url).then((r) => r.data);
 
 export default function Contact() {
-  return (
-    <section className="section-top-map style-2">
-      <div className="wrap-map">
-        <div
-          id="map"
-          className="row-height"
-          data-map-zoom={16}
-          data-map-scroll="true"
-        >
-          <MapComponent />
-        </div>
-      </div>
-      <div className="box">
-        <div className="tf-container">
-          <div className="row">
-            <div className="col-12">
-              <form
-                id="contactform"
-                onSubmit={(e) => e.preventDefault()}
-                className="form-contact"
-              >
-                <div className="heading-section">
-                  <h2 className="title">We Would Love to Hear From You</h2>
-                  <p className="text-1">
-                    We'll get to know you to understand your selling goals,
-                    explain the selling process so you know what to expect.
-                  </p>
-                </div>
-                <div className="cols">
-                  <fieldset>
-                    <label htmlFor="name">Name:</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Your name"
-                      name="name"
-                      id="name"
-                      required
-                    />
-                  </fieldset>
-                  <fieldset>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Email"
-                      name="email"
-                      id="email-contact"
-                      required
-                    />
-                  </fieldset>
-                </div>
-                <div className="cols">
-                  <fieldset className="phone">
-                    <label htmlFor="phone">Phone number:</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Your phone number"
-                      name="phone"
-                      id="phone"
-                      required
-                    />
-                  </fieldset>
-                  <div className="select">
-                    <label className="text-1 fw-6 mb-12">
-                      What are you interested in?
-                    </label>
+  const { data } = useSWR("/cms/contact-info", fetcher);
+  const contactInfo = data?.data;
 
-                    <DropdownSelect
-                      options={["Select", "Location", "Rent", "Sale"]}
-                      addtionalParentClass=""
-                    />
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      await api.post("/inquiries", form);
+      toast.success("Message sent! We'll get back to you soon.");
+      setSubmitted(true);
+    } catch {
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <section className="flat-section-v2 flat-map">
+      {contactInfo?.mapEmbedUrl && (
+        <div className="map-wrap">
+          <iframe
+            src={contactInfo.mapEmbedUrl}
+            width="100%"
+            height="400"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Our Location"
+          />
+        </div>
+      )}
+
+      <div className="tf-container">
+        <div className="row mt-40">
+          <div className="col-xl-5 col-lg-5">
+            <div className="box-info-contact">
+              <h3 className="fw-7 mb-30">Get in Touch</h3>
+
+              {contactInfo?.phones?.length > 0 && (
+                <div className="box-item mb-16">
+                  <div className="icon">
+                    <i className="icon-phone-1" />
+                  </div>
+                  <div className="content">
+                    <p className="text-variant-1 text-4">Phone</p>
+                    <div>
+                      {contactInfo.phones.map((phone, i) => (
+                        <a key={i} href={`tel:${phone}`} className="title-3 d-block hover:text-primary">
+                          {phone}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <fieldset>
-                  <label htmlFor="message">Your Message:</label>
-                  <textarea
-                    name="message"
-                    cols={30}
-                    rows={10}
-                    placeholder="Message"
-                    id="message"
-                    required
-                    defaultValue={""}
-                  />
-                </fieldset>
-                <div className="send-wrap">
-                  <button
-                    className="tf-btn bg-color-primary fw-7 pd-8"
-                    type="submit"
-                  >
-                    Contact our experts
-                  </button>
+              )}
+
+              {contactInfo?.emails?.length > 0 && (
+                <div className="box-item mb-16">
+                  <div className="icon">
+                    <i className="icon-mail" />
+                  </div>
+                  <div className="content">
+                    <p className="text-variant-1 text-4">Email</p>
+                    <div>
+                      {contactInfo.emails.map((email, i) => (
+                        <a key={i} href={`mailto:${email}`} className="title-3 d-block hover:text-primary">
+                          {email}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </form>
+              )}
+
+              {contactInfo?.address && (
+                <div className="box-item mb-16">
+                  <div className="icon">
+                    <i className="icon-location" />
+                  </div>
+                  <div className="content">
+                    <p className="text-variant-1 text-4">Address</p>
+                    <p className="title-3">{contactInfo.address}</p>
+                  </div>
+                </div>
+              )}
+
+              {contactInfo?.workingHours && (
+                <div className="box-item mb-16">
+                  <div className="icon">
+                    <i className="icon-clock" />
+                  </div>
+                  <div className="content">
+                    <p className="text-variant-1 text-4">Working Hours</p>
+                    <p className="title-3">{contactInfo.workingHours}</p>
+                  </div>
+                </div>
+              )}
+
+              {contactInfo?.socialLinks && Object.values(contactInfo.socialLinks).some(Boolean) && (
+                <div className="social-links flex gap-3 mt-20">
+                  {Object.entries(contactInfo.socialLinks).map(([key, url]) =>
+                    url ? (
+                      <a
+                        key={key}
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full hover:border-primary hover:text-primary transition-colors capitalize text-sm"
+                        title={key}
+                      >
+                        {key[0].toUpperCase()}
+                      </a>
+                    ) : null
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="col-xl-7 col-lg-7">
+            <div className="box-form-contact">
+              <h3 className="fw-7 mb-30">Send Us a Message</h3>
+
+              {submitted ? (
+                <div className="p-6 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-xl text-center">
+                  <p className="text-xl fw-6 mb-2">Thank you! 🎉</p>
+                  <p>Your message has been received. We'll contact you soon.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="form-contact">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <fieldset className="mb-16">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Full Name *"
+                          value={form.name}
+                          onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                          required
+                        />
+                      </fieldset>
+                    </div>
+                    <div className="col-md-6">
+                      <fieldset className="mb-16">
+                        <input
+                          type="email"
+                          className="form-control"
+                          placeholder="Email Address *"
+                          value={form.email}
+                          onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                          required
+                        />
+                      </fieldset>
+                    </div>
+                    <div className="col-12">
+                      <fieldset className="mb-16">
+                        <input
+                          type="tel"
+                          className="form-control"
+                          placeholder="Phone Number"
+                          value={form.phone}
+                          onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+                        />
+                      </fieldset>
+                    </div>
+                    <div className="col-12">
+                      <fieldset className="mb-30">
+                        <textarea
+                          className="form-control"
+                          rows={5}
+                          placeholder="Your Message *"
+                          value={form.message}
+                          onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
+                          required
+                        />
+                      </fieldset>
+                    </div>
+                    <div className="col-12">
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="tf-btn bg-color-primary fw-6 w-full disabled:opacity-60"
+                      >
+                        {submitting ? "Sending..." : "Send Message"}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>

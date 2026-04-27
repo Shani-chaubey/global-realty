@@ -1,163 +1,146 @@
 "use client";
-import React from "react";
+import { useState } from "react";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import api from "@/lib/axios";
 
-export default function Sidebar() {
+export default function Sidebar({ property }) {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const agent = property?.agentId;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      await api.post("/inquiries", {
+        ...form,
+        propertyId: property?._id,
+        propertyTitle: property?.title,
+      });
+      toast.success("Inquiry sent! We'll get back to you soon.");
+      setSubmitted(true);
+      setForm({ name: "", email: "", phone: "", message: "" });
+    } catch {
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="tf-sidebar sticky-sidebar">
-      <form
-        className="form-contact-seller mb-30"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <h4 className="heading-title mb-30">Contact Sellers</h4>
-        <div className="seller-info">
-          <div className="avartar">
-            <Image
-              alt=""
-              src="/images/avatar/seller.jpg"
-              width={200}
-              height={200}
-            />
-          </div>
-          <div className="content">
-            <h6 className="name">Shara Conner</h6>
-            <ul className="contact">
-              <li>
-                <i className="icon-phone-1" />
-                <span>1-333-345-6868</span>
-              </li>
-              <li>
-                <i className="icon-mail" />
-                <a href="#">themesflat@gmail.com</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <fieldset className="mb-12">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Full Name"
-            name="name"
-            id="name1"
-            required
-          />
-        </fieldset>
-        <fieldset className="mb-30">
-          <textarea
-            name="message"
-            cols={30}
-            rows={10}
-            placeholder="How can an agent help"
-            id="message1"
-            required
-            defaultValue={""}
-          />
-        </fieldset>
-        <a href="#" className="tf-btn bg-color-primary w-full">
-          Send message
-        </a>
-      </form>
-      <div className="sidebar-ads mb-30">
-        <div className="image-wrap">
-          <Image
-            className="lazyload"
-            data-src="/images/blog/ads.jpg"
-            alt=""
-            src="/images/blog/ads.jpg"
-            width={400}
-            height={470}
-          />
-        </div>
-        <div className="logo relative z-5">
-          <Image
-            alt=""
-            src="/images/logo/logo-2@2x.png"
-            width={272}
-            height={85}
-          />
-        </div>
-        <div className="box-ads relative z-5">
-          <div className="content">
-            <h4 className="title">
-              <a href="#">We can help you find a local real estate agent</a>
-            </h4>
-            <div className="text-addres">
-              <p>
-                Connect with a trusted agent who knows the market inside out -
-                whether you’re buying or selling.
-              </p>
+      <form className="form-contact-seller mb-30" onSubmit={handleSubmit}>
+        <h4 className="heading-title mb-30">Contact Seller</h4>
+
+        {agent && (
+          <div className="seller-info mb-20">
+            <div className="avartar">
+              <Image
+                alt={agent.name || "Agent"}
+                src={agent.avatar || "/images/avatar/seller.jpg"}
+                width={200}
+                height={200}
+              />
+            </div>
+            <div className="content">
+              <h6 className="name">{agent.name || "Our Agent"}</h6>
+              <ul className="contact">
+                {agent.phone && (
+                  <li>
+                    <i className="icon-phone-1" />
+                    <a href={`tel:${agent.phone}`}>{agent.phone}</a>
+                  </li>
+                )}
+                {agent.email && (
+                  <li>
+                    <i className="icon-mail" />
+                    <a href={`mailto:${agent.email}`}>{agent.email}</a>
+                  </li>
+                )}
+              </ul>
             </div>
           </div>
-          <a href="#" className="tf-btn fw-6 bg-color-primary fw-6 w-full">
-            Connect with an agent
+        )}
+
+        {submitted ? (
+          <div className="det-success-box">
+            <p style={{ fontWeight: 600 }}>Thank you!</p>
+            <p style={{ fontSize: "0.875rem", marginTop: "0.25rem" }}>Your inquiry has been submitted. We&apos;ll contact you soon.</p>
+          </div>
+        ) : (
+          <>
+            <fieldset className="mb-12">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Full Name *"
+                value={form.name}
+                onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                required
+              />
+            </fieldset>
+            <fieldset className="mb-12">
+              <input
+                type="email"
+                className="form-control"
+                placeholder="Email Address *"
+                value={form.email}
+                onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                required
+              />
+            </fieldset>
+            <fieldset className="mb-12">
+              <input
+                type="tel"
+                className="form-control"
+                placeholder="Phone Number"
+                value={form.phone}
+                onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+              />
+            </fieldset>
+            <fieldset className="mb-30">
+              <textarea
+                className="form-control"
+                cols={30}
+                rows={5}
+                placeholder={`I'm interested in ${property?.title || "this property"}...`}
+                value={form.message}
+                onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
+                required
+              />
+            </fieldset>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="tf-btn bg-color-primary" style={{ width: "100%", opacity: submitting ? 0.6 : 1 }}
+            >
+              {submitting ? "Sending..." : "Send Inquiry"}
+            </button>
+          </>
+        )}
+      </form>
+
+      <div className="sidebar-ads mb-30">
+        <div className="box-ads" style={{ position: "relative", zIndex: 5, padding: "1rem" }}>
+          <div className="content mb-3">
+            <h4 className="title fw-6 mb-2">
+              Looking for more options?
+            </h4>
+            <p className="text-color-default text-sm">
+              Browse our full property listings to find your perfect home.
+            </p>
+          </div>
+          <a href="/properties" className="tf-btn fw-6 bg-color-primary fw-6 w-full">
+            View All Properties
           </a>
         </div>
       </div>
-      <form className="form-contact-agent" onSubmit={(e) => e.preventDefault()}>
-        <h4 className="heading-title mb-30">More About This Property</h4>
-        <fieldset>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Your name"
-            name="name"
-            id="name2"
-            required
-          />
-        </fieldset>
-        <fieldset>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Email"
-            name="email"
-            id="email2"
-            required
-          />
-        </fieldset>
-        <fieldset className="phone">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Phone"
-            name="phone"
-            id="phone"
-            required
-          />
-        </fieldset>
-        <fieldset>
-          <textarea
-            name="message"
-            cols={30}
-            rows={10}
-            placeholder="Message"
-            id="message3"
-            required
-            defaultValue={""}
-          />
-        </fieldset>
-        <div className="wrap-btn">
-          <a href="#" className="tf-btn bg-color-primary fw-6 w-full">
-            <svg
-              width={20}
-              height={20}
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18.125 5.625V14.375C18.125 14.8723 17.9275 15.3492 17.5758 15.7008C17.2242 16.0525 16.7473 16.25 16.25 16.25H3.75C3.25272 16.25 2.77581 16.0525 2.42417 15.7008C2.07254 15.3492 1.875 14.8723 1.875 14.375V5.625M18.125 5.625C18.125 5.12772 17.9275 4.65081 17.5758 4.29917C17.2242 3.94754 16.7473 3.75 16.25 3.75H3.75C3.25272 3.75 2.77581 3.94754 2.42417 4.29917C2.07254 4.65081 1.875 5.12772 1.875 5.625M18.125 5.625V5.8275C18.125 6.14762 18.0431 6.46242 17.887 6.74191C17.7309 7.0214 17.5059 7.25628 17.2333 7.42417L10.9833 11.27C10.6877 11.4521 10.3472 11.5485 10 11.5485C9.65275 11.5485 9.31233 11.4521 9.01667 11.27L2.76667 7.425C2.4941 7.25711 2.26906 7.02224 2.11297 6.74275C1.95689 6.46325 1.87496 6.14845 1.875 5.82833V5.625"
-                stroke="white"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Email agent
-          </a>
-        </div>
-      </form>
     </div>
   );
 }

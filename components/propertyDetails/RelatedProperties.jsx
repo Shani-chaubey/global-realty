@@ -1,204 +1,117 @@
 "use client";
-import React from "react";
+import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
-import { properties10 } from "@/data/properties";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
-export default function RelatedProperties() {
-  return (
-    <section className="section-similar-properties tf-spacing-3">
-      <div className="tf-container">
-        <div className="row">
-          <div className="col-12">
-            <div className="heading-section mb-32">
-              <h2 className="title">Similar Properties</h2>
-            </div>
-            <div
-              className="swiper style-pagination tf-sw-mobile-1 sw-swiper-992"
-              data-screen={992}
-              data-preview={1}
-              data-space={15}
-            >
-              <div
-                className="swiper-wrapper tf-layout-mobile-xl lg-col-3 wrap-agent wow fadeInUp"
-                data-wow-delay=".2s"
-              >
-                {properties10.map((property) => (
-                  <div className="swiper-slide" key={property.id}>
-                    <div className="box-house hover-img">
-                      <div className="image-wrap">
-                        <Link href={`/property-detail-v1/${property.id}`}>
-                          <Image
-                            className="lazyload"
-                            data-src={property.imageSrc}
-                            alt={property.title}
-                            src={property.imageSrc}
-                            width={property.imageWidth}
-                            height={property.imageHeight}
-                          />
-                        </Link>
-                        <ul className="box-tag flex gap-8">
-                          {property.featured && (
-                            <li className="flat-tag text-4 bg-main fw-6 text_white">
-                              Featured
-                            </li>
-                          )}
-                          {property.forSale && (
-                            <li className="flat-tag text-4 bg-3 fw-6 text_white">
-                              For Sale
-                            </li>
-                          )}
-                        </ul>
-                        <div className="list-btn flex gap-8">
-                          <a href="#" className="btn-icon save hover-tooltip">
-                            <i className="icon-save" />
-                            <span className="tooltip">Add Favorite</span>
-                          </a>
-                          <a href="#" className="btn-icon find hover-tooltip">
-                            <i className="icon-find-plus" />
-                            <span className="tooltip">Quick View</span>
-                          </a>
-                        </div>
-                      </div>
-                      <div className="content">
-                        <h5 className="title">
-                          <Link href={`/property-detail-v1/${property.id}`}>
-                            {property.title}
-                          </Link>
-                        </h5>
-                        <p className="location text-1 flex items-center gap-8">
-                          <i className="icon-location" /> {property.location}
-                        </p>
-                        <ul className="meta-list flex">
-                          <li className="text-1 flex">
-                            <span>{property.beds}</span>Beds
-                          </li>
-                          <li className="text-1 flex">
-                            <span>{property.baths}</span>Baths
-                          </li>
-                          <li className="text-1 flex">
-                            <span>{property.sqft}</span>Sqft
-                          </li>
-                        </ul>
-                        <div className="bot flex justify-between items-center">
-                          <h5 className="price">${property.price}</h5>
-                          <div className="wrap-btn flex">
-                            <a
-                              href="#"
-                              className="compare flex gap-8 items-center text-1"
-                            >
-                              <i className="icon-compare" />
-                              Compare
-                            </a>
-                            <Link
-                              href={`/property-detail-v1/${property.id}`}
-                              className="tf-btn style-border pd-4"
-                            >
-                              Details
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="sw-pagination sw-pagination-mb-1 text-center d-lg-none d-block mt-20" />
-            </div>
-            <Swiper
-              className="swiper style-pagination tf-sw-mobile-1 sw-swiper-992"
-              spaceBetween={15}
-              modules={[Pagination]}
-              pagination={{
-                clickable: true,
-                el: ".spd458",
-              }}
-            >
-              {properties10.map((property) => (
-                <SwiperSlide className="swiper-slide" key={property.id}>
-                  <div className="box-house hover-img">
-                    <div className="image-wrap">
-                      <Link href={`/property-detail-v1/${property.id}`}>
-                        <Image
-                          className="lazyload"
-                          data-src={property.imageSrc}
-                          alt={property.title}
-                          src={property.imageSrc}
-                          width={property.imageWidth}
-                          height={property.imageHeight}
-                        />
-                      </Link>
-                      <ul className="box-tag flex gap-8">
-                        {property.featured && (
-                          <li className="flat-tag text-4 bg-main fw-6 text_white">
-                            Featured
-                          </li>
-                        )}
-                        {property.forSale && (
-                          <li className="flat-tag text-4 bg-3 fw-6 text_white">
-                            For Sale
-                          </li>
-                        )}
-                      </ul>
-                      <div className="list-btn flex gap-8">
-                        <a href="#" className="btn-icon save hover-tooltip">
-                          <i className="icon-save" />
-                          <span className="tooltip">Add Favorite</span>
-                        </a>
-                        <a href="#" className="btn-icon find hover-tooltip">
-                          <i className="icon-find-plus" />
-                          <span className="tooltip">Quick View</span>
-                        </a>
-                      </div>
-                    </div>
-                    <div className="content">
-                      <h5 className="title">
-                        <Link href={`/property-detail-v1/${property.id}`}>
-                          {property.title}
-                        </Link>
-                      </h5>
-                      <p className="location text-1 flex items-center gap-8">
-                        <i className="icon-location" /> {property.location}
-                      </p>
-                      <ul className="meta-list flex">
-                        <li className="text-1 flex">
-                          <span>{property.beds}</span>Beds
-                        </li>
-                        <li className="text-1 flex">
-                          <span>{property.baths}</span>Baths
-                        </li>
-                        <li className="text-1 flex">
-                          <span>{property.sqft}</span>Sqft
-                        </li>
-                      </ul>
-                      <div className="bot flex justify-between items-center">
-                        <h5 className="price">${property.price}</h5>
-                        <div className="wrap-btn flex">
-                          <a
-                            href="#"
-                            className="compare flex gap-8 items-center text-1"
-                          >
-                            <i className="icon-compare" />
-                            Compare
-                          </a>
-                          <Link
-                            href={`/property-detail-v1/${property.id}`}
-                            className="tf-btn style-border pd-4"
-                          >
-                            Details
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
+import api from "@/lib/axios";
 
-              <div className="sw-pagination sw-pagination-mb-1 text-center d-lg-none d-block mt-20 spd458" />
-            </Swiper>
+const fetcher = (url) => api.get(url).then((r) => r.data);
+
+function PropertyCard({ property }) {
+  const primaryImage = property.images?.find((i) => i.isPrimary) || property.images?.[0];
+  const formatPrice = (p) => {
+    if (p?.priceType === "on-request") return "On Request";
+    return `₹${Number(p?.price || 0).toLocaleString("en-IN")}`;
+  };
+
+  return (
+    <div className="homeya-box">
+      <div className="archive-top">
+        <Link href={`/property-detail-v1/${property.slug || property._id}`}>
+          <div className="images-group">
+            <div className="images-style">
+              <Image
+                className="lazyload img-style"
+                data-src={primaryImage?.url || "/images/section/box-house.jpg"}
+                src={primaryImage?.url || "/images/section/box-house.jpg"}
+                alt={property.title}
+                width={400}
+                height={268}
+                style={{ objectFit: "cover", height: 200 }}
+              />
+            </div>
           </div>
+        </Link>
+        <div className="top">
+          <ul className="tag-list">
+            <li>
+              <a href="#" className="flag-tag success">{property.status}</a>
+            </li>
+            {property.isFeatured && (
+              <li><a href="#" className="flag-tag warning">Featured</a></li>
+            )}
+          </ul>
         </div>
+      </div>
+      <div className="archive-bottom">
+        <div className="content-box">
+          <div className="title">
+            <Link href={`/property-detail-v1/${property.slug || property._id}`} className="link">
+              {property.title}
+            </Link>
+          </div>
+          <div className="text-date">
+            <i className="icon-location" />
+            {[property.city, property.state].filter(Boolean).join(", ")}
+          </div>
+          <ul className="meta-list">
+            {property.bedrooms > 0 && (
+              <li className="item"><span>{property.bedrooms}</span>Bed</li>
+            )}
+            {property.bathrooms > 0 && (
+              <li className="item"><span>{property.bathrooms}</span>Bath</li>
+            )}
+            {property.builtUpArea > 0 && (
+              <li className="item">
+                <span>{Number(property.builtUpArea).toLocaleString()}</span>
+                {property.areaUnit}
+              </li>
+            )}
+          </ul>
+        </div>
+        <div className="price-box">
+          <div className="price">{formatPrice(property)}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function RelatedProperties({ city, currentId }) {
+  const params = new URLSearchParams({ limit: 4 });
+  if (city) params.set("city", city);
+
+  const { data, isLoading } = useSWR(`/properties?${params}`, fetcher);
+
+  const properties = (data?.data || []).filter(
+    (p) => p._id !== currentId
+  ).slice(0, 3);
+
+  if (!isLoading && !properties.length) return null;
+
+  return (
+    <section className="section-related-properties flat-section">
+      <div className="tf-container">
+        <div className="box-title">
+          <div className="text-subtitle text-primary">Similar Properties</div>
+          <h3 className="mt-4 title">Related Properties</h3>
+        </div>
+        {isLoading ? (
+          <div className="row">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="col-xl-4 col-md-6">
+                <div className="det-related-skeleton" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="row">
+            {properties.map((property) => (
+              <div key={property._id} className="col-xl-4 col-md-6">
+                <PropertyCard property={property} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

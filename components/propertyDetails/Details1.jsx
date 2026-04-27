@@ -21,39 +21,38 @@ export default function Details1({ property }) {
             <div className="wg-property box-overview">
               <PropertyOverview property={property} />
             </div>
-            <div className="wg-property video">
-              <VideoReview />
-            </div>
+            {property?.videoUrl && (
+              <div className="wg-property video">
+                <VideoReview videoUrl={property.videoUrl} />
+              </div>
+            )}
             <div className="wg-property box-property-detail">
-              <ExtraInfo />
+              <ExtraInfo property={property} />
             </div>
-            <div className="wg-property box-amenities">
-              <Features />
-            </div>
-            <div className="wg-property single-property-map">
-              <Location />
-            </div>
-            <div className="wg-property single-property-floor">
-              <FloorPlan />
-            </div>
-            <div className="wg-property box-attachments">
-              <Attachments />
-            </div>
-            <div className="wg-property box-virtual-tour">
-              <VirtualTour />
-            </div>
+            {property?.amenities?.length > 0 && (
+              <div className="wg-property box-amenities">
+                <Features amenities={property.amenities} features={property.features} />
+              </div>
+            )}
+            {(property?.mapEmbedUrl || (property?.latitude && property?.longitude)) && (
+              <div className="wg-property single-property-map">
+                <Location property={property} />
+              </div>
+            )}
+            {property?.virtualTourUrl && (
+              <div className="wg-property box-virtual-tour">
+                <VirtualTour url={property.virtualTourUrl} />
+              </div>
+            )}
             <div className="wg-property box-loan">
-              <LoanCalculator />
-            </div>
-            <div className="wg-property single-property-nearby">
-              <PropertyNearby />
+              <LoanCalculator price={property?.price} />
             </div>
             <div className="wg-property mb-0 box-comment">
-              <Reviews />
+              <Reviews propertyId={property?._id} />
             </div>
           </div>
           <div className="col-xl-4 col-lg-5">
-            <Sidebar />
+            <Sidebar property={property} />
           </div>
         </div>
       </div>

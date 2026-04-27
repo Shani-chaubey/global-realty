@@ -1,15 +1,11 @@
 import React from "react";
-import Slider2 from "./sliders/Slider2";
+import Slider1 from "./sliders/Slider1";
 import PropertyOverview from "./PropertyOverview";
 import VideoReview from "./VideoReview";
 import ExtraInfo from "./ExtraInfo";
 import Features from "./Features";
 import Location from "./Location";
-import FloorPlan from "./FloorPlan";
-import Attachments from "./Attachments";
-import VirtualTour from "./VirtualTour";
 import LoanCalculator from "./LoanCalculator";
-import PropertyNearby from "./PropertyNearby";
 import Reviews from "./Reviews";
 import Sidebar from "./Sidebar";
 
@@ -19,43 +15,37 @@ export default function Details2({ property }) {
       <div className="tf-container">
         <div className="row">
           <div className="col-xl-8 col-lg-7">
-            <Slider2 />
+            <Slider1 images={property?.images} title={property?.title} />
             <div className="wg-property box-overview style-2">
               <PropertyOverview property={property} />
             </div>
-            <div className="wg-property video spacing-2">
-              <VideoReview />
-            </div>
+            {property?.videoUrl && (
+              <div className="wg-property video spacing-2">
+                <VideoReview videoUrl={property.videoUrl} />
+              </div>
+            )}
             <div className="wg-property box-property-detail spacing-1">
-              <ExtraInfo />
+              <ExtraInfo property={property} />
             </div>
-            <div className="wg-property box-amenities spacing-3">
-              <Features />
-            </div>
-            <div className="wg-property single-property-map spacing-9">
-              <Location />
-            </div>
-            <div className="wg-property single-property-floor spacing-4">
-              <FloorPlan />
-            </div>
-            <div className="wg-property box-attachments spacing-5">
-              <Attachments />
-            </div>
-            <div className="wg-property box-virtual-tour spacing-6">
-              <VirtualTour />
-            </div>
+            {property?.amenities?.length > 0 && (
+              <div className="wg-property box-amenities spacing-3">
+                <Features amenities={property.amenities} features={property.features} />
+              </div>
+            )}
+            {(property?.mapEmbedUrl || (property?.latitude && property?.longitude)) && (
+              <div className="wg-property single-property-map spacing-9">
+                <Location property={property} />
+              </div>
+            )}
             <div className="wg-property box-loan spacing-4">
-              <LoanCalculator />
-            </div>
-            <div className="wg-property single-property-nearby spacing-7">
-              <PropertyNearby />
+              <LoanCalculator price={property?.price} />
             </div>
             <div className="wg-property mb-0 box-comment spacing-8">
-              <Reviews />
+              <Reviews propertyId={property?._id} />
             </div>
           </div>
           <div className="col-xl-4 col-lg-5">
-            <Sidebar />
+            <Sidebar property={property} />
           </div>
         </div>
       </div>

@@ -1,0 +1,23 @@
+import mongoose from "mongoose";
+
+const ContactInfoSchema = new mongoose.Schema(
+  {
+    phones: [{ type: String }],
+    emails: [{ type: String }],
+    address: { type: String, default: "" },
+    mapEmbedUrl: { type: String, default: "" },
+    workingHours: { type: String, default: "Mon-Sat: 9am - 6pm" },
+    socialLinks: {
+      facebook: { type: String, default: "" },
+      instagram: { type: String, default: "" },
+      linkedin: { type: String, default: "" },
+      youtube: { type: String, default: "" },
+      twitter: { type: String, default: "" },
+      whatsapp: { type: String, default: "" },
+    },
+  },
+  { timestamps: true }
+);
+
+export default mongoose.models.ContactInfo ||
+  mongoose.model("ContactInfo", ContactInfoSchema);

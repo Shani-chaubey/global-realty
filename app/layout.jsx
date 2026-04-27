@@ -3,6 +3,13 @@ import { useEffect } from "react";
 import "./globals.css";
 import "./odometer-theme-fixed.css";
 import "../public/main.scss";
+import "../styles/utilities.css";
+import "../styles/admin.css";
+import "../styles/admin-pages.css";
+import "../styles/admin-forms.css";
+import "../styles/ui.css";
+import "../styles/listing.css";
+import "../styles/details.css";
 import "photoswipe/style.css";
 import "rc-slider/assets/index.css";
 import { usePathname } from "next/navigation";
@@ -11,6 +18,8 @@ import MobileMenu from "@/components/headers/MobileMenu";
 import SettingsHandler from "@/components/common/SettingsHandler";
 import Login from "@/components/modals/Login";
 import Register from "@/components/modals/Register";
+import { Toaster } from "react-hot-toast";
+import ThemeLoader from "@/components/common/ThemeLoader";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -74,12 +83,20 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="popup-loader">
+        <ThemeLoader initialColor="#dc3545" />
         {children}
         <MobileMenu />
         <BackToTop />
         <SettingsHandler />
         <Login />
         <Register />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: { borderRadius: "8px", fontSize: "14px" },
+          }}
+        />
       </body>
     </html>
   );
