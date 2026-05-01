@@ -17,11 +17,7 @@ export default function Testimonials({ testimonials: dbTestimonials = [] }) {
   const [showMore, setShowMore] = useState(false);
   const items = dbTestimonials.filter((t) => t?.message || t?.review || t?.content);
   if (!items.length) return null;
-
-  // Group items into columns of 3
-  const firstCol = items.slice(0, 3);
-  const secondCol = items.slice(3, 6);
-  const thirdCol = items.slice(6, 9);
+  const visibleItems = showMore ? items : items.slice(0, 9);
 
   const renderCard = (item) => (
     <div key={item._id || item.id} className="wg-testimonial style-2">
@@ -65,21 +61,9 @@ export default function Testimonials({ testimonials: dbTestimonials = [] }) {
                 website.
               </p>
             </div>
-            <div
-              className={`tf-grid-layout md-col-3 loadmore-item-8 ${
-                showMore ? "active" : ""
-              }`}
-            >
-              {firstCol.length > 0 && (
-                <div className="box-testimonials">{firstCol.map(renderCard)}</div>
-              )}
-              {secondCol.length > 0 && (
-                <div className="box-testimonials">{secondCol.map(renderCard)}</div>
-              )}
-              {thirdCol.length > 0 && (
-                <div className="box-testimonials">{thirdCol.map(renderCard)}</div>
-              )}
-              {!showMore && items.length > 6 && (
+            <div className={`tf-grid-layout md-col-3 loadmore-item-8 ${showMore ? "active" : ""}`}>
+              {visibleItems.map(renderCard)}
+              {!showMore && items.length > 9 && (
                 <button
                   onClick={() => setShowMore(true)}
                   className="tf-btn bg-color-primary fw-7 mx-auto btn-loadmore view-more-button"
