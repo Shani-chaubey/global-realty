@@ -298,7 +298,7 @@ export default function AgentDetails({ agent }) {
                       </div>
                       <div className="content">
                         <div className="text-1 title fw-5 lh-20">
-                          <Link href={`/property-detail-v1/${listing.id}`}>
+                          <Link href={`/property-detail/${listing.id}`}>
                             {listing.title}
                           </Link>
                         </div>

@@ -73,7 +73,7 @@ export default function Dashboard({ dashboardData }) {
                               </div>
                               <div className="content">
                                 <div className="title">
-                                  <Link href={`/property-detail-v1/${listing.id}`} className="link">
+                                  <Link href={`/property-detail/${listing.id}`} className="link">
                                     {listing.title}
                                   </Link>
                                 </div>

@@ -41,10 +41,10 @@ export default function AdminHeader({ onMenuToggle }) {
   const crumbs = getBreadcrumbs(pathname);
 
   useEffect(() => {
-    const saved = localStorage.getItem("adminDarkMode");
-    const dark = saved === "true";
+    const saved = localStorage.getItem("theme");
+    const dark = saved === "dark";
     setIsDark(dark);
-    document.documentElement.classList.toggle("dark", dark);
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
   }, []);
 
   useEffect(() => {
@@ -60,8 +60,8 @@ export default function AdminHeader({ onMenuToggle }) {
   const toggleDark = () => {
     const next = !isDark;
     setIsDark(next);
-    localStorage.setItem("adminDarkMode", String(next));
-    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
   };
 
   return (
@@ -92,20 +92,40 @@ export default function AdminHeader({ onMenuToggle }) {
       </nav>
 
       <div className="admin-header__actions">
+        {/* Dark mode toggle */}
         <button
           onClick={toggleDark}
           className="admin-header__icon-btn"
-          title={isDark ? "Light mode" : "Dark mode"}
+          title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          style={{ position: "relative", overflow: "hidden" }}
         >
-          {isDark ? (
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span
+            style={{
+              display: "block",
+              transition: "transform 0.2s ease, opacity 0.2s ease",
+              transform: isDark ? "rotate(0deg) scale(1)" : "rotate(-30deg) scale(0.8)",
+              opacity: isDark ? 1 : 0,
+              position: "absolute",
+            }}
+          >
+            {/* Sun icon — shown in dark mode */}
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
-          ) : (
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          </span>
+          <span
+            style={{
+              display: "block",
+              transition: "transform 0.2s ease, opacity 0.2s ease",
+              transform: isDark ? "rotate(30deg) scale(0.8)" : "rotate(0deg) scale(1)",
+              opacity: isDark ? 0 : 1,
+            }}
+          >
+            {/* Moon icon — shown in light mode */}
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
             </svg>
-          )}
+          </span>
         </button>
 
         <Link href="/admin/inquiries" className="admin-header__icon-btn" title="Inquiries">

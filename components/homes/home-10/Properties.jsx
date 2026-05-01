@@ -33,7 +33,7 @@ export default function Properties() {
                   <div className="swiper-slide" key={property.id}>
                     <div className="box-house hover-img style-8">
                       <div className="image-wrap">
-                        <Link href={`/property-detail-v1/${property.id}`}>
+                        <Link href={`/property-detail/${property.id}`}>
                           <Image
                             className="lazyload"
                             data-src={property.imageSrc}
@@ -89,7 +89,7 @@ export default function Properties() {
                           {property.category}
                         </div>
                         <h5 className="title">
-                          <Link href={`/property-detail-v1/${property.id}`}>
+                          <Link href={`/property-detail/${property.id}`}>
                             {property.title}
                           </Link>
                         </h5>
@@ -111,7 +111,7 @@ export default function Properties() {
                             </div>
                           </div>
                           <Link
-                            href={`/property-detail-v1/${property.id}`}
+                            href={`/property-detail/${property.id}`}
                             className="tf-btn style-border pd-4"
                           >
                             Details
@@ -137,7 +137,7 @@ export default function Properties() {
                 <SwiperSlide className="swiper-slide" key={property.id}>
                   <div className="box-house hover-img style-8">
                     <div className="image-wrap">
-                      <Link href={`/property-detail-v1/${property.id}`}>
+                      <Link href={`/property-detail/${property.id}`}>
                         <Image
                           className="lazyload"
                           data-src={property.imageSrc}
@@ -191,7 +191,7 @@ export default function Properties() {
                     <div className="content">
                       <div className="tag-catefories">{property.category}</div>
                       <h5 className="title">
-                        <Link href={`/property-detail-v1/${property.id}`}>
+                        <Link href={`/property-detail/${property.id}`}>
                           {property.title}
                         </Link>
                       </h5>
@@ -213,7 +213,7 @@ export default function Properties() {
                           </div>
                         </div>
                         <Link
-                          href={`/property-detail-v1/${property.id}`}
+                          href={`/property-detail/${property.id}`}
                           className="tf-btn style-border pd-4"
                         >
                           Details

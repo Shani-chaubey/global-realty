@@ -198,7 +198,7 @@ export default function AgencyDetails({ agency }) {
                       </div>
                       <div className="content">
                         <div className="text-1 title fw-5 lh-20">
-                          <Link href={`/property-detail-v1/${property.id}`}>
+                          <Link href={`/property-detail/${property.id}`}>
                             {property.title}
                           </Link>
                         </div>

@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongoose";
 import Property from "@/models/Property";
+import Amenity from "@/models/Amenity";
+import mongoose from "mongoose";
 import { generateSlug } from "@/lib/apiHelpers";
+
+const isObjectId = (v) => typeof v === "string" && /^[a-f\d]{24}$/i.test(v);
+
+const toSlug = (name) =>
+  name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 export async function GET(request) {
   try {
@@ -21,7 +28,21 @@ export async function GET(request) {
     }
 
     const city = searchParams.get("city");
-    if (city) query.city = { $regex: city, $options: "i" };
+    if (city) {
+      if (isObjectId(city)) {
+        query.city = new mongoose.Types.ObjectId(city);
+      } else {
+        // Look up city by name to get its ObjectId (new data), also match legacy string
+        const CityModel = mongoose.models.City ||
+          mongoose.model("City", new mongoose.Schema({ name: String, slug: String }, { strict: false }));
+        const cityDoc = await CityModel.findOne({ name: { $regex: `^${city}$`, $options: "i" } }).lean();
+        if (cityDoc) {
+          query.$or = [{ city: cityDoc._id }, { city: { $regex: city, $options: "i" } }];
+        } else {
+          query.city = { $regex: city, $options: "i" };
+        }
+      }
+    }
 
     const pincode = searchParams.get("pincode");
     if (pincode) query.pincode = pincode;
@@ -66,22 +87,32 @@ export async function GET(request) {
     const isFeatured = searchParams.get("isFeatured");
     if (isFeatured === "true") query.isFeatured = true;
 
-    const amenities = searchParams.get("amenities");
-    if (amenities) {
-      query.amenities = { $all: amenities.split(",") };
+    const amenitiesParam = searchParams.get("amenities");
+    if (amenitiesParam) {
+      const slugs = amenitiesParam.split(",").filter(Boolean);
+      const allAmenities = await Amenity.find({}).lean();
+      const matchedIds = allAmenities
+        .filter((a) => slugs.includes(toSlug(a.name)))
+        .map((a) => a._id);
+      if (matchedIds.length) query.amenities = { $all: matchedIds };
     }
 
-    const sortParam = searchParams.get("sort") || "newest";
-    let sort = { createdAt: -1 };
-    if (sortParam === "price_asc") sort = { price: 1 };
-    else if (sortParam === "price_desc") sort = { price: -1 };
-    else if (sortParam === "featured") sort = { isFeatured: -1, createdAt: -1 };
+    const sortParam = searchParams.get("sort") || "";
+    let sort = { createdAt: -1 }; // default: newest first
+    if (sortParam === "price_asc")                                    sort = { price: 1 };
+    else if (sortParam === "price_desc")                              sort = { price: -1 };
+    else if (sortParam === "featured")                                sort = { isFeatured: -1, createdAt: -1 };
+    else if (sortParam === "createdAt_asc" || sortParam === "oldest") sort = { createdAt: 1 };
+    else if (sortParam === "createdAt_desc" || sortParam === "newest")sort = { createdAt: -1 };
 
     const [properties, total] = await Promise.all([
       Property.find(query)
         .populate("propertyType", "name slug")
         .populate("propertySubType", "name slug")
         .populate("amenities", "name icon category")
+        .populate("city", "name slug")
+        .populate("state", "name code")
+        .populate("country", "name code")
         .sort(sort)
         .skip(skip)
         .limit(limit)

@@ -28,7 +28,7 @@ export default function Listings() {
           <div key={i} className="tf_filter_rent tf-filter-item tf-tab-content">
             <div className="box-house hover-img">
               <div className="image-wrap">
-                <Link href={`/property-detail-v1/${property.id}`}>
+                <Link href={`/property-detail/${property.id}`}>
                   <Image
                     className="lazyload"
                     alt=""
@@ -58,7 +58,7 @@ export default function Listings() {
               </div>
               <div className="content">
                 <h5 className="title">
-                  <Link href={`/property-detail-v1/${property.id}`}>
+                  <Link href={`/property-detail/${property.id}`}>
                     {property.title}
                   </Link>
                 </h5>
@@ -87,7 +87,7 @@ export default function Listings() {
                       Compare
                     </a>
                     <Link
-                      href={`/property-detail-v1/${property.id}`}
+                      href={`/property-detail/${property.id}`}
                       className="tf-btn style-border pd-4"
                     >
                       Details

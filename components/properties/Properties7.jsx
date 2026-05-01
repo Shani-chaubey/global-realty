@@ -14,7 +14,7 @@ export default function Properties7() {
         <div className="row">
           <div className="col-12">
             <div className="box-title">
-              <h2>Property listing</h2>
+              <h2>Properties</h2>
               <div className="right">
                 <ul className="nav-tab-filter group-layout" role="tablist">
                   <LayoutHandler />

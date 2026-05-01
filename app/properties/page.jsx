@@ -1,23 +1,31 @@
-import Header1 from "@/components/headers/Header1";
+import Cta from "@/components/common/Cta";
 import Footer1 from "@/components/footers/Footer1";
-import Breadcumb from "@/components/common/Breadcumb";
+import Header1 from "@/components/headers/Header1";
+import FilterTop from "@/components/properties/FilterTop";
+import Properties2 from "@/components/properties/Properties2";
 import { Suspense } from "react";
-import PropertyListing from "@/components/properties/PropertyListing";
+import { getPageSeo } from "@/lib/seo";
 
-export const metadata = {
-  title: "Properties | Proty Real Estate",
-  description: "Browse all properties for sale and rent",
-};
+export async function generateMetadata() {
+  const { metadata } = await getPageSeo("properties", {
+    title: "Properties | Global Realty",
+    description: "Browse all properties available for sale",
+  });
+  return metadata;
+}
 
 export default function Page() {
   return (
     <div id="wrapper">
       <Header1 />
-      <Breadcumb pageName="All Properties" />
+      <Suspense fallback={<div style={{ height: 80 }} />}>
+        <FilterTop />
+      </Suspense>
       <div className="main-content">
-        <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
-          <PropertyListing />
+        <Suspense fallback={<div className="p-8 text-center">Loading properties...</div>}>
+          <Properties2 defaultGrid />
         </Suspense>
+        <Cta />
       </div>
       <Footer1 />
     </div>

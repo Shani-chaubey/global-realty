@@ -16,7 +16,7 @@ export default function PageTitle() {
                       Home
                     </Link>
                   </li>
-                  <li>Property Listing</li>
+                  <li>Properties</li>
                 </ul>
               </div>
             </div>

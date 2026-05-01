@@ -32,7 +32,7 @@ export default function Properties2() {
                   <div className="swiper-slide" key={property.id}>
                     <div className="box-house hover-img style-list v2">
                       <div className="image-wrap">
-                        <Link href={`/property-detail-v1/${property.id}`}>
+                        <Link href={`/property-detail/${property.id}`}>
                           <Image
                             className="lazyload"
                             data-src={property.imageSrc}
@@ -71,7 +71,7 @@ export default function Properties2() {
                         </div>
                         <h5 className="title">
                           <Link
-                            href={`/property-detail-v1/${property.id}`}
+                            href={`/property-detail/${property.id}`}
                             className="text_white link"
                           >
                             {property.title}
@@ -130,7 +130,7 @@ export default function Properties2() {
                 <SwiperSlide className="swiper-slide" key={property.id}>
                   <div className="box-house hover-img style-list v2">
                     <div className="image-wrap">
-                      <Link href={`/property-detail-v1/${property.id}`}>
+                      <Link href={`/property-detail/${property.id}`}>
                         <Image
                           className="lazyload"
                           data-src={property.imageSrc}
@@ -169,7 +169,7 @@ export default function Properties2() {
                       </div>
                       <h5 className="title">
                         <Link
-                          href={`/property-detail-v1/${property.id}`}
+                          href={`/property-detail/${property.id}`}
                           className="text_white link"
                         >
                           {property.title}

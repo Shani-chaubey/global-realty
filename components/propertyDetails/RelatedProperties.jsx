@@ -16,7 +16,7 @@ function PropertyCard({ property }) {
   return (
     <div className="homeya-box">
       <div className="archive-top">
-        <Link href={`/property-detail-v1/${property.slug || property._id}`}>
+        <Link href={`/property-detail/${property.slug || property._id}`}>
           <div className="images-group">
             <div className="images-style">
               <Image
@@ -45,7 +45,7 @@ function PropertyCard({ property }) {
       <div className="archive-bottom">
         <div className="content-box">
           <div className="title">
-            <Link href={`/property-detail-v1/${property.slug || property._id}`} className="link">
+            <Link href={`/property-detail/${property.slug || property._id}`} className="link">
               {property.title}
             </Link>
           </div>

@@ -50,12 +50,13 @@ export default function Header1({ parentClass = "header" }) {
                   </div>
                   <DashboardNav />
                   <div className="btn-add">
-                    <Link
+                    <button
                       className="tf-btn style-border pd-23"
-                      href={`/add-property`}
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalInquiry"
                     >
-                      Add property
-                    </Link>
+                      Get in Touch
+                    </button>
                   </div>
                   <div
                     className="mobile-button"

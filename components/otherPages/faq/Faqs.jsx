@@ -527,7 +527,7 @@ export default function Faqs() {
                 <div className="box-ads relative z-5">
                   <div className="content">
                     <h4 className="title">
-                      <Link href={`/property-detail-v1`}>
+                      <Link href={`/property-detail`}>
                         We can help you find a local real estate agent
                       </Link>
                     </h4>

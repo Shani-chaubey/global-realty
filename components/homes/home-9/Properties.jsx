@@ -67,7 +67,7 @@ export default function Properties() {
             <div className="heading-section mb-46 justify-content-between d-flex flex-row mb-55">
               <div className="left">
                 <h2 className="title split-text effect-right mb-31">
-                  <SplitTextAnimation text="View our current property listing" />
+                  <SplitTextAnimation text="View our current Properties" />
                 </h2>
                 <p className="text-1 split-text split-lines-transform">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce

@@ -295,13 +295,13 @@
 .border-green-200   { border-color: #bbf7d0; }
 
 /* Dark mode variants - define them as .dark .class pattern overrides */
-.dark .text-white      { color: #ffffff; }
-.dark .bg-gray-700     { background-color: #374151; }
-.dark .bg-gray-800     { background-color: #1f2937; }
-.dark .border-gray-600 { border-color: #4b5563; }
-.dark .border-gray-700 { border-color: #374151; }
-.dark .text-gray-300   { color: #d1d5db; }
-.dark .text-gray-400   { color: #9ca3af; }
+[data-theme="dark"] .text-white      { color: #ffffff; }
+[data-theme="dark"] .bg-gray-700     { background-color: #374151; }
+[data-theme="dark"] .bg-gray-800     { background-color: #1f2937; }
+[data-theme="dark"] .border-gray-600 { border-color: #4b5563; }
+[data-theme="dark"] .border-gray-700 { border-color: #374151; }
+[data-theme="dark"] .text-gray-300   { color: #d1d5db; }
+[data-theme="dark"] .text-gray-400   { color: #9ca3af; }
 
 /* Space-y helpers (vertical stack gap) */
 .space-y-1 > * + * { margin-top: 0.25rem; }

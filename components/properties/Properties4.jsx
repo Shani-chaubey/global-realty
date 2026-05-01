@@ -12,7 +12,7 @@ export default function Properties4({ defaultGrid = false }) {
         <div className="row">
           <div className="col-12">
             <div className="box-title">
-              <h2>Property listing</h2>
+              <h2>Properties</h2>
               <div className="right">
                 <ul className="nav-tab-filter group-layout" role="tablist">
                   <LayoutHandler defaultGrid={defaultGrid} />

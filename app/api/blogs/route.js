@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongoose";
 import Blog from "@/models/Blog";
+import BlogCategory from "@/models/BlogCategory";
+import mongoose from "mongoose";
 import { generateSlug } from "@/lib/apiHelpers";
 
 export async function GET(request) {
@@ -14,11 +16,21 @@ export async function GET(request) {
 
     const query = all ? {} : { status: "published" };
 
-    const keyword = searchParams.get("keyword");
+    const keyword = searchParams.get("keyword") || searchParams.get("q");
     if (keyword) query.$text = { $search: keyword };
 
     const category = searchParams.get("category");
-    if (category) query.category = category;
+    if (category) {
+      if (mongoose.isValidObjectId(category)) {
+        query.category = category;
+      } else {
+        const cat = await BlogCategory.findOne({ slug: category, isActive: true })
+          .select("_id")
+          .lean();
+        // If category slug not found, force empty result
+        query.category = cat?._id || new mongoose.Types.ObjectId();
+      }
+    }
 
     const tag = searchParams.get("tag");
     if (tag) query.tags = tag;

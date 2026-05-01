@@ -133,7 +133,7 @@ export default function Sidebar({ property }) {
               Looking for more options?
             </h4>
             <p className="text-color-default text-sm">
-              Browse our full property listings to find your perfect home.
+              Browse our full Propertiess to find your perfect home.
             </p>
           </div>
           <a href="/properties" className="tf-btn fw-6 bg-color-primary fw-6 w-full">

@@ -62,12 +62,12 @@ const STAT_CARDS = [
 ];
 
 const QUICK_ACTIONS = [
-  { label: "Add Property", href: "/admin/properties/add", icon: "🏠", cls: "ap-quick-action--blue" },
-  { label: "Write Blog", href: "/admin/blogs/add", icon: "✍️", cls: "ap-quick-action--emerald" },
-  { label: "Property Types", href: "/admin/property-types", icon: "🏷️", cls: "ap-quick-action--amber" },
-  { label: "Amenities", href: "/admin/amenities", icon: "⭐", cls: "ap-quick-action--purple" },
-  { label: "Testimonials", href: "/admin/cms/testimonials", icon: "💬", cls: "ap-quick-action--pink" },
-  { label: "Theme Settings", href: "/admin/theme", icon: "🎨", cls: "ap-quick-action--indigo" },
+  { label: "Add Property", href: "/properties/add", icon: "🏠", cls: "ap-quick-action--blue" },
+  { label: "Write Blog", href: "/blogs/add", icon: "✍️", cls: "ap-quick-action--emerald" },
+  { label: "Property Types", href: "/property-types", icon: "🏷️", cls: "ap-quick-action--amber" },
+  { label: "Amenities", href: "/amenities", icon: "⭐", cls: "ap-quick-action--purple" },
+  { label: "Testimonials", href: "/cms/testimonials", icon: "💬", cls: "ap-quick-action--pink" },
+  { label: "Theme Settings", href: "/theme", icon: "🎨", cls: "ap-quick-action--indigo" },
 ];
 
 const PROGRESS_BARS = [

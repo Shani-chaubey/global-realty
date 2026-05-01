@@ -44,9 +44,9 @@ const PropertySchema = new mongoose.Schema(
     },
 
     address: { type: String, default: "" },
-    city: { type: String, default: "" },
-    state: { type: String, default: "" },
-    country: { type: String, default: "India" },
+    city: { type: mongoose.Schema.Types.Mixed, default: null },     // ObjectId ref or legacy string
+    state: { type: mongoose.Schema.Types.Mixed, default: null },    // ObjectId ref or legacy string
+    country: { type: mongoose.Schema.Types.Mixed, default: null },  // ObjectId ref or legacy string
     pincode: { type: String, default: "" },
     latitude: { type: Number },
     longitude: { type: Number },

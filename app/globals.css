@@ -1,71 +1,164 @@
-/* Dark mode — class-based (.dark on html element) */
+/* ── Design System: CSS Variables + Dark Mode (data-theme attribute) ── */
 
 :root {
+  /* Brand color (set dynamically by ThemeLoader) */
   --color-primary: #dc3545;
   --color-primary-hover: #c82333;
-  --bg-body: #ffffff;
-  --bg-surface: #f8f9fa;
-  --text-heading: #1a1a2e;
-  --text-default: #555;
-  --text-muted: #888;
+
+  /* Theme system — dynamic CSS variables (updated by ThemeLoader via JS) */
+  --primary: #dc3545;
+  --primary-hover: rgba(220, 53, 69, 0.82);
+  --primary-light: rgba(220, 53, 69, 0.12);
+  --primary-section-bg: rgba(220, 53, 69, 0.06);
+  --primary-rgb: 220, 53, 69;
+
+  /* Design system — light mode */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
   --border-color: #e5e7eb;
-}
-
-.dark {
-  --bg-body: #111827;
-  --bg-surface: #1f2937;
-  --text-heading: #f9fafb;
-  --text-default: #d1d5db;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
   --text-muted: #9ca3af;
-  --border-color: #374151;
+  --sidebar-bg: #1a1f2e;
+  --sidebar-text: #e2e8f0;
+  --sidebar-active-bg: rgba(255, 255, 255, 0.12);
+  --sidebar-active-text: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #e2e8f0;
+  --table-header-bg: #f0f4ff;
+  --table-row-hover: #f8fafc;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  /* Legacy aliases for backward compat */
+  --bg-body: var(--bg-primary);
+  --bg-surface: var(--bg-secondary);
+  --text-heading: var(--text-primary);
+  --text-default: var(--text-secondary);
+
+  /* Jodit editor */
+  --jodit-bg: #ffffff;
+  --jodit-color: #111827;
 }
 
-/* Apply dark mode to body */
-.dark body {
-  background-color: var(--bg-body);
-  color: var(--text-default);
-}
+[data-theme="dark"] {
+  /* Design system — dark mode */
+  --bg-primary: #0f1117;
+  --bg-secondary: #161b27;
+  --bg-card: #1e2433;
+  --border-color: #2d3748;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --sidebar-bg: #0d1117;
+  --sidebar-text: #cbd5e1;
+  --sidebar-active-bg: #3b82f6;
+  --sidebar-active-text: #ffffff;
+  --input-bg: #1e2433;
+  --input-border: #2d3748;
+  --table-header-bg: #1a2235;
+  --table-row-hover: #212a3e;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 
-/* Dark mode for common elements */
-.dark .bg-white {
-  background-color: var(--bg-surface) !important;
-}
+  /* Legacy aliases */
+  --bg-body: var(--bg-primary);
+  --bg-surface: var(--bg-secondary);
+  --text-heading: var(--text-primary);
+  --text-default: var(--text-secondary);
 
-/* Admin card stays dark in dark mode regardless of bg-white */
-.dark .admin-card {
-  background: #111827 !important;
-  border-color: #1e293b !important;
-}
-
-.dark .bg-dashboard,
-.dark .bg-4 {
-  background-color: var(--bg-body) !important;
-}
-
-.dark .text-color-heading {
-  color: var(--text-heading) !important;
-}
-
-.dark .text-color-default {
-  color: var(--text-default) !important;
-}
-
-/* Smooth dark mode transition */
-body,
-body * {
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-/* Jodit editor dark variables */
-.dark {
+  /* Jodit editor */
   --jodit-bg: #1f2937;
   --jodit-color: #f9fafb;
 }
 
-/* Custom primary color for Tailwind */
+/* ── Template Primary-Color Overrides (replaces hardcoded #F1913D) ── */
+/* These override the template's own CSS which hard-codes the orange brand color.
+   --color-primary is set dynamically by ThemeLoader from the admin settings. */
+
+.bg-color-primary,
+.flat-tag.bg-main,
+.btn-add-list {
+  background-color: var(--color-primary) !important;
+}
+
+.text-color-primary,
+a.text-color-primary,
+span.text-color-primary {
+  color: var(--color-primary) !important;
+}
+
+.tf-btn.bg-color-primary,
+a.tf-btn.bg-color-primary,
+button.tf-btn.bg-color-primary {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.tf-btn.style-border,
+a.tf-btn.style-border {
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
+}
+
+.tf-btn.style-border:hover,
+a.tf-btn.style-border:hover {
+  background-color: var(--color-primary) !important;
+  color: #fff !important;
+}
+
+.tf-btn-link span,
+.tf-btn-link svg path {
+  color: var(--color-primary) !important;
+  stroke: var(--color-primary) !important;
+}
+
+.wg-pagination li.active a,
+.wg-pagination li.active button {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.lst-cat-pill--active {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #fff !important;
+}
+
+/* Apply dark background to body */
+[data-theme="dark"] body {
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+}
+
+/* Dark mode for common Bootstrap / utility elements */
+[data-theme="dark"] .bg-white {
+  background-color: var(--bg-card) !important;
+}
+
+[data-theme="dark"] .bg-dashboard,
+[data-theme="dark"] .bg-4 {
+  background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .text-color-heading {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .text-color-default {
+  color: var(--text-secondary) !important;
+}
+
+/* Smooth transitions on all elements */
+body,
+body * {
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* Custom primary color utilities */
 .text-primary {
   color: var(--color-primary) !important;
 }
@@ -102,7 +195,6 @@ body * {
   font-weight: 700;
   line-height: 1.3;
 }
-
 .blog-content p {
   margin: 1em 0;
   line-height: 1.8;
@@ -145,37 +237,37 @@ body * {
   border-radius: 4px;
   font-size: 0.9em;
 }
-.dark .blog-content code {
-  background: #374151;
+[data-theme="dark"] .blog-content code {
+  background: #2d3748;
 }
 
-/* ── Admin UI ─────────────────────────────────────────────── */
+/* ── Admin UI ──────────────────────────────────────────────── */
 
-/* Reusable glass card used by all admin pages */
+/* Reusable card used by all admin pages */
 .admin-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
-  box-shadow: 0 10px 28px -16px rgba(15, 23, 42, 0.3), 0 8px 16px -12px rgba(15, 23, 42, 0.2);
+  box-shadow: var(--shadow);
 }
 
-.dark .admin-card {
-  background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
-  border-color: #243247;
+[data-theme="dark"] .admin-card {
+  background: var(--bg-card);
+  border-color: var(--border-color);
   box-shadow: 0 8px 20px -14px rgba(2, 6, 23, 0.7);
+}
+
+/* Prevent the global override from killing admin cards */
+[data-theme="dark"] .admin-app .admin-card {
+  background: var(--bg-card) !important;
 }
 
 /* Inner section dividers inside admin cards */
 .admin-card-section {
   padding: 1.25rem 1.5rem;
 }
-
 .admin-card-section + .admin-card-section {
-  border-top: 1px solid #e2e8f0;
-}
-
-.dark .admin-card-section + .admin-card-section {
-  border-color: #1e293b;
+  border-top: 1px solid var(--border-color);
 }
 
 /* Page title */
@@ -195,7 +287,19 @@ body * {
   letter-spacing: -0.03em;
 }
 
-/* Prevent the global .dark .bg-white override from killing admin cards */
-.dark .admin-app .admin-card {
-  background: #111827 !important;
+/* Dark-mode scrollbar styling */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: #2d3748;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+

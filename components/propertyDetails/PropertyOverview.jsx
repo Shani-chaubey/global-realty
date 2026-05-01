@@ -8,7 +8,10 @@ export default function PropertyOverview({ property }) {
     return `₹${Number(price).toLocaleString("en-IN")}`;
   };
 
-  const primaryImage = property.images?.find((i) => i.isPrimary) || property.images?.[0];
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
+  const detailPath = `/property-detail/${property.slug || property._id || ""}`;
+  const absoluteUrl = baseUrl ? `${baseUrl}${detailPath}` : "";
+  const whatsappText = `${property.title}${absoluteUrl ? ` - ${absoluteUrl}` : ""}`;
 
   return (
     <>
@@ -46,7 +49,7 @@ export default function PropertyOverview({ property }) {
           <ul className="list-action">
             <li>
               <a
-                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(property.title + " - " + typeof window !== "undefined" ? window.location.href : "")}`}
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappText)}`}
                 target="_blank"
                 rel="noreferrer"
               >

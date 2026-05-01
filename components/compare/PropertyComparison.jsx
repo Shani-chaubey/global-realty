@@ -74,7 +74,7 @@ export default function PropertyComparison() {
       <div className="lst-empty">
         <div className="lst-empty__icon">🏠</div>
         <h3 className="lst-empty__title">No Properties to Compare</h3>
-        <p className="lst-empty__text">Add properties to compare by clicking the compare button on property listings</p>
+        <p className="lst-empty__text">Add properties to compare by clicking the compare button on Propertiess</p>
         <Link href="/properties" className="tf-btn bg-color-primary">Browse Properties</Link>
       </div>
     );
@@ -123,7 +123,7 @@ export default function PropertyComparison() {
                         {img && (
                           <Image src={img.url} alt={p.title} width={160} height={100} style={{ width: "100%", height: "6rem", objectFit: "cover", borderRadius: "0.5rem", marginBottom: "0.5rem" }} />
                         )}
-                        <Link href={`/property-detail-v1/${p.slug || p._id}`} className="det-compare-prop-title">{p.title}</Link>
+                        <Link href={`/property-detail/${p.slug || p._id}`} className="det-compare-prop-title">{p.title}</Link>
                         <p style={{ fontSize: "0.75rem", color: "#9ca3af", marginTop: "0.25rem" }}>{p.city}</p>
                       </div>
                     </th>

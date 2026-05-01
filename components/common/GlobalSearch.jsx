@@ -96,7 +96,7 @@ export default function GlobalSearch() {
                       return (
                         <Link
                           key={p._id}
-                          href={`/property-detail-v1/${p.slug || p._id}`}
+                          href={`/property-detail/${p.slug || p._id}`}
                           onClick={() => setOpen(false)}
                           className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                         >

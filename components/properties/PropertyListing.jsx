@@ -21,7 +21,7 @@ function PropertyCard({ property, viewMode }) {
     return (
       <div className="homeya-box style-list">
         <div className="archive-top" style={{ display: "flex" }}>
-          <Link href={`/property-detail-v1/${property.slug || property._id}`} style={{ flexShrink: 0 }}>
+          <Link href={`/property-detail/${property.slug || property._id}`} style={{ flexShrink: 0 }}>
             <Image
               src={primaryImage?.url || "/images/section/box-house.jpg"}
               alt={property.title}
@@ -37,7 +37,7 @@ function PropertyCard({ property, viewMode }) {
                   <StatusBadge status={property.status} />
                   <span className="lst-listing-type-badge">{property.listingType}</span>
                 </div>
-                <Link href={`/property-detail-v1/${property.slug || property._id}`} className="text-lg fw-6 text-color-heading hover:text-primary" style={{ overflow: "hidden", display: "-webkit-box", WebkitBoxOrient: "vertical", WebkitLineClamp: 1 }}>
+                <Link href={`/property-detail/${property.slug || property._id}`} className="text-lg fw-6 text-color-heading hover:text-primary" style={{ overflow: "hidden", display: "-webkit-box", WebkitBoxOrient: "vertical", WebkitLineClamp: 1 }}>
                   {property.title}
                 </Link>
                 <p className="text-sm text-color-default" style={{ marginTop: "0.25rem", display: "flex", alignItems: "center", gap: "0.25rem" }}>
@@ -64,7 +64,7 @@ function PropertyCard({ property, viewMode }) {
   return (
     <div className="homeya-box">
       <div className="archive-top">
-        <Link href={`/property-detail-v1/${property.slug || property._id}`}>
+        <Link href={`/property-detail/${property.slug || property._id}`}>
           <div className="images-group">
             <div className="images-style" style={{ height: 220, overflow: "hidden" }}>
               <Image
@@ -92,7 +92,7 @@ function PropertyCard({ property, viewMode }) {
       <div className="archive-bottom">
         <div className="content-box">
           <div className="title">
-            <Link href={`/property-detail-v1/${property.slug || property._id}`} className="link" style={{ overflow: "hidden", display: "-webkit-box", WebkitBoxOrient: "vertical", WebkitLineClamp: 2 }}>
+            <Link href={`/property-detail/${property.slug || property._id}`} className="link" style={{ overflow: "hidden", display: "-webkit-box", WebkitBoxOrient: "vertical", WebkitLineClamp: 2 }}>
               {property.title}
             </Link>
           </div>

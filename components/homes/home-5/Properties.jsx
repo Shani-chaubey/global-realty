@@ -79,7 +79,7 @@ export default function Properties() {
                         style={{ display: "block" }}
                       >
                         <div className="image-wrap">
-                          <Link href={`/property-detail-v1/${property.id}`}>
+                          <Link href={`/property-detail/${property.id}`}>
                             <Image
                               className=" ls-is-cached lazyloaded"
                               alt=""
@@ -109,7 +109,7 @@ export default function Properties() {
                         </div>
                         <div className="content">
                           <h5 className="title">
-                            <Link href={`/property-detail-v1/${property.id}`}>
+                            <Link href={`/property-detail/${property.id}`}>
                               {property.title}
                             </Link>
                           </h5>
@@ -140,7 +140,7 @@ export default function Properties() {
                                 Compare
                               </a>
                               <Link
-                                href={`/property-detail-v1/${property.id}`}
+                                href={`/property-detail/${property.id}`}
                                 className="tf-btn style-border pd-4"
                               >
                                 Details

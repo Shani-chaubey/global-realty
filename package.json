@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed:dashboard": "node scripts/seed-dashboard.js",
-    "seed:data": "node scripts/seed-data.js"
+    "seed:data": "node scripts/seed-data.js",
+    "seed:bulk": "node scripts/seed-bulk-real-estate-data.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -21,6 +22,7 @@
     "cloudinary": "^2.10.0",
     "country-state-city": "^3.2.1",
     "dotenv": "^17.4.2",
+    "framer-motion": "^12.38.0",
     "gsap": "^3.12.7",
     "gsap-trial": "^3.12.7",
     "jodit-react": "^5.3.21",

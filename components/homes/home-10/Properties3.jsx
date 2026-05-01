@@ -71,7 +71,7 @@ export default function Properties3() {
             {properties9.map((property) => (
               <div className="box-house style-5 element" key={property.id}>
                 <div className="image-wrap">
-                  <Link href={`/property-detail-v1/${property.id}`}>
+                  <Link href={`/property-detail/${property.id}`}>
                     <Image
                       className="lazyload"
                       data-src={property.imageSrc}
@@ -86,7 +86,7 @@ export default function Properties3() {
                   <div className="heading">
                     <div className="left">
                       <div className="title text-13 fw-6">
-                        <Link href={`/property-detail-v1/${property.id}`}>
+                        <Link href={`/property-detail/${property.id}`}>
                           {property.title}
                         </Link>
                       </div>
@@ -119,7 +119,7 @@ export default function Properties3() {
                     </div>
                     <div className="wrap-btn flex">
                       <Link
-                        href={`/property-detail-v1/${property.id}`}
+                        href={`/property-detail/${property.id}`}
                         className="tf-btn style-border pd-4"
                       >
                         Details

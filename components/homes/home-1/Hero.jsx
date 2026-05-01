@@ -2,29 +2,29 @@
 import SearchForm from "@/components/common/SearchForm";
 import React, { useState } from "react";
 
-export default function Hero() {
-  // State to track the active item
+export default function Hero({ heroSlides = [] }) {
   const [activeItem, setActiveItem] = useState("For sale");
-
-  // Array of items to render
   const items = ["For sale", "For rent"];
+
+  const firstSlide = heroSlides[0];
+  const heroTitle = firstSlide?.title || "Search Luxury Homes";
+  const heroSubtitle =
+    firstSlide?.subtitle ||
+    "Thousands of luxury home enthusiasts just like you visit our website.";
 
   return (
     <div className="page-title home01">
-      <div className="tf-container ">
+      <div className="tf-container">
         <div className="row justify-center relative">
-          <div className="col-lg-8 ">
+          <div className="col-lg-8">
             <div className="content-inner">
               <div className="heading-title">
-                <h1 className="title">Search Luxury Homes</h1>
-                <p className="h6 fw-4">
-                  Thousands of luxury home enthusiasts just like you visit our
-                  website.
-                </p>
+                <h1 className="title">{heroTitle}</h1>
+                <p className="h6 fw-4">{heroSubtitle}</p>
               </div>
               <div className="wg-filter">
                 <div className="form-title">
-                  <div className="tf-dropdown-sort " data-bs-toggle="dropdown">
+                  <div className="tf-dropdown-sort" data-bs-toggle="dropdown">
                     <div className="btn-select">
                       <span className="text-sort-value">{activeItem}</span>
                       <i className="icon-CaretDown" />
@@ -36,7 +36,7 @@ export default function Hero() {
                           className={`select-item ${
                             activeItem === item ? "active" : ""
                           }`}
-                          onClick={() => setActiveItem(item)} // Set the active item on click
+                          onClick={() => setActiveItem(item)}
                         >
                           <span className="text-value-item">{item}</span>
                         </div>
@@ -61,73 +61,19 @@ export default function Hero() {
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
                         >
-                          <path
-                            d="M21 4H14"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M10 4H3"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M21 12H12"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M8 12H3"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M21 20H16"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M12 20H3"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M14 2V6"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M8 10V14"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M16 18V22"
-                            stroke="#F1913D"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
+                          <path d="M21 4H14" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M10 4H3" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M21 12H12" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M8 12H3" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M21 20H16" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M12 20H3" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M14 2V6" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M8 10V14" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M16 18V22" stroke="var(--color-primary, #F1913D)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
                     </div>
-                    <a href="#" className="tf-btn bg-color-primary pd-3">
+                    <a href="/properties" className="tf-btn bg-color-primary pd-3">
                       Search <i className="icon-MagnifyingGlass fw-6" />
                     </a>
                   </div>

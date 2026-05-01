@@ -14,7 +14,7 @@ export default function Properties() {
           <div className="col-12">
             <div className="heading-section text-center mb-57 gap-30">
               <h2 className="title split-text effect-right">
-                <SplitTextAnimation text="Explore the latest property listings" />
+                <SplitTextAnimation text="Explore the latest Propertiess" />
               </h2>
               <p className="text-1 split-text split-lines-transform">
                 Proin auctor, mauris at tristique ullamcorper, nunc nisi
@@ -58,7 +58,7 @@ export default function Properties() {
                     data-wow-delay={slide.delay}
                   >
                     <div className="image-wrap">
-                      <Link href={`/property-detail-v1/${slide.id}`}>
+                      <Link href={`/property-detail/${slide.id}`}>
                         <Image
                           className="lazyload"
                           data-src={slide.imageSrc}
@@ -97,7 +97,7 @@ export default function Properties() {
                     </div>
                     <div className="content">
                       <h5 className="title">
-                        <Link href={`/property-detail-v1/${slide.id}`}>
+                        <Link href={`/property-detail/${slide.id}`}>
                           {slide.title}
                         </Link>
                       </h5>

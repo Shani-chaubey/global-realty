@@ -204,7 +204,7 @@ async function seed() {
   if (seoCount === 0) {
     await db.collection("seometas").insertMany([
       { page: "home", title: "Proty Real Estate | Buy Rent Sell Properties", description: "Explore verified properties for sale and rent across top cities.", keywords: "real estate, properties, apartments, villas", ogImage: "", createdAt: now, updatedAt: now },
-      { page: "properties", title: "Property Listings | Proty", description: "Browse available homes, villas and apartments with filters.", keywords: "property listings, buy home, rent apartment", ogImage: "", createdAt: now, updatedAt: now },
+      { page: "properties", title: "Propertiess | Proty", description: "Browse available homes, villas and apartments with filters.", keywords: "Propertiess, buy home, rent apartment", ogImage: "", createdAt: now, updatedAt: now },
       { page: "blog", title: "Real Estate Blog | Proty", description: "Guides, tips and market insights from experts.", keywords: "real estate blog, home buying tips, investment", ogImage: "", createdAt: now, updatedAt: now },
       { page: "contact", title: "Contact Proty Real Estate", description: "Get in touch with our support and sales team.", keywords: "contact real estate", ogImage: "", createdAt: now, updatedAt: now },
     ]);
@@ -229,7 +229,7 @@ async function seed() {
       { question: "How do I search for properties?", answer: "Use our advanced search feature on the Properties page. You can filter by location, price range, property type, number of bedrooms, and many more criteria.", category: "general", order: 1, isActive: true, createdAt: new Date(), updatedAt: new Date() },
       { question: "Is it free to list a property?", answer: "We offer both free and premium listing options. Basic listings are free, while premium listings with featured placement and enhanced visibility are available at competitive rates.", category: "listing", order: 2, isActive: true, createdAt: new Date(), updatedAt: new Date() },
       { question: "How do I contact a property seller?", answer: "On any property detail page, you'll find a contact form. Fill in your details and message, and the seller/agent will reach out to you directly.", category: "general", order: 3, isActive: true, createdAt: new Date(), updatedAt: new Date() },
-      { question: "Can I compare multiple properties?", answer: "Yes! You can compare up to 4 properties side-by-side using our comparison tool. Just click the Compare button on any property listing.", category: "features", order: 4, isActive: true, createdAt: new Date(), updatedAt: new Date() },
+      { question: "Can I compare multiple properties?", answer: "Yes! You can compare up to 4 properties side-by-side using our comparison tool. Just click the Compare button on any Properties.", category: "features", order: 4, isActive: true, createdAt: new Date(), updatedAt: new Date() },
     ]);
     console.log("✓ FAQs seeded");
   }

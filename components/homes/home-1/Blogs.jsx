@@ -1,14 +1,39 @@
 "use client";
-import { blogPosts } from "@/data/blogs";
+import { blogPosts as FALLBACK_BLOGS } from "@/data/blogs";
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Link from "next/link";
 import Image from "next/image";
 import SplitTextAnimation from "@/components/common/SplitTextAnimation";
 import { Pagination } from "swiper/modules";
-export default function Blogs() {
+
+function formatDate(dateStr) {
+  if (!dateStr) return "";
+  try {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+export default function Blogs({ blogs: dbBlogs = [] }) {
+  const posts = dbBlogs.length > 0 ? dbBlogs : FALLBACK_BLOGS;
+
+  const normalizedPosts = posts.map((p) => ({
+    id: p._id || p.id,
+    slug: p.slug || p._id || p.id,
+    title: p.title,
+    imgSrc: p.featuredImage || p.imgSrc || "/images/listings/house-1.jpg",
+    tag: p.category?.name || p.tag || "Blog",
+    date: formatDate(p.publishedAt || p.createdAt) || p.date || "",
+  }));
+
   return (
-    <section className="section-opinion ">
+    <section className="section-opinion">
       <div className="tf-container">
         <div className="row">
           <div className="col-12">
@@ -26,32 +51,21 @@ export default function Blogs() {
               className="swiper style-pagination sw-layout"
               breakpoints={{
                 0: { slidesPerView: 1 },
-                575: {
-                  slidesPerView: 2,
-                },
-                768: {
-                  slidesPerView: 3,
-                  spaceBetween: 20,
-                },
-                992: {
-                  slidesPerView: 3,
-                  spaceBetween: 40,
-                },
+                575: { slidesPerView: 2 },
+                768: { slidesPerView: 3, spaceBetween: 20 },
+                992: { slidesPerView: 3, spaceBetween: 40 },
               }}
               modules={[Pagination]}
-              pagination={{
-                el: ".spd3",
-              }}
+              pagination={{ el: ".spd3" }}
             >
-              {blogPosts.map((post, index) => (
-                <SwiperSlide className="swiper-slide" key={index}>
+              {normalizedPosts.map((post, index) => (
+                <SwiperSlide className="swiper-slide" key={post.id || index}>
                   <div className="blog-article-item style-2 hover-img">
                     <div className="image-wrap">
-                      <Link href={`/blog-details/${post.id}`}>
+                      <Link href={`/blog-details/${post.slug}`}>
                         <Image
                           className="lazyload"
-                          data-src={post.imgSrc}
-                          alt=""
+                          alt={post.title}
                           src={post.imgSrc}
                           width={600}
                           height={396}
@@ -64,24 +78,23 @@ export default function Blogs() {
                       </div>
                     </div>
                     <div className="article-content">
-                      <div className="time">
-                        <div className="icons">
-                          <i className="icon-clock" />
+                      {post.date && (
+                        <div className="time">
+                          <div className="icons">
+                            <i className="icon-clock" />
+                          </div>
+                          <p className="fw-5">{post.date}</p>
                         </div>
-                        <p className="fw-5">{post.date}</p>
-                      </div>
+                      )}
                       <h4 className="title">
                         <Link
-                          href={`/blog-details/${post.id}`}
+                          href={`/blog-details/${post.slug}`}
                           className="line-clamp-2"
                         >
                           {post.title}
                         </Link>
                       </h4>
-                      <Link
-                        href={`/blog-details/${post.id}`}
-                        className="tf-btn-link"
-                      >
+                      <Link href={`/blog-details/${post.slug}`} className="tf-btn-link">
                         <span>Read More</span>{" "}
                         <i className="icon-circle-arrow" />
                       </Link>
@@ -89,8 +102,7 @@ export default function Blogs() {
                   </div>
                 </SwiperSlide>
               ))}
-
-              <div className="sw-pagination sw-pagination-layout text-center d-lg-none d-block mt-20 spd3"></div>
+              <div className="sw-pagination sw-pagination-layout text-center d-lg-none d-block mt-20 spd3" />
             </Swiper>
           </div>
         </div>

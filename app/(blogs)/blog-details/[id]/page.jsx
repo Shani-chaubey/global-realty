@@ -1,22 +1,49 @@
-import BlogDetails from "@/components/blogs/BlogDetails";
-import Blogs2 from "@/components/blogs/Blogs2";
+import BlogDetailsClient from "@/components/blogs/BlogDetailsClient";
 import RelatedBlogs from "@/components/blogs/RelatedBlogs";
-
 import Breadcumb from "@/components/common/Breadcumb";
 import Cta from "@/components/common/Cta";
 import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
-import { allBlogs } from "@/data/blogs";
-import React from "react";
+import connectDB from "@/lib/mongoose";
+import Blog from "@/models/Blog";
+import { notFound, redirect } from "next/navigation";
+import mongoose from "mongoose";
 
-export const metadata = {
-  title: "Blog Details || Proty - Real Estate React Nextjs Template",
-  description: "Proty - Real Estate React Nextjs Template",
-};
+async function getBlog(id) {
+  try {
+    await connectDB();
+    let blog = null;
+
+    // Slug-first for canonical URLs
+    blog = await Blog.findOne({ slug: id }).populate("category", "name slug").lean();
+    if (!blog && mongoose.isValidObjectId(id)) {
+      blog = await Blog.findById(id).populate("category", "name slug").lean();
+    }
+
+    if (!blog) return null;
+    return JSON.parse(JSON.stringify(blog));
+  } catch {
+    return null;
+  }
+}
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const blog = await getBlog(id);
+  return {
+    title: blog ? `${blog.title} | Blog` : "Blog Details | Global Realty",
+    description: blog?.excerpt || "Read our latest real estate insights",
+  };
+}
+
 export default async function page({ params }) {
   const { id } = await params;
+  const blog = await getBlog(id);
 
-  const blog = allBlogs.filter((elm) => elm.id == id)[0] || allBlogs[0];
+  if (!blog) notFound();
+  if (blog.slug && id !== blog.slug) {
+    redirect(`/blog-details/${blog.slug}`);
+  }
 
   return (
     <>
@@ -24,8 +51,8 @@ export default async function page({ params }) {
         <Header1 />
         <div className="main-content">
           <Breadcumb pageName="Blog Details" />
-          <BlogDetails blog={blog} />
-          <RelatedBlogs />
+          <BlogDetailsClient blog={blog} />
+          <RelatedBlogs currentId={blog._id} categoryId={blog.category?._id} />
           <Cta />
         </div>
         <Footer1 />

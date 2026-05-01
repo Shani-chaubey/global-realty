@@ -31,7 +31,7 @@ export default function Property({ properties = [] }) {
                           </div>
                           <div className="content">
                             <div className="title">
-                              <Link href={`/property-detail-v1/${property.id}`} className="link">
+                              <Link href={`/property-detail/${property.id}`} className="link">
                                 {property.title}
                               </Link>
                             </div>

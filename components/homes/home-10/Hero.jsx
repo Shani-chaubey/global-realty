@@ -346,7 +346,7 @@ export default function Hero() {
                         {slide.location}
                       </div>
                       <Link
-                        href={`/property-detail-v1/${slide.id}`}
+                        href={`/property-detail/${slide.id}`}
                         className="tf-btn"
                       >
                         <svg
