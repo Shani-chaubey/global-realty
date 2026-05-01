@@ -12,7 +12,55 @@ import PropertyNearby from "./PropertyNearby";
 import Reviews from "./Reviews";
 import Sidebar from "./Sidebar";
 
+const getImageUrl = (img) => {
+  if (!img) return "";
+  if (typeof img === "string") return img;
+  if (typeof img === "object") {
+    return (
+      img.url || img.src || img.image || img.imageUrl || img.secure_url || ""
+    );
+  }
+  return "";
+};
+
 export default function Details1({ property }) {
+  const videoUrl = property?.videoUrl || property?.video || "";
+  const videoPoster =
+    getImageUrl((property?.images || [])[0]) ||
+    "/images/section/property-detail.jpg";
+  const virtualTourUrl =
+    property?.virtualTourUrl || property?.virtualTour || "";
+  const hasMap = !!(
+    property?.mapEmbedUrl ||
+    (property?.latitude && property?.longitude)
+  );
+  const hasFloor =
+    Array.isArray(property?.floorPlans) && property.floorPlans.length > 0;
+  const hasAttach =
+    Array.isArray(property?.attachments) && property.attachments.length > 0;
+  const hasNearby =
+    Array.isArray(property?.nearby) && property.nearby.length > 0;
+  const hasAmenities =
+    Array.isArray(property?.amenities) && property.amenities.length > 0;
+  const hasFeatures =
+    Array.isArray(property?.features) && property.features.length > 0;
+  const hasDescription = Boolean(
+    (property?.description || "").replace(/<[^>]*>/g, "").trim()
+  );
+  const hasDetailFacts = Boolean(
+    property?.price ||
+      property?.builtUpArea ||
+      property?.bedrooms ||
+      property?.bathrooms ||
+      property?.rooms ||
+      property?.yearBuilt ||
+      property?.garages ||
+      property?.propertyType ||
+      property?.propertySubType
+  );
+  const hasExtraInfo = hasDescription || hasDetailFacts;
+  const hasLoanData = Number(property?.price) > 0;
+
   return (
     <section className="section-property-detail">
       <div className="tf-container">
@@ -21,36 +69,70 @@ export default function Details1({ property }) {
             <div className="wg-property box-overview">
               <PropertyOverview property={property} />
             </div>
-            {property?.videoUrl && (
-              <div className="wg-property video">
-                <VideoReview videoUrl={property.videoUrl} />
+
+            {hasExtraInfo && (
+              <div className="wg-property box-property-detail">
+                <ExtraInfo property={property} />
               </div>
             )}
-            <div className="wg-property box-property-detail">
-              <ExtraInfo property={property} />
-            </div>
-            {property?.amenities?.length > 0 && (
+
+            {(hasAmenities || hasFeatures) && (
               <div className="wg-property box-amenities">
-                <Features amenities={property.amenities} features={property.features} />
+                <Features
+                  amenities={property.amenities}
+                  features={property.features}
+                />
               </div>
             )}
-            {(property?.mapEmbedUrl || (property?.latitude && property?.longitude)) && (
+
+            {hasMap && (
               <div className="wg-property single-property-map">
                 <Location property={property} />
               </div>
             )}
-            {property?.virtualTourUrl && (
-              <div className="wg-property box-virtual-tour">
-                <VirtualTour url={property.virtualTourUrl} />
+
+            {hasNearby && (
+              <div className="wg-property single-property-nearby">
+                <PropertyNearby nearby={property.nearby} />
               </div>
             )}
-            <div className="wg-property box-loan">
-              <LoanCalculator price={property?.price} />
-            </div>
-            <div className="wg-property mb-0 box-comment">
-              <Reviews propertyId={property?._id} />
-            </div>
+
+            {hasFloor && (
+              <div className="wg-property single-property-floor">
+                <FloorPlan floorPlans={property.floorPlans} />
+              </div>
+            )}
+
+            {hasAttach && (
+              <div className="wg-property box-attachments">
+                <Attachments attachments={property.attachments} />
+              </div>
+            )}
+
+            {videoUrl && (
+              <div className="wg-property video">
+                <VideoReview videoUrl={videoUrl} posterSrc={videoPoster} />
+              </div>
+            )}
+
+            {virtualTourUrl && (
+              <div className="wg-property box-virtual-tour">
+                <VirtualTour url={virtualTourUrl} />
+              </div>
+            )}
+
+            {hasLoanData && (
+              <div className="wg-property box-loan">
+                <LoanCalculator price={property?.price} />
+              </div>
+            )}
+
+            <Reviews
+              propertyId={property?._id}
+              fallbackReviews={property?.reviews || []}
+            />
           </div>
+
           <div className="col-xl-4 col-lg-5">
             <Sidebar property={property} />
           </div>

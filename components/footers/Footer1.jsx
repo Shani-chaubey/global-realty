@@ -5,6 +5,22 @@ import Link from "next/link";
 import axios from "axios";
 import { footerData } from "@/data/footerLinks";
 export default function Footer1({ logo = "/images/logo/logo-2@2x.png" }) {
+  const [contactInfo, setContactInfo] = useState({ phone: "", email: "" });
+
+  useEffect(() => {
+    fetch("/api/website/contact-info")
+      .then((r) => r.json())
+      .then((res) => {
+        if (res?.data) {
+          setContactInfo({
+            phone: res.data.phones?.[0] || "",
+            email: res.data.emails?.[0] || "",
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     const headings = document.querySelectorAll(".title-mobile");
 
@@ -88,28 +104,32 @@ export default function Footer1({ logo = "/images/logo/logo-2@2x.png" }) {
                 </Link>
               </div>
               <div className="wrap-contact-item">
-                <div className="contact-item">
-                  <div className="icons">
-                    <i className="icon-phone-2" />
+                {contactInfo.phone && (
+                  <div className="contact-item">
+                    <div className="icons">
+                      <i className="icon-phone-2" />
+                    </div>
+                    <div className="content">
+                      <div className="title text-1">Call us</div>
+                      <h6>
+                        <a href={`tel:${contactInfo.phone}`}>{contactInfo.phone}</a>
+                      </h6>
+                    </div>
                   </div>
-                  <div className="content">
-                    <div className="title text-1">Call us</div>
-                    <h6>
-                      <a href="#"> (603) 555-0123</a>
-                    </h6>
+                )}
+                {contactInfo.email && (
+                  <div className="contact-item">
+                    <div className="icons">
+                      <i className="icon-letter-2" />
+                    </div>
+                    <div className="content">
+                      <div className="title text-1">Need live help</div>
+                      <h6 className="fw-4">
+                        <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+                      </h6>
+                    </div>
                   </div>
-                </div>
-                <div className="contact-item">
-                  <div className="icons">
-                    <i className="icon-letter-2" />
-                  </div>
-                  <div className="content">
-                    <div className="title text-1">Nee live help</div>
-                    <h6 className="fw-4">
-                      <a href="#">proty-support@gmail.com</a>
-                    </h6>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

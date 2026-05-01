@@ -11,6 +11,14 @@ const getCityLabel = (city) => {
   if (isObjectIdLike(city)) return "";
   return city || "";
 };
+const getImageSrc = (images) => {
+  if (!Array.isArray(images) || images.length === 0) return PLACEHOLDER;
+  const primary = images.find((i) => i && typeof i === "object" && i.isPrimary);
+  const candidate = primary || images[0];
+  if (typeof candidate === "string") return candidate || PLACEHOLDER;
+  if (candidate && typeof candidate === "object" && candidate.url) return candidate.url;
+  return PLACEHOLDER;
+};
 
 export default function PropertyListItems({ properties = [], showItems }) {
   const { addToCompare, removeFromCompare, isInCompare } = useComparison();
@@ -27,8 +35,7 @@ export default function PropertyListItems({ properties = [], showItems }) {
   return (
     <>
       {items.map((property) => {
-        const primaryImage = property.images?.find((i) => i.isPrimary) || property.images?.[0];
-        const imgSrc = primaryImage?.url || PLACEHOLDER;
+        const imgSrc = getImageSrc(property.images);
         const slug = property.slug || property._id;
         const inCompare = isInCompare(property._id);
 

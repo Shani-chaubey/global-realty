@@ -3,63 +3,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import SplitTextAnimation from "@/components/common/SplitTextAnimation";
 
-const FALLBACK_TESTIMONIALS = [
-  {
-    _id: "1",
-    name: "Annette Black",
-    role: "CEO Themesflat",
-    avatar: "/images/avatar/testimonials-4.jpg",
-    message:
-      "My experience with property management services has exceeded expectations. They efficiently manage properties with a professional and attentive approach in every situation.",
-    rating: 5,
-  },
-  {
-    _id: "2",
-    name: "Eleanor Pena",
-    role: "CEO Themesflat",
-    avatar: "/images/avatar/avt-png7.png",
-    message:
-      "In hac habitasse platea dictumst. Sed eleifend aliquam dui quis convallis. Sed aliquet eros sit amet metus rhoncus bibendum nec vel nunc. Nullam ac dapibus enim.",
-    rating: 5,
-  },
-  {
-    _id: "3",
-    name: "Floyd Miles",
-    role: "CEO Themesflat",
-    avatar: "/images/avatar/avt-png12.png",
-    message:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquam tempus urna id interdum. Proin iaculis erat id sapien venenatis convallis.",
-    rating: 5,
-  },
-  {
-    _id: "4",
-    name: "Cody Fisher",
-    role: "CEO Themesflat",
-    avatar: "/images/avatar/avt-png6.png",
-    message:
-      "Vivamus at nisl ornare, vulputate turpis finibus, posuere metus. Donec in placerat felis. Praesent ante tellus, dignissim nec imperdiet ac.",
-    rating: 5,
-  },
-  {
-    _id: "5",
-    name: "Ralph Edwards",
-    role: "CEO Themesflat",
-    avatar: "/images/avatar/avt-png5.png",
-    message:
-      "Quisque tincidunt, nunc vitae maximus lobortis, tellus risus fringilla mi, pulvinar feugiat lacus ipsum nec tortor. Aliquam a venenatis orci.",
-    rating: 5,
-  },
-  {
-    _id: "6",
-    name: "Jacob Jones",
-    role: "CEO Themesflat",
-    avatar: "/images/avatar/avt-png8.png",
-    message:
-      "Outstanding service from start to finish. The team was professional, responsive, and truly understood our needs. We found our dream home!",
-    rating: 5,
-  },
-];
-
 function StarRating({ rating = 5 }) {
   return (
     <div className="ratings">
@@ -72,8 +15,8 @@ function StarRating({ rating = 5 }) {
 
 export default function Testimonials({ testimonials: dbTestimonials = [] }) {
   const [showMore, setShowMore] = useState(false);
-  const items =
-    dbTestimonials.length > 0 ? dbTestimonials : FALLBACK_TESTIMONIALS;
+  const items = dbTestimonials.filter((t) => t?.message || t?.review || t?.content);
+  if (!items.length) return null;
 
   // Group items into columns of 3
   const firstCol = items.slice(0, 3);
@@ -88,32 +31,13 @@ export default function Testimonials({ testimonials: dbTestimonials = [] }) {
       </p>
       <div className="author">
         <div className="avatar">
-          {item.avatar ? (
-            <Image
-              alt={item.name}
-              src={item.avatar}
-              width={120}
-              height={120}
-              style={{ objectFit: "cover" }}
-            />
-          ) : (
-            <div
-              style={{
-                width: 51,
-                height: 51,
-                borderRadius: "50%",
-                background: "var(--color-primary, #dc3545)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#fff",
-                fontWeight: 700,
-                fontSize: "1.25rem",
-              }}
-            >
-              {item.name?.[0] || "?"}
-            </div>
-          )}
+          <Image
+            alt={item.name || ""}
+            src={item.avatar || "/images/avatar/avt-png5.png"}
+            width={120}
+            height={120}
+            unoptimized
+          />
         </div>
         <div className="content">
           <h6 className="name">

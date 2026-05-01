@@ -6,33 +6,67 @@ import api from "@/lib/axios";
 
 const COMPARE_KEY = "proty_compare";
 const MAX_COMPARE = 4;
+const COMPARE_EVENT = "proty_compare_changed";
+
+const readCompareIds = () => {
+  if (typeof window === "undefined") return [];
+  try {
+    const saved = localStorage.getItem(COMPARE_KEY);
+    const parsed = saved ? JSON.parse(saved) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
+const writeCompareIds = (ids) => {
+  if (typeof window === "undefined") return;
+  if (!ids.length) {
+    localStorage.removeItem(COMPARE_KEY);
+  } else {
+    localStorage.setItem(COMPARE_KEY, JSON.stringify(ids));
+  }
+  window.dispatchEvent(new CustomEvent(COMPARE_EVENT, { detail: ids }));
+};
 
 export function useComparison() {
   const [ids, setIds] = useState([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem(COMPARE_KEY);
-    if (saved) setIds(JSON.parse(saved));
+    setIds(readCompareIds());
+
+    const sync = () => setIds(readCompareIds());
+    window.addEventListener("storage", sync);
+    window.addEventListener(COMPARE_EVENT, sync);
+    return () => {
+      window.removeEventListener("storage", sync);
+      window.removeEventListener(COMPARE_EVENT, sync);
+    };
   }, []);
 
   const addToCompare = (id) => {
+    if (!id) return;
     setIds((prev) => {
       if (prev.includes(id) || prev.length >= MAX_COMPARE) return prev;
       const newIds = [...prev, id];
-      localStorage.setItem(COMPARE_KEY, JSON.stringify(newIds));
+      writeCompareIds(newIds);
       return newIds;
     });
   };
 
   const removeFromCompare = (id) => {
+    if (!id) return;
     setIds((prev) => {
       const newIds = prev.filter((i) => i !== id);
-      localStorage.setItem(COMPARE_KEY, JSON.stringify(newIds));
+      writeCompareIds(newIds);
       return newIds;
     });
   };
 
-  const clearAll = () => { setIds([]); localStorage.removeItem(COMPARE_KEY); };
+  const clearAll = () => {
+    setIds([]);
+    writeCompareIds([]);
+  };
   const isInCompare = (id) => ids.includes(id);
 
   return { ids, addToCompare, removeFromCompare, clearAll, isInCompare, count: ids.length };

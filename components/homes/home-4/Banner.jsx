@@ -41,7 +41,7 @@ export default function Banner() {
                     alt=""
                     width={366}
                     height={491}
-                    src="/images/section/person-1.png"
+                    src="/images/section/person-1.webp"
                   />
                 </div>
               </div>

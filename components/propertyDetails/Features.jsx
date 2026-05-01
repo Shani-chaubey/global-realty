@@ -1,66 +1,66 @@
 import React from "react";
 
-const CATEGORY_ORDER = ["indoor", "outdoor", "security", "utilities", "recreation", "other"];
-
 export default function Features({ amenities = [], features = [] }) {
-  const grouped = CATEGORY_ORDER.reduce((acc, cat) => {
-    const items = amenities.filter((a) => a.category === cat);
-    if (items.length) acc[cat] = items;
-    return acc;
-  }, {});
-
   if (!amenities.length && !features.length) return null;
+
+  // Chunk amenities into groups of ~5 for the 3-column layout
+  const chunkSize = Math.ceil(amenities.length / 3) || 5;
+  const col1 = amenities.slice(0, chunkSize);
+  const col2 = amenities.slice(chunkSize, chunkSize * 2);
+  const col3 = amenities.slice(chunkSize * 2);
 
   return (
     <>
-      <div className="wg-title text-11 fw-6 text-color-heading">Amenities & Features</div>
-
-      {amenities.length > 0 && (
-        <div className="wrap-feature">
-          {Object.entries(grouped).map(([category, items]) => (
-            <div key={category} className="box-feature">
-              <p className="text-4 fw-6 text-color-heading mb-10 capitalize">{category}</p>
-              <ul>
-                {items.map((amenity) => (
-                  <li key={amenity._id} className="feature-item">
-                    {amenity.icon && <span className="mr-1">{amenity.icon}</span>}
-                    {amenity.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-          {/* Items not yet grouped */}
-          {amenities.filter((a) => !CATEGORY_ORDER.includes(a.category)).length > 0 && (
-            <div className="box-feature">
-              <ul>
-                {amenities.filter((a) => !CATEGORY_ORDER.includes(a.category)).map((amenity) => (
-                  <li key={amenity._id} className="feature-item">
-                    {amenity.icon && <span className="mr-1">{amenity.icon}</span>}
-                    {amenity.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
-
-      {features.length > 0 && (
-        <div style={{ marginTop: "1.25rem" }}>
-          <p className="text-4 fw-6 text-color-heading mb-10">Property Details</p>
-          <table style={{ width: "100%", fontSize: "0.875rem", borderCollapse: "collapse" }}>
-            <tbody>
-              {features.map((f, i) => (
-                <tr key={i} style={{ background: i % 2 === 0 ? "#f9fafb" : "transparent" }}>
-                  <td style={{ padding: "0.5rem 0.75rem", fontWeight: 500 }} className="text-color-heading">{f.label}</td>
-                  <td style={{ padding: "0.5rem 0.75rem" }} className="text-color-default">{f.value}</td>
-                </tr>
+      <div className="wg-title text-11 fw-6 text-color-heading">
+        Amenities And Features
+      </div>
+      <div className="wrap-feature">
+        {col1.length > 0 && (
+          <div className="box-feature">
+            <ul>
+              {col1.map((a) => (
+                <li className="feature-item" key={a._id || a.name}>
+                  {a.name}
+                </li>
               ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+            </ul>
+          </div>
+        )}
+        {col2.length > 0 && (
+          <div className="box-feature">
+            <ul>
+              {col2.map((a) => (
+                <li className="feature-item" key={a._id || a.name}>
+                  {a.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {col3.length > 0 && (
+          <div className="box-feature">
+            <ul>
+              {col3.map((a) => (
+                <li className="feature-item" key={a._id || a.name}>
+                  {a.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {/* Extra custom features (key-value pairs) */}
+        {/* {features.length > 0 && (
+          <div className="box-feature">
+            <ul>
+              {features.map((f, i) => (
+                <li className="feature-item" key={i}>
+                  {f.label}: {f.value}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )} */}
+      </div>
     </>
   );
 }

@@ -54,7 +54,7 @@ export default function Partners() {
                 >
                   <Image
                     alt=""
-                    src="/images/section/person-1.png"
+                    src="/images/section/person-1.webp"
                     width={366}
                     height={491}
                   />

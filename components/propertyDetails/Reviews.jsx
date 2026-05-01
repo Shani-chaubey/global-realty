@@ -1,24 +1,49 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 import useSWR, { mutate } from "swr";
 import toast from "react-hot-toast";
 import api from "@/lib/axios";
 
 const fetcher = (url) => api.get(url).then((r) => r.data);
 
-export default function Reviews({ propertyId }) {
-  const { data, isLoading } = useSWR(
+const normalizeReview = (r = {}, idx = 0) => ({
+  _id: r._id || `local-${idx}-${r.name || "guest"}`,
+  name: r.name || "Guest User",
+  rating: Number(r.rating) > 0 ? Number(r.rating) : 5,
+  comment: r.comment || r.review || "",
+  createdAt: r.createdAt || new Date().toISOString(),
+  avatar: r.avatar || "/images/avatar/avatar-1.jpg",
+});
+
+export default function Reviews({ propertyId, fallbackReviews = [] }) {
+  const { data } = useSWR(
     propertyId ? `/reviews?propertyId=${propertyId}` : null,
     fetcher
   );
-  const reviews = data?.data || [];
+
+  const apiReviews = (data?.data || []).map((r, i) => normalizeReview(r, i));
+  const localReviews = (fallbackReviews || [])
+    .filter((r) => r?.isApproved !== false)
+    .map((r, i) => normalizeReview(r, i + 1000));
+
+  const mergedMap = new Map();
+  [...apiReviews, ...localReviews].forEach((r) => {
+    const key = r._id || `${r.name}-${r.comment}`;
+    if (!mergedMap.has(key)) mergedMap.set(key, r);
+  });
+
+  const reviews = Array.from(mergedMap.values()).sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+  const visibleReviews = reviews.slice(0, 5);
 
   const [form, setForm] = useState({ name: "", email: "", rating: 5, comment: "" });
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.comment) {
+    if (!form.name || !form.email || !form.comment) {
       toast.error("Please fill all fields");
       return;
     }
@@ -28,105 +53,119 @@ export default function Reviews({ propertyId }) {
       toast.success("Review submitted! It will appear after approval.");
       setForm({ name: "", email: "", rating: 5, comment: "" });
       mutate(`/reviews?propertyId=${propertyId}`);
-    } catch {
     } finally {
       setSubmitting(false);
     }
   };
 
-  const avgRating = reviews.length
-    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
-    : 0;
+  if (!visibleReviews.length) return null;
 
   return (
-    <>
-      <div className="wg-title text-11 fw-6 text-color-heading">
-        Reviews {reviews.length > 0 && `(${reviews.length})`}
-      </div>
-
-      {reviews.length > 0 && (
-        <div className="det-review-summary">
-          <div className="det-review-avg">
-            <span style={{ fontSize: "2.5rem", fontWeight: 700 }} className="text-color-heading">{avgRating}</span>
-            <div>
-              <div className="det-review-stars">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <span key={s} style={{ color: s <= Math.round(avgRating) ? "#facc15" : "#d1d5db" }}>★</span>
-                ))}
-              </div>
-              <p className="text-sm text-color-default">{reviews.length} reviews</p>
-            </div>
-          </div>
-          <div className="det-comment-list">
-            {reviews.map((review) => (
-              <div key={review._id} className="det-comment">
-                <div className="det-comment__header">
-                  <div>
-                    <p className="det-comment__name">{review.name}</p>
-                    <div className="det-review-stars det-review-stars--sm">
-                      {[1,2,3,4,5].map((s) => (
-                        <span key={s} style={{ color: s <= review.rating ? "#facc15" : "#d1d5db" }}>★</span>
+    <div className="wg-property mb-0 box-comment">
+      <div className="wrap-comment">
+        <h4 className="title">Guest Reviews</h4>
+        <ul className="comment-list">
+          {visibleReviews.map((review) => (
+            <li key={review._id}>
+              <div className="comment-item">
+                <div className="image-wrap" style={{ position: "relative", display: "inline-block" }}>
+                  <Image
+                    alt={review.name}
+                    src={review.avatar}
+                    width={120}
+                    height={120}
+                    unoptimized
+                  />
+                </div>
+                <div className="content">
+                  <div className="user">
+                    <div className="author">
+                      <h6 className="name">{review.name}</h6>
+                      <div className="time">{new Date(review.createdAt).toLocaleDateString("en-IN")}</div>
+                    </div>
+                    <div className="ratings">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <i
+                          key={s}
+                          className="icon-star"
+                          style={{ opacity: s <= review.rating ? 1 : 0.25 }}
+                        />
                       ))}
                     </div>
                   </div>
-                  <span className="det-comment__date">{new Date(review.createdAt).toLocaleDateString("en-IN")}</span>
+                  <div className="comment">
+                    <p>{review.comment}</p>
+                  </div>
                 </div>
-                <p className="text-color-default" style={{ fontSize: "0.875rem" }}>{review.comment}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </li>
+          ))}
+        </ul>
 
-      <div className="write-review mt-30">
-        <h5 className="fw-6 mb-20 text-color-heading">Write a Review</h5>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-20">
-            <label className="det-review-form__label">Your Rating</label>
-            <div className="det-review-stars det-review-stars--picker">
-              {[1,2,3,4,5].map((s) => (
-                <button key={s} type="button" onClick={() => setForm((p) => ({ ...p, rating: s }))} style={{ fontSize: "1.5rem", color: s <= form.rating ? "#facc15" : "#d1d5db", background: "none", border: "none", cursor: "pointer" }}>★</button>
-              ))}
-            </div>
+        {reviews.length > 5 && (
+          <a href="#" className="tf-btn style-border fw-7 pd-1" onClick={(e) => e.preventDefault()}>
+            <span>
+              Showing 5 of {reviews.length} reviews <i className="icon-arrow-right-2 fw-4" />
+            </span>
+          </a>
+        )}
+      </div>
+
+      {/* <div className="box-send">
+        <div className="heading-box">
+          <h4 className="title fw-7">Add Review</h4>
+          <p>Your email address will not be published</p>
+        </div>
+        <form className="form-add-review" onSubmit={handleSubmit}>
+          <div className="cols">
+            <fieldset className="name">
+              <label className="text-1 fw-6" htmlFor="review-name">
+                Name
+              </label>
+              <input
+                type="text"
+                className="tf-input style-2"
+                placeholder="Your Name*"
+                id="review-name"
+                value={form.name}
+                onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                required
+              />
+            </fieldset>
+            <fieldset className="email">
+              <label className="text-1 fw-6" htmlFor="review-email">
+                Email
+              </label>
+              <input
+                type="email"
+                className="tf-input style-2"
+                placeholder="Your Email*"
+                id="review-email"
+                value={form.email}
+                onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                required
+              />
+            </fieldset>
           </div>
-          <fieldset className="mb-12">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Your Name *"
-              value={form.name}
-              onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-              required
-            />
-          </fieldset>
-          <fieldset className="mb-12">
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Your Email"
-              value={form.email}
-              onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-            />
-          </fieldset>
-          <fieldset className="mb-30">
+          <fieldset className="message">
+            <label className="text-1 fw-6" htmlFor="review-message">
+              Review
+            </label>
             <textarea
-              className="form-control"
+              id="review-message"
+              className="tf-input"
               rows={4}
-              placeholder="Your review..."
+              placeholder="Your review"
               value={form.comment}
               onChange={(e) => setForm((p) => ({ ...p, comment: e.target.value }))}
               required
             />
           </fieldset>
-          <button
-            type="submit"
-            disabled={submitting}
-            className="tf-btn bg-color-primary disabled:opacity-60"
-          >
-            {submitting ? "Submitting..." : "Submit Review"}
+          <button className="tf-btn bg-color-primary pd-24 fw-7" type="submit" disabled={submitting}>
+            {submitting ? "Posting..." : "Post Comment"} <i className="icon-arrow-right-2 fw-4" />
           </button>
         </form>
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 }

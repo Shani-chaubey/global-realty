@@ -8,14 +8,15 @@ export default function PropertyGridItems2() {
     <>
       {properties11.map((property) => (
         <div className="box-house hover-img" key={property.id}>
-          <div className="image-wrap">
-            <Link href={`/property-detail/${property.id}`}>
+          <div className="image-wrap" style={{ height: 220, overflow: "hidden", flexShrink: 0 }}>
+            <Link href={`/property-detail/${property.id}`} style={{ display: "block", height: "100%" }}>
               <Image
                 className="lazyload"
                 alt={property.title}
                 src={property.imageSrc}
                 width={property.imageWidth}
                 height={property.imageHeight}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             </Link>
             <ul className="box-tag flex gap-8">
@@ -43,7 +44,7 @@ export default function PropertyGridItems2() {
           </div>
           <div className="content">
             <h5 className="title">
-              <Link href={`/property-detail/${property.id}`}>
+              <Link href={`/property-detail/${property.id}`} style={{ display: "block", height: "100%" }}>
                 {property.title}
               </Link>{" "}
             </h5>

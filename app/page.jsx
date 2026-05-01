@@ -17,6 +17,7 @@ import BlogModel from "@/models/Blog";
 import HeroSectionModel from "@/models/HeroSection";
 import ContactInfoModel from "@/models/ContactInfo";
 import { getPageSeo } from "@/lib/seo";
+import mongoose from "mongoose";
 
 export async function generateMetadata() {
   const { metadata } = await getPageSeo("home", {
@@ -30,7 +31,7 @@ async function getHomePageData() {
   try {
     await connectDB();
 
-    const [properties, testimonials, blogs, heroSlides, contactInfo] =
+    const [properties, testimonials, blogs, heroSlides, contactInfo, topCitiesRaw] =
       await Promise.all([
         PropertyModel.find({ isActive: { $ne: false } })
           .sort({ createdAt: -1 })
@@ -53,13 +54,45 @@ async function getHomePageData() {
           .lean()
           .catch(() => []),
         ContactInfoModel.findOne().lean().catch(() => null),
+        PropertyModel.aggregate([
+          { $match: { isActive: { $ne: false }, city: { $type: "objectId" } } },
+          { $group: { _id: "$city", propertyCount: { $sum: 1 } } },
+          { $sort: { propertyCount: -1 } },
+          { $limit: 7 },
+        ]).catch(() => []),
       ]);
+
+    let topCities = [];
+    if (topCitiesRaw.length) {
+      const cityIds = topCitiesRaw.map((c) => c._id).filter(Boolean);
+      const cities = await mongoose.connection
+        .collection("cities")
+        .find({ _id: { $in: cityIds } })
+        .project({ name: 1, image: 1, slug: 1 })
+        .toArray();
+
+      const cityMap = new Map(cities.map((c) => [String(c._id), c]));
+      topCities = topCitiesRaw
+        .map((row) => {
+          const city = cityMap.get(String(row._id));
+          if (!city?.name) return null;
+          return {
+            _id: String(city._id),
+            cityName: city.name,
+            citySlug: city.slug || "",
+            image: city.image || "",
+            propertyCount: row.propertyCount || 0,
+          };
+        })
+        .filter(Boolean);
+    }
 
     return {
       properties: JSON.parse(JSON.stringify(properties)),
       testimonials: JSON.parse(JSON.stringify(testimonials)),
       blogs: JSON.parse(JSON.stringify(blogs)),
       heroSlides: JSON.parse(JSON.stringify(heroSlides)),
+      topCities: JSON.parse(JSON.stringify(topCities)),
       contactInfo: contactInfo ? JSON.parse(JSON.stringify(contactInfo)) : null,
     };
   } catch {
@@ -68,13 +101,14 @@ async function getHomePageData() {
       testimonials: [],
       blogs: [],
       heroSlides: [],
+      topCities: [],
       contactInfo: null,
     };
   }
 }
 
 export default async function Home() {
-  const { properties, testimonials, blogs, heroSlides, contactInfo } =
+  const { properties, testimonials, blogs, heroSlides, topCities, contactInfo } =
     await getHomePageData();
 
   return (
@@ -86,7 +120,7 @@ export default async function Home() {
         <Properties properties={properties} />
         <HelpCenter />
         <LoanCalculator />
-        <Cities />
+        <Cities cities={topCities} />
         <Properties2 properties={properties} />
         <Partners />
         <Blogs blogs={blogs} />

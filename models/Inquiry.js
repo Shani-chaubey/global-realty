@@ -11,6 +11,8 @@ const InquirySchema = new mongoose.Schema(
       ref: "Property",
     },
     propertyTitle: { type: String, default: "" },
+    projectName: { type: String, default: "" },
+    pageName: { type: String, default: "" },
     status: {
       type: String,
       enum: ["new", "read", "replied"],

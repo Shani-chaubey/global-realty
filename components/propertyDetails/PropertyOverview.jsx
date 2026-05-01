@@ -1,60 +1,293 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useComparison } from "@/components/compare/PropertyComparison";
+
+const getLabel = (value) => {
+  if (!value) return "";
+  if (typeof value === "object") return value.name || "";
+  if (typeof value === "string" && /^[a-f\d]{24}$/i.test(value)) return "";
+  return value;
+};
+
+const fmtPrice = (price, priceType, currency) => {
+  if (priceType === "on-request") return "Price on Request";
+  if (!Number.isFinite(Number(price)) || Number(price) <= 0) return "";
+  const sym = { INR: "₹", USD: "$", AED: "د.إ" }[currency] || "₹";
+  return `${sym}${Number(price || 0).toLocaleString("en-IN")}`;
+};
+
+const formatArea = (value, unit = "sqft") => {
+  const n = Number(value);
+  if (!Number.isFinite(n) || n <= 0) return "";
+  return `${n.toLocaleString("en-IN")} ${unit}`;
+};
+
+const formatCount = (value) => {
+  const n = Number(value);
+  if (!Number.isFinite(n) || n <= 0) return "";
+  return String(n);
+};
 
 export default function PropertyOverview({ property }) {
+  const [downloading, setDownloading] = useState(false);
+  const { addToCompare, removeFromCompare, isInCompare, count } = useComparison();
   if (!property) return null;
-
-  const formatPrice = (price, priceType) => {
-    if (priceType === "on-request") return "Price on Request";
-    return `₹${Number(price).toLocaleString("en-IN")}`;
-  };
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
   const detailPath = `/property-detail/${property.slug || property._id || ""}`;
   const absoluteUrl = baseUrl ? `${baseUrl}${detailPath}` : "";
-  const whatsappText = `${property.title}${absoluteUrl ? ` - ${absoluteUrl}` : ""}`;
+  const shareUrl =
+    absoluteUrl || (typeof window !== "undefined" ? window.location.href : "");
+
+  const city = getLabel(property.city);
+  const state = getLabel(property.state);
+  const addr = [property.address, city, state].filter(Boolean).join(", ");
+
+  const priceFormatted = fmtPrice(
+    property.price,
+    property.priceType,
+    property.currency,
+  );
+
+  const floorInfo = property.floorNumber ?? property.totalFloors ?? null;
+  const floorLabel =
+    property.floorNumber != null && property.totalFloors != null
+      ? `${property.floorNumber} / ${property.totalFloors}`
+      : property.floorNumber != null
+        ? String(property.floorNumber)
+        : property.totalFloors != null
+          ? String(property.totalFloors)
+          : "";
+  const baths = formatCount(property.bathrooms);
+  const propType =
+    property.propertyType?.name || getLabel(property.propertyType) || "";
+  const areaUnit = property.areaUnit || "sqft";
+  const area = formatArea(property.landSize, areaUnit);
+  const garages = formatCount(property.garages);
+  const yearBuilt = property.yearBuilt ? String(property.yearBuilt) : "";
+  const beds = formatCount(property.bedrooms);
+  // "Size" should match admin-stored totalSize first.
+  const size = formatArea(
+    property.totalSize ||
+      property.builtUpArea ||
+      property.superBuiltUpArea ||
+      property.carpetArea,
+    areaUnit,
+  );
+  const listingTypeLabel = property.listingType
+    ? property.listingType.charAt(0).toUpperCase() +
+      property.listingType.slice(1)
+    : "";
+  const typeLabel = [propType, listingTypeLabel].filter(Boolean).join(" / ");
+
+  const detailItems = [
+    floorLabel
+      ? { icon: "icon-HouseLine", label: "Floors:", value: floorLabel }
+      : null,
+    baths ? { icon: "icon-Bathtub", label: "Bathrooms:", value: baths } : null,
+    typeLabel
+      ? { icon: "icon-SlidersHorizontal", label: "Type:", value: typeLabel }
+      : null,
+    area ? { icon: "icon-Crop", label: "Land Size:", value: area } : null,
+    garages
+      ? { icon: "icon-Garage-1", label: "Garages", value: garages }
+      : null,
+    yearBuilt
+      ? { icon: "icon-Hammer", label: "Year Built:", value: yearBuilt }
+      : null,
+    beds ? { icon: "icon-Bed-2", label: "Bedrooms:", value: beds } : null,
+    size ? { icon: "icon-Ruler", label: "Size:", value: size } : null,
+  ].filter(Boolean);
+
+  const detailRows = [];
+  for (let i = 0; i < detailItems.length; i += 2) {
+    detailRows.push(detailItems.slice(i, i + 2));
+  }
+  const inCompare = isInCompare(property._id);
+
+  const handleCopyShare = async (e) => {
+    e.preventDefault();
+    try {
+      const url = shareUrl || window.location.href;
+      await navigator.clipboard.writeText(url);
+      toast.success("URL copied to clipboard");
+    } catch {
+      toast.error("Could not copy URL");
+    }
+  };
+
+  const handleDownloadPdf = async (e) => {
+    e.preventDefault();
+    const target = document.getElementById("property-detail-print-area");
+    if (!target) {
+      toast.error("Could not find content to download");
+      return;
+    }
+
+    try {
+      setDownloading(true);
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
+
+      const canvas = await html2canvas(target, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+        scrollY: -window.scrollY,
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      const filename = `${property.slug || property._id || "property"}-details.pdf`;
+      pdf.save(filename);
+      toast.success("PDF downloaded");
+    } catch {
+      toast.error("Failed to generate PDF");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const handleCompare = (e) => {
+    e.preventDefault();
+    if (inCompare) {
+      removeFromCompare(property._id);
+      toast.success("Removed from compare");
+      return;
+    }
+    if (count >= 4) {
+      toast.error("You can compare up to 4 properties");
+      return;
+    }
+    addToCompare(property._id);
+    toast.success("Added to compare");
+  };
 
   return (
     <>
-      <div className="heading" style={{ display: "flex", justifyContent: "space-between" }}>
-        <div className="title text-5 fw-6 text-color-heading">{property.title}</div>
-        <div className="price text-5 fw-6 text-color-heading">
-          {formatPrice(property.price, property.priceType)}{" "}
-          {property.listingType === "rent" && (
-            <span className="h5 lh-30 fw-4 text-color-default">/month</span>
-          )}
+      <div className="heading flex justify-between">
+        <div className="title text-5 fw-6 text-color-heading">
+          {property.title}
         </div>
+        {priceFormatted && (
+          <div className="price text-5 fw-6 text-color-heading">
+            {priceFormatted}
+            {property.listingType === "rent" && (
+              <span className="h5 lh-30 fw-4 text-color-default"> /month</span>
+            )}
+          </div>
+        )}
       </div>
-      <div className="info" style={{ display: "flex", justifyContent: "space-between" }}>
+
+      <div className="info flex justify-between">
         <div className="feature">
-          <p className="location text-1" style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
-            <i className="icon-location" />
-            {[property.address, property.city, property.state].filter(Boolean).join(", ")}
-          </p>
-          <ul className="meta-list" style={{ display: "flex" }}>
+          {addr && (
+            <p className="location text-1 flex items-center gap-10">
+              <i className="icon-location" />
+              {addr}
+            </p>
+          )}
+          <ul className="meta-list flex">
             {property.bedrooms > 0 && (
-              <li className="text-1" style={{ display: "flex" }}><span>{property.bedrooms}</span>Bed</li>
+              <li className="text-1 flex">
+                <span>{property.bedrooms}</span>Bed
+              </li>
             )}
             {property.bathrooms > 0 && (
-              <li className="text-1" style={{ display: "flex" }}><span>{property.bathrooms}</span>Bath</li>
+              <li className="text-1 flex">
+                <span>{property.bathrooms}</span>Bath
+              </li>
             )}
-            {property.builtUpArea > 0 && (
-              <li className="text-1" style={{ display: "flex" }}>
-                <span>{Number(property.builtUpArea).toLocaleString()}</span>
-                {property.areaUnit || "sqft"}
+            {(Number(property.totalSize) > 0 ||
+              Number(property.builtUpArea) > 0) && (
+              <li className="text-1 flex">
+                <span>
+                  {Number(
+                    property.totalSize || property.builtUpArea,
+                  ).toLocaleString("en-IN")}
+                </span>
+                {property.areaUnit || "Sqft"}
               </li>
             )}
           </ul>
         </div>
         <div className="action">
           <ul className="list-action">
-            <li>
-              <a
-                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappText)}`}
-                target="_blank"
-                rel="noreferrer"
-              >
+            {/* Save / Wishlist */}
+            {/* <li>
+              <a href="#" title="Save">
                 <svg width={18} height={18} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5.625 15.75L2.25 12.375M2.25 12.375L5.625 9M2.25 12.375H12.375M12.375 2.25L15.75 5.625M15.75 5.625L12.375 9M15.75 5.625H5.625" stroke="#5C5E61" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M15.75 6.1875C15.75 4.32375 14.1758 2.8125 12.234 2.8125C10.7828 2.8125 9.53625 3.657 9 4.86225C8.46375 3.657 7.21725 2.8125 5.76525 2.8125C3.825 2.8125 2.25 4.32375 2.25 6.1875C2.25 11.6025 9 15.1875 9 15.1875C9 15.1875 15.75 11.6025 15.75 6.1875Z" stroke="#5C5E61" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </li> */}
+            {/* Compare */}
+            <li>
+              <a href="#" title={inCompare ? "Remove from compare" : "Compare"} onClick={handleCompare}>
+                <svg
+                  width={18}
+                  height={18}
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.625 15.75L2.25 12.375M2.25 12.375L5.625 9M2.25 12.375H12.375M12.375 2.25L15.75 5.625M15.75 5.625L12.375 9M15.75 5.625H5.625"
+                    stroke="#5C5E61"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+            </li>
+            {/* Download PDF */}
+            {/* <li>
+              <a href="#" title="Download PDF" onClick={handleDownloadPdf} aria-disabled={downloading}>
+                <svg width={18} height={18} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5.04 10.3718C4.86 10.3943 4.68 10.4183 4.5 10.4438M5.04 10.3718C7.66969 10.0418 10.3303 10.0418 12.96 10.3718M5.04 10.3718L4.755 13.5M12.96 10.3718C13.14 10.3943 13.32 10.4183 13.5 10.4438M12.96 10.3718L13.245 13.5L13.4167 15.3923C13.4274 15.509 13.4136 15.6267 13.3762 15.7378C13.3388 15.8489 13.2787 15.951 13.1996 16.0376C13.1206 16.1242 13.0244 16.1933 12.9172 16.2407C12.8099 16.288 12.694 16.3125 12.5767 16.3125H5.42325C4.92675 16.3125 4.53825 15.8865 4.58325 15.3923L4.755 13.5M4.755 13.5H3.9375C3.48995 13.5 3.06072 13.342 2.74426 13.0057C2.42779 12.6893 2.25 12.2601 2.25 11.8125V7.092C2.25 6.28125 2.826 5.58075 3.62775 5.46075C4.10471 5.3894 4.58306 5.32764 5.0625 5.2755M13.2435 13.5H14.0618C14.2834 13.5001 14.5029 13.4565 14.7078 13.3718C14.9126 13.287 15.0987 13.1627 15.2555 13.006C15.4123 12.8493 15.5366 12.6632 15.6215 12.4585C15.7063 12.2537 15.75 12.0342 15.75 11.8125V7.092C15.75 6.28125 15.174 5.58075 14.3723 5.46075C13.8953 5.38941 13.4169 5.32764 12.9375 5.2755M12.9375 5.2755C10.3202 4.99073 7.67978 4.99073 5.0625 5.2755M12.9375 5.2755V2.53125C12.9375 2.0655 12.5595 1.6875 12.0938 1.6875H5.90625C5.4405 1.6875 5.0625 2.0655 5.0625 2.53125V5.2755M13.5 7.875H13.506V7.881H13.5V7.875ZM11.25 7.875H11.256V7.881H11.25V7.875Z" stroke="#5C5E61" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </li> */}
+            {/* Share (copy link) */}
+            <li>
+              <a href="#" title="Share" onClick={handleCopyShare}>
+                <svg
+                  width={18}
+                  height={18}
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.41251 8.18028C5.23091 7.85351 4.94594 7.5963 4.60234 7.44902C4.25874 7.30173 3.87596 7.27271 3.51408 7.36651C3.1522 7.46032 2.83171 7.67163 2.60293 7.96728C2.37414 8.26293 2.25 8.62619 2.25 9.00003C2.25 9.37387 2.37414 9.73712 2.60293 10.0328C2.83171 10.3284 3.1522 10.5397 3.51408 10.6335C3.87596 10.7273 4.25874 10.6983 4.60234 10.551C4.94594 10.4038 5.23091 10.1465 5.41251 9.81978M5.41251 8.18028C5.54751 8.42328 5.62476 8.70228 5.62476 9.00003C5.62476 9.29778 5.54751 9.57753 5.41251 9.81978M5.41251 8.18028L12.587 4.19478M5.41251 9.81978L12.587 13.8053M12.587 4.19478C12.6922 4.39288 12.8358 4.56803 13.0095 4.70998C13.1832 4.85192 13.3834 4.95782 13.5985 5.02149C13.8135 5.08515 14.0392 5.1053 14.2621 5.08075C14.4851 5.0562 14.7009 4.98745 14.897 4.87853C15.093 4.7696 15.2654 4.62267 15.404 4.44634C15.5427 4.27001 15.6448 4.06781 15.7043 3.85157C15.7639 3.63532 15.7798 3.40937 15.751 3.18693C15.7222 2.96448 15.6494 2.75 15.5368 2.55603C15.3148 2.17378 14.9518 1.89388 14.5256 1.77649C14.0995 1.6591 13.6443 1.71359 13.2579 1.92824C12.8715 2.1429 12.5848 2.50059 12.4593 2.92442C12.3339 3.34826 12.3797 3.80439 12.587 4.19478ZM12.587 13.8053C12.4794 13.9991 12.4109 14.2121 12.3856 14.4324C12.3603 14.6526 12.3787 14.8757 12.4396 15.0888C12.5005 15.3019 12.6028 15.501 12.7406 15.6746C12.8784 15.8482 13.0491 15.993 13.2429 16.1007C13.4367 16.2083 13.6498 16.2767 13.87 16.302C14.0902 16.3273 14.3133 16.309 14.5264 16.2481C14.7396 16.1872 14.9386 16.0849 15.1122 15.9471C15.2858 15.8092 15.4306 15.6386 15.5383 15.4448C15.7557 15.0534 15.8087 14.5917 15.6857 14.1613C15.5627 13.7308 15.2737 13.3668 14.8824 13.1494C14.491 12.932 14.0293 12.879 13.5989 13.002C13.1684 13.125 12.8044 13.4139 12.587 13.8053Z"
+                    stroke="#5C5E61"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </a>
             </li>
@@ -62,91 +295,27 @@ export default function PropertyOverview({ property }) {
         </div>
       </div>
 
-      <div className="info-detail">
-        {property.propertyType && (
-          <div className="wrap-box">
-            <div className="box-icon">
-              <div className="icons"><i className="icon-SlidersHorizontal" /></div>
-              <div className="content">
-                <div className="text-4 text-color-default">Type:</div>
-                <div className="text-1 text-color-heading">{property.propertyType?.name || property.propertyType}</div>
-              </div>
+      {detailRows.length > 0 && (
+        <div className="info-detail">
+          {detailRows.map((row, rowIdx) => (
+            <div className="wrap-box" key={`row-${rowIdx}`}>
+              {row.map((item, idx) => (
+                <div className="box-icon" key={`${item.label}-${idx}`}>
+                  <div className="icons">
+                    <i className={item.icon} />
+                  </div>
+                  <div className="content">
+                    <div className="text-4 text-color-default">
+                      {item.label}
+                    </div>
+                    <div className="text-1 text-color-heading">
+                      {item.value}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            {property.possessionStatus && (
-              <div className="box-icon">
-                <div className="icons"><i className="icon-Hammer" /></div>
-                <div className="content">
-                  <div className="text-4 text-color-default">Possession:</div>
-                  <div className="text-1 text-color-heading capitalize">{property.possessionStatus === "ready" ? "Ready to Move" : "Under Construction"}</div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {(property.bedrooms > 0 || property.bathrooms > 0) && (
-          <div className="wrap-box">
-            {property.bedrooms > 0 && (
-              <div className="box-icon">
-                <div className="icons"><i className="icon-Bed-2" /></div>
-                <div className="content">
-                  <div className="text-4 text-color-default">Bedrooms:</div>
-                  <div className="text-1 text-color-heading">{property.bedrooms} Rooms</div>
-                </div>
-              </div>
-            )}
-            {property.bathrooms > 0 && (
-              <div className="box-icon">
-                <div className="icons"><i className="icon-Bathtub" /></div>
-                <div className="content">
-                  <div className="text-4 text-color-default">Bathrooms:</div>
-                  <div className="text-1 text-color-heading">{property.bathrooms} Rooms</div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {(property.builtUpArea > 0 || property.carpetArea > 0) && (
-          <div className="wrap-box">
-            {property.builtUpArea > 0 && (
-              <div className="box-icon">
-                <div className="icons"><i className="icon-Crop" /></div>
-                <div className="content">
-                  <div className="text-4 text-color-default">Built-up Area:</div>
-                  <div className="text-1 text-color-heading">{Number(property.builtUpArea).toLocaleString()} {property.areaUnit}</div>
-                </div>
-              </div>
-            )}
-            {property.carpetArea > 0 && (
-              <div className="box-icon">
-                <div className="icons"><i className="icon-Ruler" /></div>
-                <div className="content">
-                  <div className="text-4 text-color-default">Carpet Area:</div>
-                  <div className="text-1 text-color-heading">{Number(property.carpetArea).toLocaleString()} {property.areaUnit}</div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {property.totalFloors > 0 && (
-          <div className="wrap-box">
-            <div className="box-icon">
-              <div className="icons"><i className="icon-HouseLine" /></div>
-              <div className="content">
-                <div className="text-4 text-color-default">Floor:</div>
-                <div className="text-1 text-color-heading">{property.floors || 0} / {property.totalFloors}</div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {property.description && (
-        <div className="description mt-20">
-          <h5 className="fw-6 mb-10">Description</h5>
-          <div
-            className="text-color-default"
-            dangerouslySetInnerHTML={{ __html: property.description }}
-          />
+          ))}
         </div>
       )}
     </>

@@ -1,25 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    // Allow external property image URLs from admin/data sources
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-      },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "**.cloudfront.net",
-      },
-      {
-        protocol: "http",
-        hostname: "localhost",
-      },
+      { protocol: "https", hostname: "**" },
+      { protocol: "http", hostname: "localhost" },
     ],
-    unoptimized: process.env.NODE_ENV === "development",
+    // Keep images unoptimized to avoid runtime host blocking for mixed legacy URLs
+    unoptimized: true,
   },
 };
 

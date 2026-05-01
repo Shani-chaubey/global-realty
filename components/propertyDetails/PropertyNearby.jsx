@@ -1,55 +1,54 @@
 import React from "react";
 
-export default function PropertyNearby() {
+export default function PropertyNearby({ nearby = [] }) {
+  if (!Array.isArray(nearby) || nearby.length === 0) return null;
+
+  // Build flat list. If a group has no places, show the category itself as a row.
+  const items = nearby.flatMap((group) => {
+    const places = Array.isArray(group.places) ? group.places : [];
+    if (places.length === 0 && group.category) {
+      return [{ label: group.category, value: group.icon || "—" }];
+    }
+    return places.map((place) => ({
+      label: place.name || group.category || "Nearby",
+      value: place.distance || "—",
+    }));
+  });
+
+  if (!items.length) return null;
+
+  const left  = items.filter((_, i) => i % 2 === 0);
+  const right = items.filter((_, i) => i % 2 !== 0);
+
   return (
     <>
       <div className="wg-title text-11 fw-6 text-color-heading">
-        What’s Nearby?
+        What&apos;s Nearby?
       </div>
       <p className="description text-color-default">
         Explore nearby amenities to precisely locate your property and identify
         surrounding conveniences, providing a comprehensive overview of the
-        living environment and the property's convenience.
+        living environment and the property&apos;s convenience.
       </p>
       <div className="row box-nearby">
         <div className="col-md-5">
           <ul className="box-left">
-            <li className="item-nearby">
-              <span className="fw-7 label text-4">School:</span>
-              <span>0.7 km</span>
-            </li>
-            <li className="item-nearby">
-              <span className="fw-7 label text-4">University:</span>
-              <span>1.3 km</span>
-            </li>
-            <li className="item-nearby">
-              <span className="fw-7 label text-4">Grocery center:</span>
-              <span>0.6 km</span>
-            </li>
-            <li className="item-nearby">
-              <span className="fw-7 label text-4">Market:</span>
-              <span>1.1 km</span>
-            </li>
+            {left.map((item, i) => (
+              <li className="item-nearby" key={i}>
+                <span className="fw-7 label text-4">{item.label}:</span>
+                <span>{item.value}</span>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="col-md-5">
           <ul className="box-right">
-            <li className="item-nearby">
-              <span className="fw-7 label text-4">Hospital:</span>
-              <span>0.4 km</span>
-            </li>
-            <li className="item-nearby">
-              <span className="fw-7 label text-4">Metro station:</span>
-              <span>1.8 km</span>
-            </li>
-            <li className="item-nearby">
-              <span className="fw-7 label text-4">Gym, wellness:</span>
-              <span>1.3 km</span>
-            </li>
-            <li className="item-nearby">
-              <span className="fw-7 label text-4">River:</span>
-              <span>2.1 km</span>
-            </li>
+            {right.map((item, i) => (
+              <li className="item-nearby" key={i}>
+                <span className="fw-7 label text-4">{item.label}:</span>
+                <span>{item.value}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

@@ -303,3 +303,6 @@ body * {
   background: #6b7280;
 }
 
+.max-h-650 {
+  max-height: 650px;
+}
