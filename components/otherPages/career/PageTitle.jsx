@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 
-export default function PageTitle() {
-  // State to track the active item
+export default function PageTitle({
+  heroTitle = "A Culture of Inclusivity and Belonging",
+  heroSubtitle = "Thousands of luxury home enthusiasts just like you visit our website.",
+}) {
   const [activeItem, setActiveItem] = useState("For sale");
-
-  // Array of items to render
   const items = ["For sale", "For rent"];
+
   return (
     <div className="page-title career">
       <div className="tf-container">
@@ -15,13 +16,8 @@ export default function PageTitle() {
           <div className="col-lg-8">
             <div className="content-inner">
               <div className="heading-title">
-                <h1 className="title">
-                  A Culture of Inclusivity and Belonging
-                </h1>
-                <p className="h6 fw-4">
-                  Thousands of luxury home enthusiasts just like you visit our
-                  website.
-                </p>
+                <h1 className="title">{heroTitle}</h1>
+                <p className="h6 fw-4">{heroSubtitle}</p>
               </div>
               <div className="wg-filter">
                 <div className="form-title">
@@ -37,22 +33,23 @@ export default function PageTitle() {
                           className={`select-item ${
                             activeItem === item ? "active" : ""
                           }`}
-                          onClick={() => setActiveItem(item)} // Set the active item on click
+                          onClick={() => setActiveItem(item)}
+                          role="presentation"
                         >
                           <span className="text-value-item">{item}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <form>
+                  <form onSubmit={(e) => e.preventDefault()}>
                     <fieldset>
                       <input type="text" placeholder="Find job here" />
                     </fieldset>
                   </form>
                   <div className="wrap-btn">
-                    <a href="#" className="tf-btn bg-color-primary fw-7 pd-3">
+                    <span className="tf-btn bg-color-primary fw-7 pd-3">
                       Search <i className="icon-MagnifyingGlass fw-6" />
-                    </a>
+                    </span>
                   </div>
                 </div>
               </div>

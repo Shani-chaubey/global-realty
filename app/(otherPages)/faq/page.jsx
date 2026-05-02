@@ -3,17 +3,34 @@ import Footer1 from "@/components/footers/Footer1";
 import Header1 from "@/components/headers/Header1";
 import Cta from "@/components/otherPages/faq/Cta";
 import Faqs from "@/components/otherPages/faq/Faqs";
-
+import connectDB from "@/lib/mongoose";
+import FAQ from "@/models/FAQ";
 import React from "react";
 
-export default function page() {
+async function getFaqPageData() {
+  try {
+    await connectDB();
+    const faqsRaw = await FAQ.find({ isActive: true })
+      .sort({ order: 1, createdAt: 1 })
+      .lean();
+    return {
+      faqs: JSON.parse(JSON.stringify(faqsRaw || [])),
+    };
+  } catch {
+    return { faqs: [] };
+  }
+}
+
+export default async function page() {
+  const { faqs } = await getFaqPageData();
+
   return (
     <>
       <div id="wrapper" className="counter-scroll">
         <Header1 />
         <Breadcumb pageName="FAQS" />
         <div className="main-content tf-spacing-6 header-fixed">
-          <Faqs />
+          <Faqs faqs={faqs} />
           <Cta />
         </div>
         <Footer1 />

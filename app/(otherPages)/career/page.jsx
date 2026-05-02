@@ -5,19 +5,44 @@ import Benefits from "@/components/otherPages/career/Benefits";
 import Jobs from "@/components/otherPages/career/Jobs";
 import PageTitle from "@/components/otherPages/career/PageTitle";
 import Reviews from "@/components/otherPages/career/Reviews";
-
+import { mergeCareerPage } from "@/lib/careerPageDefaults";
+import connectDB from "@/lib/mongoose";
+import CareerPage from "@/models/CareerPage";
+import JobPosting from "@/models/JobPosting";
 import React from "react";
 
-export default function page() {
+async function getCareerData() {
+  try {
+    await connectDB();
+    const [cDoc, jobsRaw] = await Promise.all([
+      CareerPage.findOne({ key: "main" }).lean(),
+      JobPosting.find({ isActive: true })
+        .sort({ order: 1, createdAt: 1 })
+        .lean(),
+    ]);
+    const career = mergeCareerPage(cDoc);
+    const jobs = JSON.parse(JSON.stringify(jobsRaw || []));
+    return { career, jobs };
+  } catch {
+    return { career: mergeCareerPage(null), jobs: [] };
+  }
+}
+
+export default async function page() {
+  const { career, jobs } = await getCareerData();
+
   return (
     <>
       <div id="wrapper" className="counter-scroll">
         <Header1 />
-        <PageTitle />
+        <PageTitle
+          heroTitle={career.heroTitle}
+          heroSubtitle={career.heroSubtitle}
+        />
         <div className="main-content">
-          <Jobs />
-          <Benefits />
-          <Reviews />
+          <Jobs career={career} jobs={jobs} />
+          <Benefits career={career} />
+          <Reviews career={career} />
           <Cta />
         </div>
         <Footer1 />

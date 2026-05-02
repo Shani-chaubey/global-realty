@@ -19,11 +19,11 @@ export default function Cta() {
               <div className="image-wrap">
                 <Image
                   className="lazyload"
-                  data-src="/images/section/section-contact.jpg"
+                  data-src="/images/section/section-contact.webp"
                   alt=""
                   width={1280}
                   height={390}
-                  src="/images/section/section-contact.jpg"
+                  src="/images/section/section-contact.webp"
                 />
               </div>
               <div className="content">
@@ -31,9 +31,7 @@ export default function Cta() {
                   <h2 className="title text_white">
                     Need help? Talk to our expert.
                   </h2>
-                  <p className="text-1 text_white">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
+                 
                 </div>
                 <div className="wrap-btn">
                   <a

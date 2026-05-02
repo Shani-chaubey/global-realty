@@ -156,6 +156,9 @@ export default function AdminDashboard() {
           {[
             { label: "Hero Slides", href: "/admin/cms/hero", icon: "🖼️" },
             { label: "FAQs", href: "/admin/cms/faqs", icon: "❓" },
+            { label: "Team agents", href: "/admin/cms/team-agents", icon: "👤" },
+            { label: "Career page", href: "/admin/cms/career", icon: "💼" },
+            { label: "Job postings", href: "/admin/cms/job-postings", icon: "📋" },
             { label: "Banners", href: "/admin/cms/banners", icon: "📢" },
             { label: "SEO", href: "/admin/seo", icon: "🔍" },
             { label: "Site Config", href: "/admin/site-config", icon: "⚙️" },

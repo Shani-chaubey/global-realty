@@ -8,8 +8,8 @@ import api from "@/lib/axios";
 import { useSearchParams, useRouter } from "next/navigation";
 
 const SORT_LABEL_MAP = {
-  "Newest": "newest",
-  "Oldest": "oldest",
+  Newest: "newest",
+  Oldest: "oldest",
   "Price: Low to High": "price_asc",
   "Price: High to Low": "price_desc",
 };
@@ -43,7 +43,7 @@ export default function Properties2({ defaultGrid = true }) {
   const amenities = searchParams.get("amenities") || "";
   const minArea = searchParams.get("minArea") || "";
   const maxArea = searchParams.get("maxArea") || "";
-  const sortBy = searchParams.get("sort") || "";   // "newest" | "oldest" | "price_asc" | "price_desc"
+  const sortBy = searchParams.get("sort") || ""; // "newest" | "oldest" | "price_asc" | "price_desc"
 
   const fetchProperties = useCallback(async () => {
     setLoading(true);
@@ -73,7 +73,23 @@ export default function Properties2({ defaultGrid = true }) {
     } finally {
       setLoading(false);
     }
-  }, [page, search, city, type, status, beds, baths, listingType, minPrice, maxPrice, possessionStatus, amenities, minArea, maxArea, sortBy]);
+  }, [
+    page,
+    search,
+    city,
+    type,
+    status,
+    beds,
+    baths,
+    listingType,
+    minPrice,
+    maxPrice,
+    possessionStatus,
+    amenities,
+    minArea,
+    maxArea,
+    sortBy,
+  ]);
 
   useEffect(() => {
     fetchProperties();
@@ -81,9 +97,30 @@ export default function Properties2({ defaultGrid = true }) {
 
   useEffect(() => {
     setPage(1);
-  }, [search, city, type, status, beds, baths, listingType, minPrice, maxPrice, possessionStatus, amenities, minArea, maxArea, sortBy]);
+  }, [
+    search,
+    city,
+    type,
+    status,
+    beds,
+    baths,
+    listingType,
+    minPrice,
+    maxPrice,
+    possessionStatus,
+    amenities,
+    minArea,
+    maxArea,
+    sortBy,
+  ]);
 
-  const sortOptions = ["Sort by (Default)", "Newest", "Oldest", "Price: Low to High", "Price: High to Low"];
+  const sortOptions = [
+    "Sort by (Default)",
+    "Newest",
+    "Oldest",
+    "Price: Low to High",
+    "Price: High to Low",
+  ];
 
   // Derive the label to show in the dropdown from the current URL sort value
   const currentSortLabel =
@@ -122,26 +159,51 @@ export default function Properties2({ defaultGrid = true }) {
             </div>
 
             {loading ? (
-              <div className="tf-grid-layout lg-col-3 md-col-2" style={{ minHeight: 300 }}>
+              <div
+                className="tf-grid-layout lg-col-3 md-col-2"
+                style={{ minHeight: 300 }}
+              >
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="box-house" style={{ background: "#f3f4f6", borderRadius: 12, height: 320, animation: "pulse 1.5s infinite" }} />
+                  <div
+                    key={i}
+                    className="box-house"
+                    style={{
+                      background: "#f3f4f6",
+                      borderRadius: 12,
+                      height: 320,
+                      animation: "pulse 1.5s infinite",
+                    }}
+                  />
                 ))}
               </div>
             ) : properties.length === 0 ? (
-              <div className="lst-empty" style={{ padding: "4rem 0", textAlign: "center" }}>
+              <div
+                className="lst-empty"
+                style={{ padding: "4rem 0", textAlign: "center" }}
+              >
                 <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🏠</div>
                 <h3>No properties found</h3>
-                <p style={{ color: "#6b7280" }}>Try adjusting your search filters</p>
+                <p style={{ color: "#6b7280" }}>
+                  Try adjusting your search filters
+                </p>
               </div>
             ) : (
               <div className="flat-animate-tab">
                 <div className="tab-content">
-                  <div className={`tab-pane${defaultGrid ? " active show" : ""}`} id="gridLayout" role="tabpanel">
+                  <div
+                    className={`tab-pane${defaultGrid ? " active show" : ""}`}
+                    id="gridLayout"
+                    role="tabpanel"
+                  >
                     <div className="tf-grid-layout lg-col-3 md-col-2">
                       <PropertyGridItems properties={properties} />
                     </div>
                   </div>
-                  <div className={`tab-pane${!defaultGrid ? " active show" : ""}`} id="listLayout" role="tabpanel">
+                  <div
+                    className={`tab-pane${!defaultGrid ? " active show" : ""}`}
+                    id="listLayout"
+                    role="tabpanel"
+                  >
                     <div className="tf-grid-layout lg-col-1">
                       <PropertyListItems properties={properties} />
                     </div>
@@ -152,12 +214,25 @@ export default function Properties2({ defaultGrid = true }) {
 
             {pagination.total > 0 && (
               <div style={{ marginTop: 40 }}>
-                <p className="text-1" style={{ textAlign: "center", marginBottom: 16, color: "#6b7280" }}>
+                <p
+                  className="text-1"
+                  style={{
+                    textAlign: "center",
+                    marginBottom: 16,
+                    color: "#6b7280",
+                  }}
+                >
                   Showing {start}–{end} of {pagination.total} Properties
                 </p>
                 <ul
                   className="wg-pagination justify-center"
-                  style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 10,
+                    flexWrap: "wrap",
+                  }}
                 >
                   <li className="arrow">
                     <button
@@ -165,11 +240,17 @@ export default function Properties2({ defaultGrid = true }) {
                       onClick={() => setPage((p) => Math.max(1, p - 1))}
                       aria-label="Previous page"
                       style={{
-                        width: 42, height: 42, borderRadius: 999,
-                        border: "1px solid #e5e7eb", background: "#fff", color: "#374151",
-                        display: "grid", placeItems: "center",
+                        width: 42,
+                        height: 42,
+                        borderRadius: 999,
+                        border: "1px solid #e5e7eb",
+                        background: "#fff",
+                        color: "#374151",
+                        display: "grid",
+                        placeItems: "center",
                         cursor: page <= 1 ? "not-allowed" : "pointer",
-                        opacity: page <= 1 ? 0.45 : 1, transition: "all 0.2s ease",
+                        opacity: page <= 1 ? 0.45 : 1,
+                        transition: "all 0.2s ease",
                       }}
                     >
                       <i className="icon-arrow-left" />
@@ -177,7 +258,11 @@ export default function Properties2({ defaultGrid = true }) {
                   </li>
                   {[...Array(pagination.pages)].map((_, i) => {
                     const p = i + 1;
-                    if (p === 1 || p === pagination.pages || Math.abs(p - page) <= 1) {
+                    if (
+                      p === 1 ||
+                      p === pagination.pages ||
+                      Math.abs(p - page) <= 1
+                    ) {
                       return (
                         <li key={p}>
                           <button
@@ -185,12 +270,22 @@ export default function Properties2({ defaultGrid = true }) {
                             aria-label={`Page ${p}`}
                             aria-current={page === p ? "page" : undefined}
                             style={{
-                              minWidth: 42, height: 42, padding: "0 12px", borderRadius: 999,
-                              border: page === p ? "1px solid var(--color-primary, #F1913D)" : "1px solid #e5e7eb",
-                              background: page === p ? "var(--color-primary, #F1913D)" : "#fff",
+                              minWidth: 42,
+                              height: 42,
+                              padding: "0 12px",
+                              borderRadius: 999,
+                              border:
+                                page === p
+                                  ? "1px solid var(--color-primary, #F1913D)"
+                                  : "1px solid #e5e7eb",
+                              background:
+                                page === p
+                                  ? "var(--color-primary, #F1913D)"
+                                  : "#fff",
                               color: page === p ? "#fff" : "#374151",
                               fontWeight: page === p ? 700 : 600,
-                              cursor: "pointer", transition: "all 0.2s ease",
+                              cursor: "pointer",
+                              transition: "all 0.2s ease",
                             }}
                           >
                             {p}
@@ -201,7 +296,15 @@ export default function Properties2({ defaultGrid = true }) {
                     if (Math.abs(p - page) === 2) {
                       return (
                         <li key={p}>
-                          <span style={{ minWidth: 30, display: "inline-block", textAlign: "center", color: "#9ca3af", fontWeight: 700 }}>
+                          <span
+                            style={{
+                              minWidth: 30,
+                              display: "inline-block",
+                              textAlign: "center",
+                              color: "#9ca3af",
+                              fontWeight: 700,
+                            }}
+                          >
                             ...
                           </span>
                         </li>
@@ -212,14 +315,23 @@ export default function Properties2({ defaultGrid = true }) {
                   <li className="arrow">
                     <button
                       disabled={page >= pagination.pages}
-                      onClick={() => setPage((p) => Math.min(pagination.pages, p + 1))}
+                      onClick={() =>
+                        setPage((p) => Math.min(pagination.pages, p + 1))
+                      }
                       aria-label="Next page"
                       style={{
-                        width: 42, height: 42, borderRadius: 999,
-                        border: "1px solid #e5e7eb", background: "#fff", color: "#374151",
-                        display: "grid", placeItems: "center",
-                        cursor: page >= pagination.pages ? "not-allowed" : "pointer",
-                        opacity: page >= pagination.pages ? 0.45 : 1, transition: "all 0.2s ease",
+                        width: 42,
+                        height: 42,
+                        borderRadius: 999,
+                        border: "1px solid #e5e7eb",
+                        background: "#fff",
+                        color: "#374151",
+                        display: "grid",
+                        placeItems: "center",
+                        cursor:
+                          page >= pagination.pages ? "not-allowed" : "pointer",
+                        opacity: page >= pagination.pages ? 0.45 : 1,
+                        transition: "all 0.2s ease",
                       }}
                     >
                       <i className="icon-arrow-right" />

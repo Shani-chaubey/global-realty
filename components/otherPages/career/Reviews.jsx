@@ -1,7 +1,23 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-export default function Reviews() {
+export default function Reviews({ career = {} }) {
+  const title =
+    career.reviewsTitle || "Reviews from employees working at Proty";
+  const p1 = career.reviewsPara1 || "";
+  const p2 = career.reviewsPara2 || "";
+  const personImg =
+    career.reviewsPersonImage || "/images/section/person-3.png";
+  const spotName = career.reviewsSpotlightName || "";
+  const spotRole = career.reviewsSpotlightRole || "";
+  const spotAv = career.reviewsSpotlightAvatar || "/images/avatar/avt-png18.png";
+  const quote = career.reviewsCardQuote || "";
+  const cardName = career.reviewsCardName || "";
+  const cardRole = career.reviewsCardRole || "";
+  const cardAv = career.reviewsCardAvatar || "/images/avatar/testimonials-4.jpg";
+  const moreHref = career.reviewsMoreStoriesHref || "#";
+
   return (
     <section className="section-review tf-spacing-1">
       <div className="tf-container">
@@ -14,32 +30,35 @@ export default function Reviews() {
                   data-wow-duration="1s"
                   data-wow-delay="0s"
                 >
-                  Reviews from employees working at Proty
+                  {title}
                 </h2>
                 <div
                   className="description mb-32 wow animate__fadeInUp animate__animated"
                   data-wow-duration="1s"
                   data-wow-delay="0s"
                 >
-                  <p className="text-1 mb-15">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Aenean sollicitudin ipsum ullamcorper, pulvinar ipsum in,
-                    imperdiet ante. In feugiat tortor semper nibh rhoncus
-                    volutpat.
-                  </p>
-                  <p className="text-1">
-                    Proin pharetra rhoncus maximus. Sed est dolor, consectetur
-                    eu sagittis a
-                  </p>
+                  {p1 ? <p className="text-1 mb-15">{p1}</p> : null}
+                  {p2 ? <p className="text-1">{p2}</p> : null}
                 </div>
-                <a
-                  href="#"
-                  className="tf-btn bg-color-primary fw-7 pd-18 wow animate__fadeInUp animate__animated"
-                  data-wow-duration="1s"
-                  data-wow-delay="0s"
-                >
-                  More stories
-                </a>
+                {moreHref && moreHref !== "#" ? (
+                  <Link
+                    href={moreHref}
+                    className="tf-btn bg-color-primary fw-7 pd-18 wow animate__fadeInUp animate__animated"
+                    data-wow-duration="1s"
+                    data-wow-delay="0s"
+                  >
+                    More stories
+                  </Link>
+                ) : (
+                  <a
+                    href={moreHref}
+                    className="tf-btn bg-color-primary fw-7 pd-18 wow animate__fadeInUp animate__animated"
+                    data-wow-duration="1s"
+                    data-wow-delay="0s"
+                  >
+                    More stories
+                  </a>
+                )}
               </div>
               <div className="content-right">
                 <div
@@ -47,12 +66,7 @@ export default function Reviews() {
                   data-wow-duration="1s"
                   data-wow-delay="0s"
                 >
-                  <Image
-                    alt=""
-                    width={509}
-                    height={578}
-                    src="/images/section/person-3.png"
-                  />
+                  <Image alt="" width={509} height={578} src={personImg} />
                 </div>
                 <div
                   className="box-author ani5"
@@ -60,16 +74,11 @@ export default function Reviews() {
                   data-wow-delay="0s"
                 >
                   <div className="avatar">
-                    <Image
-                      alt=""
-                      width={120}
-                      height={120}
-                      src="/images/avatar/avt-png18.png"
-                    />
+                    <Image alt="" width={120} height={120} src={spotAv} />
                   </div>
                   <div className="content">
-                    <h6 className="name">Cody Fisher</h6>
-                    <p className="text-2 lh-16">CEO Themesflat</p>
+                    <h6 className="name">{spotName}</h6>
+                    <p className="text-2 lh-16">{spotRole}</p>
                   </div>
                 </div>
                 <div
@@ -95,25 +104,16 @@ export default function Reviews() {
                     <i className="icon-star" />
                     <i className="icon-star" />
                   </div>
-                  <p className="text-1 description line-clamp-3">
-                    Vivamus at nisl ornare, vulputate turpis finibus, posuere
-                    metus. Donec in placerat felis. Praesent ante tellus,
-                    dignissim nec imperdiet ac.
-                  </p>
+                  <p className="text-1 description line-clamp-3">{quote}</p>
                   <div className="author">
                     <div className="avatar">
-                      <Image
-                        alt=""
-                        width={200}
-                        height={200}
-                        src="/images/avatar/testimonials-4.jpg"
-                      />
+                      <Image alt="" width={200} height={200} src={cardAv} />
                     </div>
                     <div className="content">
                       <h6 className="name">
-                        <a href="#">Cody Fisher</a>
+                        <span>{cardName}</span>
                       </h6>
-                      <p className="text-2">CEO Themesflat</p>
+                      <p className="text-2">{cardRole}</p>
                     </div>
                   </div>
                 </div>
