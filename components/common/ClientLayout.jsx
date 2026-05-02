@@ -65,7 +65,7 @@ export default function ClientLayout({ children }) {
 
   return (
     <>
-      {children}
+      <Suspense fallback={null}>{children}</Suspense>
       <Suspense fallback={null}>
         <MobileMenu />
       </Suspense>

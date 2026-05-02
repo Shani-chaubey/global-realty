@@ -11,7 +11,7 @@ import {
 
 const emptyForm = { name: "", email: "", phone: "", message: "" };
 
-const defaultAvatar = "https://www.w3.org/w3schools.com/howto/img_avatar.png";
+const defaultAvatar = "https://static.vecteezy.com/system/resources/previews/019/494/949/non_2x/service-call-center-man-user-avatar-person-people-colored-outline-style-vector.jpg";
 
 function clearErr(setter, key) {
   setter((prev) => {
