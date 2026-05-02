@@ -6,7 +6,6 @@ import Modal from "@/components/ui/Modal";
 import DataTable from "@/components/ui/DataTable";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 const EMPTY = { name: "", slug: "", icon: "", isActive: true };
 
 export default function AdminPropertyTypes() {
@@ -15,7 +14,7 @@ export default function AdminPropertyTypes() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/property-types", fetcher);
+  const { data, isLoading } = useSWR("/property-types");
 
   const openAdd = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit = (row) => { setEditing(row); setForm({ name: row.name, slug: row.slug, icon: row.icon || "", isActive: row.isActive }); setModal(true); };

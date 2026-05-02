@@ -3,10 +3,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import useSWR from "swr";
-import api from "@/lib/axios";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 function BlogSkeleton() {
   return (
@@ -31,11 +29,9 @@ export default function Blogs2() {
   const tag = searchParams.get("tag") || "";
   const selectedCategory = searchParams.get("category") || "";
 
-  const { data: categoriesData } = useSWR("/blog-categories", fetcher);
+  const { data: categoriesData } = useSWR("/blog-categories");
   const { data, isLoading } = useSWR(
-    `/blogs?page=${page}&limit=${limit}&status=published${selectedCategory ? `&category=${selectedCategory}` : ""}${query ? `&q=${encodeURIComponent(query)}` : ""}${tag ? `&tag=${encodeURIComponent(tag)}` : ""}`,
-    fetcher
-  );
+    `/blogs?page=${page}&limit=${limit}&status=published${selectedCategory ? `&category=${selectedCategory}` : ""}${query ? `&q=${encodeURIComponent(query)}` : ""}${tag ? `&tag=${encodeURIComponent(tag)}` : ""}`);
 
   const posts = data?.data || [];
   const pagination = data?.pagination;

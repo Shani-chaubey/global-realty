@@ -1,9 +1,7 @@
 "use client";
 import useSWR from "swr";
 import Link from "next/link";
-import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 const STAT_CARDS = [
   {
@@ -78,7 +76,7 @@ const PROGRESS_BARS = [
 ];
 
 export default function AdminDashboard() {
-  const { data, isLoading } = useSWR("/admin/stats", fetcher);
+  const { data, isLoading } = useSWR("/admin/stats");
   const stats = data?.data;
 
   const getVal = (obj, path) => path.reduce((o, k) => o?.[k], obj) ?? 0;

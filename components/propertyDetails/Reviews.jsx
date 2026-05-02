@@ -5,7 +5,6 @@ import useSWR, { mutate } from "swr";
 import toast from "react-hot-toast";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 const normalizeReview = (r = {}, idx = 0) => ({
   _id: r._id || `local-${idx}-${r.name || "guest"}`,
@@ -18,9 +17,7 @@ const normalizeReview = (r = {}, idx = 0) => ({
 
 export default function Reviews({ propertyId, fallbackReviews = [] }) {
   const { data } = useSWR(
-    propertyId ? `/reviews?propertyId=${propertyId}` : null,
-    fetcher
-  );
+    propertyId ? `/reviews?propertyId=${propertyId}` : null);
 
   const apiReviews = (data?.data || []).map((r, i) => normalizeReview(r, i));
   const localReviews = (fallbackReviews || [])

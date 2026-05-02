@@ -6,7 +6,6 @@ import Modal from "@/components/ui/Modal";
 import DataTable from "@/components/ui/DataTable";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 export default function AdminPropertySubTypes() {
   const [modal, setModal] = useState(false);
@@ -14,8 +13,8 @@ export default function AdminPropertySubTypes() {
   const [form, setForm] = useState({ name: "", slug: "", propertyType: "", isActive: true });
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/property-subtypes", fetcher);
-  const { data: typesData } = useSWR("/property-types", fetcher);
+  const { data, isLoading } = useSWR("/property-subtypes");
+  const { data: typesData } = useSWR("/property-types");
 
   const openAdd = () => { setEditing(null); setForm({ name: "", slug: "", propertyType: "", isActive: true }); setModal(true); };
   const openEdit = (r) => {

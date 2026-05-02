@@ -5,14 +5,13 @@ import toast from "react-hot-toast";
 import api from "@/lib/axios";
 import ImageUploader from "@/components/ui/ImageUploader";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 export default function AdminAboutSection() {
   const [form, setForm] = useState({ title: "", description: "", image: "", stats: [], isActive: true });
   const [saving, setSaving] = useState(false);
   const [newStat, setNewStat] = useState({ label: "", value: "" });
 
-  const { data } = useSWR("/cms/about", fetcher);
+  const { data } = useSWR("/cms/about");
 
   useEffect(() => {
     if (data?.data) {

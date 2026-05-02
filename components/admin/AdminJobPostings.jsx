@@ -6,7 +6,6 @@ import Modal from "@/components/ui/Modal";
 import DataTable from "@/components/ui/DataTable";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 const EMPTY = {
   title: "",
   department: "",
@@ -24,7 +23,7 @@ export default function AdminJobPostings() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/cms/job-postings?all=true", fetcher);
+  const { data, isLoading } = useSWR("/cms/job-postings?all=true");
 
   const openAdd = () => {
     setEditing(null);

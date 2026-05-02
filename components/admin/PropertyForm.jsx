@@ -8,7 +8,6 @@ import ImageUploader from "@/components/ui/ImageUploader";
 import RichTextEditor from "@/components/ui/RichTextEditor";
 import LocationSelectorModal from "./LocationSelectorModal";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 const INITIAL_STATE = {
   title: "", slug: "", description: "", price: "", priceType: "fixed",
@@ -40,10 +39,10 @@ export default function PropertyForm({ propertyId }) {
   const [newFeature, setNewFeature] = useState({ label: "", value: "" });
   const [locationModalOpen, setLocationModalOpen] = useState(false);
 
-  const { data: typesData } = useSWR("/property-types", fetcher);
-  const { data: subtypesData } = useSWR(form.propertyType ? `/property-subtypes?propertyType=${form.propertyType}` : "/property-subtypes", fetcher);
-  const { data: amenitiesData } = useSWR("/amenities", fetcher);
-  const { data: propertyData } = useSWR(propertyId ? `/properties/${propertyId}` : null, fetcher);
+  const { data: typesData } = useSWR("/property-types");
+  const { data: subtypesData } = useSWR(form.propertyType ? `/property-subtypes?propertyType=${form.propertyType}` : "/property-subtypes");
+  const { data: amenitiesData } = useSWR("/amenities");
+  const { data: propertyData } = useSWR(propertyId ? `/properties/${propertyId}` : null);
 
   useEffect(() => {
     if (propertyData?.data) {

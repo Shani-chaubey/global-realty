@@ -7,7 +7,6 @@ import DataTable from "@/components/ui/DataTable";
 import StatusBadge from "@/components/ui/StatusBadge";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 export default function AdminProperties() {
   const [page, setPage] = useState(1);
@@ -18,7 +17,7 @@ export default function AdminProperties() {
   if (keyword) params.set("keyword", keyword);
   if (status) params.set("status", status);
 
-  const { data, isLoading } = useSWR(`/properties?${params}&all=true`, fetcher);
+  const { data, isLoading } = useSWR(`/properties?${params}&all=true`);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this property?")) return;

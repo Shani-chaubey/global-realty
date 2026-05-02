@@ -6,7 +6,6 @@ import Modal from "@/components/ui/Modal";
 import DataTable from "@/components/ui/DataTable";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 export default function AdminBlogCategories() {
   const [modal, setModal] = useState(false);
@@ -14,7 +13,7 @@ export default function AdminBlogCategories() {
   const [form, setForm] = useState({ name: "", slug: "", description: "", isActive: true });
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/blog-categories", fetcher);
+  const { data, isLoading } = useSWR("/blog-categories");
 
   const openAdd = () => { setEditing(null); setForm({ name: "", slug: "", description: "", isActive: true }); setModal(true); };
   const openEdit = (r) => { setEditing(r); setForm({ name: r.name, slug: r.slug, description: r.description || "", isActive: r.isActive }); setModal(true); };

@@ -8,7 +8,6 @@ import ImageUploader from "@/components/ui/ImageUploader";
 import RichTextEditor from "@/components/ui/RichTextEditor";
 import Modal from "@/components/ui/Modal";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 const INITIAL = {
   title: "", slug: "", content: "", excerpt: "", featuredImage: "",
@@ -26,8 +25,8 @@ export default function BlogForm({ blogId }) {
   const [savingCat, setSavingCat] = useState(false);
   const [activeTab, setActiveTab] = useState("content");
 
-  const { data: catData, mutate: mutateCats } = useSWR("/blog-categories", fetcher);
-  const { data: blogData } = useSWR(blogId ? `/blogs/${blogId}` : null, fetcher);
+  const { data: catData, mutate: mutateCats } = useSWR("/blog-categories");
+  const { data: blogData } = useSWR(blogId ? `/blogs/${blogId}` : null);
 
   useEffect(() => {
     if (blogData?.data) {

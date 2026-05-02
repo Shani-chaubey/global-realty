@@ -7,7 +7,6 @@ import DataTable from "@/components/ui/DataTable";
 import ImageUploader from "@/components/ui/ImageUploader";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 const EMPTY = { name: "", role: "", company: "", avatar: "", message: "", rating: 5, isApproved: true, isActive: true };
 
 export default function AdminTestimonials() {
@@ -16,7 +15,7 @@ export default function AdminTestimonials() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/cms/testimonials?all=true", fetcher);
+  const { data, isLoading } = useSWR("/cms/testimonials?all=true");
 
   const openAdd = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit = (r) => { setEditing(r); setForm({ name: r.name, role: r.role || "", company: r.company || "", avatar: r.avatar || "", message: r.message, rating: r.rating, isApproved: r.isApproved, isActive: r.isActive }); setModal(true); };

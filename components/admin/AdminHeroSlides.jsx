@@ -7,7 +7,6 @@ import DataTable from "@/components/ui/DataTable";
 import ImageUploader from "@/components/ui/ImageUploader";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 const EMPTY = { title: "", subtitle: "", backgroundImage: "", ctaText: "Explore Properties", ctaLink: "/properties", order: 0, isActive: true };
 
 export default function AdminHeroSlides() {
@@ -16,7 +15,7 @@ export default function AdminHeroSlides() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/cms/hero", fetcher);
+  const { data, isLoading } = useSWR("/cms/hero");
 
   const openAdd = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit = (r) => { setEditing(r); setForm({ title: r.title, subtitle: r.subtitle || "", backgroundImage: r.backgroundImage || "", ctaText: r.ctaText, ctaLink: r.ctaLink, order: r.order, isActive: r.isActive }); setModal(true); };

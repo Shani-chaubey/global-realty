@@ -6,7 +6,6 @@ import api from "@/lib/axios";
 import ImageUploader from "@/components/ui/ImageUploader";
 import { mergeCareerPage } from "@/lib/careerPageDefaults";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 function Field({ label, children }) {
   return (
@@ -25,7 +24,7 @@ const TABS = [
 ];
 
 export default function AdminCareerPage() {
-  const { data, isLoading } = useSWR("/cms/career-page?raw=true", fetcher);
+  const { data, isLoading } = useSWR("/cms/career-page?raw=true");
   const [form, setForm] = useState(() => mergeCareerPage(null));
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState("hero");

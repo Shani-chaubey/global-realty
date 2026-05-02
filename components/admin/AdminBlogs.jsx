@@ -7,11 +7,10 @@ import DataTable from "@/components/ui/DataTable";
 import StatusBadge from "@/components/ui/StatusBadge";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 export default function AdminBlogs() {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useSWR(`/blogs?all=true&page=${page}&limit=15`, fetcher);
+  const { data, isLoading } = useSWR(`/blogs?all=true&page=${page}&limit=15`);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this blog?")) return;

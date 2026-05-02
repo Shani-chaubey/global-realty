@@ -6,7 +6,6 @@ import Modal from "@/components/ui/Modal";
 import DataTable from "@/components/ui/DataTable";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 const EMPTY = { name: "", icon: "", category: "other", isActive: true };
 
 export default function AdminAmenities() {
@@ -15,7 +14,7 @@ export default function AdminAmenities() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/amenities?all=true", fetcher);
+  const { data, isLoading } = useSWR("/amenities?all=true");
 
   const openAdd = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit = (row) => { setEditing(row); setForm({ name: row.name, icon: row.icon || "", category: row.category, isActive: row.isActive }); setModal(true); };

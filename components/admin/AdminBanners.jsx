@@ -7,7 +7,6 @@ import DataTable from "@/components/ui/DataTable";
 import ImageUploader from "@/components/ui/ImageUploader";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 const EMPTY = { title: "", subtitle: "", image: "", link: "", position: "home", isActive: true, order: 0 };
 
 export default function AdminBanners() {
@@ -16,7 +15,7 @@ export default function AdminBanners() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/cms/banners?all=true", fetcher);
+  const { data, isLoading } = useSWR("/cms/banners?all=true");
 
   const openAdd = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit = (r) => { setEditing(r); setForm({ title: r.title, subtitle: r.subtitle || "", image: r.image || "", link: r.link || "", position: r.position, isActive: r.isActive, order: r.order }); setModal(true); };

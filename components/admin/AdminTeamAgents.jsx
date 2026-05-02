@@ -7,7 +7,6 @@ import DataTable from "@/components/ui/DataTable";
 import ImageUploader from "@/components/ui/ImageUploader";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 const EMPTY = {
   name: "",
   slug: "",
@@ -36,7 +35,7 @@ export default function AdminTeamAgents() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/cms/team-agents?all=true", fetcher);
+  const { data, isLoading } = useSWR("/cms/team-agents?all=true");
 
   const openAdd = () => {
     setEditing(null);

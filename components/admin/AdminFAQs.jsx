@@ -6,7 +6,6 @@ import Modal from "@/components/ui/Modal";
 import DataTable from "@/components/ui/DataTable";
 import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 const EMPTY = { question: "", answer: "", category: "general", order: 0, isActive: true };
 
 export default function AdminFAQs() {
@@ -15,7 +14,7 @@ export default function AdminFAQs() {
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const { data, isLoading } = useSWR("/cms/faqs?all=true", fetcher);
+  const { data, isLoading } = useSWR("/cms/faqs?all=true");
 
   const openAdd = () => { setEditing(null); setForm(EMPTY); setModal(true); };
   const openEdit = (r) => { setEditing(r); setForm({ question: r.question, answer: r.answer, category: r.category, order: r.order, isActive: r.isActive }); setModal(true); };

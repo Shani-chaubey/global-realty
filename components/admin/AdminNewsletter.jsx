@@ -1,12 +1,10 @@
 "use client";
 import useSWR from "swr";
 import toast from "react-hot-toast";
-import api from "@/lib/axios";
 
-const fetcher = (url) => api.get(url).then((r) => r.data);
 
 export default function AdminNewsletter() {
-  const { data, isLoading } = useSWR("/newsletter", fetcher);
+  const { data, isLoading } = useSWR("/newsletter");
 
   const handleExport = () => {
     if (!data?.data?.length) { toast.error("No subscribers"); return; }
