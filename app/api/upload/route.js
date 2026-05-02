@@ -9,6 +9,20 @@ cloudinary.config({
 
 export async function POST(request) {
   try {
+    if (
+      !process.env.CLOUDINARY_CLOUD_NAME ||
+      !process.env.CLOUDINARY_API_KEY ||
+      !process.env.CLOUDINARY_API_SECRET
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "Image upload is not configured (set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET).",
+        },
+        { status: 503 },
+      );
+    }
     const formData = await request.formData();
     const file = formData.get("file");
     const folder = formData.get("folder") || "proty";

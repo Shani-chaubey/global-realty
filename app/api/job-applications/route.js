@@ -24,8 +24,21 @@ export async function POST(request) {
     if (!fullName?.trim() || !email?.trim() || !phone?.trim()) {
       return NextResponse.json({ success: false, error: "Name, email, and phone are required." }, { status: 400 });
     }
+    const phoneDigits = String(phone).replace(/\D/g, "");
+    if (phoneDigits.length !== 10) {
+      return NextResponse.json({ success: false, error: "Phone must be exactly 10 digits." }, { status: 400 });
+    }
+    const emailOk =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim()) &&
+      String(email).length <= 254;
+    if (!emailOk) {
+      return NextResponse.json({ success: false, error: "Invalid email address." }, { status: 400 });
+    }
     if (!coverLetter?.trim()) {
       return NextResponse.json({ success: false, error: "Cover letter is required." }, { status: 400 });
+    }
+    if (String(coverLetter).trim().length < 20) {
+      return NextResponse.json({ success: false, error: "Cover letter is too short." }, { status: 400 });
     }
     if (!resumeUrl?.trim()) {
       return NextResponse.json({ success: false, error: "Resume (PDF) is required." }, { status: 400 });
@@ -34,7 +47,7 @@ export async function POST(request) {
     const created = await JobApplication.create({
       fullName: String(fullName).trim(),
       email: String(email).trim(),
-      phone: String(phone).trim(),
+      phone: phoneDigits,
       linkedinUrl: String(linkedinUrl || "").trim(),
       jobTitle: String(jobTitle || "").trim(),
       department: String(department || "").trim(),
