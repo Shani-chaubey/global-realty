@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { footerData } from "@/data/footerLinks";
-export default function Footer1({ logo = "/images/logo/logo-2@2x.png" }) {
+export default function Footer1({ logo = "/images/logo/logo.png" }) {
   const [contactInfo, setContactInfo] = useState({ phone: "", email: "" });
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function Footer1({ logo = "/images/logo/logo-2@2x.png" }) {
         "https://express-brevomail.vercel.app/api/contacts",
         {
           email,
-        }
+        },
       );
 
       if ([200, 201].includes(response.status)) {
@@ -112,7 +112,9 @@ export default function Footer1({ logo = "/images/logo/logo-2@2x.png" }) {
                     <div className="content">
                       <div className="title text-1">Call us</div>
                       <h6>
-                        <a href={`tel:${contactInfo.phone}`}>{contactInfo.phone}</a>
+                        <a href={`tel:${contactInfo.phone}`}>
+                          {contactInfo.phone}
+                        </a>
                       </h6>
                     </div>
                   </div>
@@ -125,7 +127,9 @@ export default function Footer1({ logo = "/images/logo/logo-2@2x.png" }) {
                     <div className="content">
                       <div className="title text-1">Need live help</div>
                       <h6 className="fw-4">
-                        <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
+                        <a href={`mailto:${contactInfo.email}`}>
+                          {contactInfo.email}
+                        </a>
                       </h6>
                     </div>
                   </div>

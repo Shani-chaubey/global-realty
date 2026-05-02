@@ -5,7 +5,7 @@ import SplitTextAnimation from "@/components/common/SplitTextAnimation";
 import PropertyLoanCalculator from "@/components/propertyDetails/LoanCalculator";
 export default function LoanCalculator() {
   return (
-    <section className="section-pre-approved tf-spacing-1">
+    <section id="loan-calculator" className="section-pre-approved tf-spacing-1">
       <div className="tf-container">
         <div className="row">
           <div className="col-lg-6">

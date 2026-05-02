@@ -12,12 +12,17 @@ import Properties2 from "@/components/homes/home-1/Properties2";
 import Testimonials from "@/components/homes/home-1/Testimonials";
 import connectDB from "@/lib/mongoose";
 import PropertyModel from "@/models/Property";
+import PropertyTypeModel from "@/models/PropertyType";
 import TestimonialModel from "@/models/Testimonial";
 import BlogModel from "@/models/Blog";
 import HeroSectionModel from "@/models/HeroSection";
 import ContactInfoModel from "@/models/ContactInfo";
+import HelpCenterContentModel from "@/models/HelpCenterContent";
+import PartnerLogoModel from "@/models/PartnerLogo";
+import { resolveHelpCenterContent } from "@/lib/helpCenterResolve";
 import { getPageSeo } from "@/lib/seo";
 import mongoose from "mongoose";
+import { Suspense } from "react";
 
 export async function generateMetadata() {
   const { metadata } = await getPageSeo("home", {
@@ -31,36 +36,65 @@ async function getHomePageData() {
   try {
     await connectDB();
 
-    const [properties, testimonials, blogs, heroSlides, contactInfo, topCitiesRaw] =
-      await Promise.all([
-        PropertyModel.find({ isActive: { $ne: false } })
-          .sort({ createdAt: -1 })
-          .limit(9)
-          .lean()
-          .catch(() => []),
-        TestimonialModel.find({ isApproved: true, isActive: true })
-          .sort({ createdAt: -1 })
-          .limit(9)
-          .lean()
-          .catch(() => []),
-        BlogModel.find({ status: "published" })
-          .sort({ publishedAt: -1, createdAt: -1 })
-          .limit(6)
-          .lean()
-          .catch(() => []),
-        HeroSectionModel.find({ isActive: true })
-          .sort({ order: 1 })
-          .limit(5)
-          .lean()
-          .catch(() => []),
-        ContactInfoModel.findOne().lean().catch(() => null),
-        PropertyModel.aggregate([
-          { $match: { isActive: { $ne: false }, city: { $type: "objectId" } } },
-          { $group: { _id: "$city", propertyCount: { $sum: 1 } } },
-          { $sort: { propertyCount: -1 } },
-          { $limit: 7 },
-        ]).catch(() => []),
-      ]);
+    const [
+      properties,
+      testimonials,
+      blogs,
+      heroSlides,
+      contactInfo,
+      topCitiesRaw,
+      propertyTypeCounts,
+      propertyTypes,
+      helpCenterDoc,
+      partnerLogosRaw,
+    ] = await Promise.all([
+      PropertyModel.find({ isActive: { $ne: false } })
+        .sort({ createdAt: -1 })
+        .limit(9)
+        .lean()
+        .catch(() => []),
+      TestimonialModel.find({ isApproved: true, isActive: true })
+        .sort({ createdAt: -1 })
+        .limit(9)
+        .lean()
+        .catch(() => []),
+      BlogModel.find({ status: "published" })
+        .sort({ publishedAt: -1, createdAt: -1 })
+        .limit(6)
+        .lean()
+        .catch(() => []),
+      HeroSectionModel.find({ isActive: true })
+        .sort({ order: 1 })
+        .limit(5)
+        .lean()
+        .catch(() => []),
+      ContactInfoModel.findOne().lean().catch(() => null),
+      PropertyModel.aggregate([
+        { $match: { isActive: { $ne: false }, city: { $type: "objectId" } } },
+        { $group: { _id: "$city", propertyCount: { $sum: 1 } } },
+        { $sort: { propertyCount: -1 } },
+        { $limit: 7 },
+      ]).catch(() => []),
+      PropertyModel.aggregate([
+        {
+          $match: {
+            isActive: true,
+            propertyType: { $exists: true, $ne: null },
+          },
+        },
+        { $group: { _id: "$propertyType", count: { $sum: 1 } } },
+      ]).catch(() => []),
+      PropertyTypeModel.find({ isActive: true })
+        .sort({ name: 1 })
+        .lean()
+        .catch(() => []),
+      HelpCenterContentModel.findOne({ key: "home" }).lean().catch(() => null),
+      PartnerLogoModel.find({ isActive: true })
+        .sort({ order: 1, createdAt: 1 })
+        .select("name image link order")
+        .lean()
+        .catch(() => []),
+    ]);
 
     let topCities = [];
     if (topCitiesRaw.length) {
@@ -87,6 +121,30 @@ async function getHomePageData() {
         .filter(Boolean);
     }
 
+    const typeCountMap = new Map(
+      (propertyTypeCounts || []).map((row) => [String(row._id), row.count || 0])
+    );
+    const categoryItems = (propertyTypes || [])
+      .filter((t) => t?._id && t.slug)
+      .map((t) => ({
+        slug: t.slug,
+        name: t.name,
+        icon: t.icon || "",
+        count: typeCountMap.get(String(t._id)) || 0,
+      }))
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+
+    const helpCenterContent = resolveHelpCenterContent(helpCenterDoc);
+
+    const partnerLogos = (partnerLogosRaw || [])
+      .filter((p) => p?.image && String(p.image).trim())
+      .map((p) => ({
+        _id: String(p._id),
+        name: p.name || "Partner",
+        image: String(p.image).trim(),
+        link: (p.link && String(p.link).trim()) || "",
+      }));
+
     return {
       properties: JSON.parse(JSON.stringify(properties)),
       testimonials: JSON.parse(JSON.stringify(testimonials)),
@@ -94,6 +152,9 @@ async function getHomePageData() {
       heroSlides: JSON.parse(JSON.stringify(heroSlides)),
       topCities: JSON.parse(JSON.stringify(topCities)),
       contactInfo: contactInfo ? JSON.parse(JSON.stringify(contactInfo)) : null,
+      categoryItems: JSON.parse(JSON.stringify(categoryItems)),
+      helpCenterContent: JSON.parse(JSON.stringify(helpCenterContent)),
+      partnerLogos: JSON.parse(JSON.stringify(partnerLogos)),
     };
   } catch {
     return {
@@ -103,26 +164,50 @@ async function getHomePageData() {
       heroSlides: [],
       topCities: [],
       contactInfo: null,
+      categoryItems: [],
+      helpCenterContent: resolveHelpCenterContent(null),
+      partnerLogos: [],
     };
   }
 }
 
 export default async function Home() {
-  const { properties, testimonials, blogs, heroSlides, topCities, contactInfo } =
-    await getHomePageData();
+  const {
+    properties,
+    testimonials,
+    blogs,
+    heroSlides,
+    topCities,
+    contactInfo,
+    categoryItems,
+    helpCenterContent,
+    partnerLogos,
+  } = await getHomePageData();
 
   return (
     <>
       <Header1 />
-      <Hero heroSlides={heroSlides} />
+      <Suspense
+        fallback={
+          <div
+            className="page-title home01"
+            style={{
+              minHeight: "clamp(560px, 72vh, 760px)",
+              background: "#1f2124",
+            }}
+          />
+        }
+      >
+        <Hero heroSlides={heroSlides} />
+      </Suspense>
       <div className="main-content">
-        <Categories />
+        <Categories items={categoryItems} />
         <Properties properties={properties} />
-        <HelpCenter />
+        <HelpCenter content={helpCenterContent} />
         <LoanCalculator />
         <Cities cities={topCities} />
         <Properties2 properties={properties} />
-        <Partners />
+        <Partners partnerLogos={partnerLogos} />
         <Blogs blogs={blogs} />
         <Testimonials testimonials={testimonials} />
       </div>

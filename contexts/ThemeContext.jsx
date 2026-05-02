@@ -1,13 +1,16 @@
 "use client";
+import { BRAND_PRIMARY_HEX } from "@/lib/brandPrimary";
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
 const ThemeContext = createContext({
-  primaryColor: "#dc3545",
+  primaryColor: BRAND_PRIMARY_HEX,
   setPrimaryColor: () => {},
 });
 
 export function ThemeProvider({ children, initialColor }) {
-  const [primaryColor, setPrimaryColorState] = useState(initialColor || "#dc3545");
+  const [primaryColor, setPrimaryColorState] = useState(
+    initialColor || BRAND_PRIMARY_HEX
+  );
 
   const applyColor = useCallback((color) => {
     document.documentElement.style.setProperty("--color-primary", color);

@@ -293,7 +293,7 @@ export default function Project1() {
                 <div className="logo relative z-5">
                   <Image
                     alt=""
-                    src="/images/logo/logo-2@2x.png"
+                    src="/images/logo/logo.png"
                     width={272}
                     height={85}
                   />

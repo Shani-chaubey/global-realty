@@ -232,7 +232,7 @@ export default function Projects() {
                         alt="logo-footer"
                         width={272}
                         height={85}
-                        src="/images/logo/logo-2@2x.png"
+                        src="/images/logo/logo.png"
                       />
                     </Link>
                     <p className="text-1 text-color1">

@@ -9,7 +9,7 @@ export default function Cta() {
             <div className="content-inner">
               <Image
                 alt=""
-                src="/images/section/cta.png"
+                src="/images/section/cta.webp"
                 width={216}
                 height={312}
               />

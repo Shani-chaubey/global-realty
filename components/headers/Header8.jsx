@@ -13,7 +13,7 @@ export default function Header8() {
                 className="logo_header"
                 alt=""
                 data-light="/images/logo/logo@2x.png"
-                data-dark="/images/logo/logo-2@2x.png"
+                data-dark="/images/logo/logo.png"
                 src="/images/logo/logo@2x.png"
               />
             </Link>

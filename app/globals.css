@@ -1,16 +1,15 @@
 /* ── Design System: CSS Variables + Dark Mode (data-theme attribute) ── */
 
 :root {
-  /* Brand color (set dynamically by ThemeLoader) */
-  --color-primary: #dc3545;
-  --color-primary-hover: #c82333;
+  /* Brand primary — same as SCSS `public/scss/abstracts/_variable.scss` → `--Primary` (#78a535). ThemeLoader reapplies on load. */
+  --color-primary: #78a535;
+  --color-primary-hover: #5f7a2a;
 
-  /* Theme system — dynamic CSS variables (updated by ThemeLoader via JS) */
-  --primary: #dc3545;
-  --primary-hover: rgba(220, 53, 69, 0.82);
-  --primary-light: rgba(220, 53, 69, 0.12);
-  --primary-section-bg: rgba(220, 53, 69, 0.06);
-  --primary-rgb: 220, 53, 69;
+  --primary: #78a535;
+  --primary-hover: rgba(120, 165, 53, 0.82);
+  --primary-light: rgba(120, 165, 53, 0.12);
+  --primary-section-bg: rgba(120, 165, 53, 0.06);
+  --primary-rgb: 120, 165, 53;
 
   /* Design system — light mode */
   --bg-primary: #ffffff;
@@ -71,9 +70,8 @@
   --jodit-color: #f9fafb;
 }
 
-/* ── Template Primary-Color Overrides (replaces hardcoded #F1913D) ── */
-/* These override the template's own CSS which hard-codes the orange brand color.
-   --color-primary is set dynamically by ThemeLoader from the admin settings. */
+/* ── Template primary overrides (replaces hardcoded #F1913D) ── */
+/* Accent uses `var(--color-primary)`; value comes from SCSS `--Primary` + ThemeLoader (`lib/brandPrimary.js`). */
 
 .bg-color-primary,
 .flat-tag.bg-main,

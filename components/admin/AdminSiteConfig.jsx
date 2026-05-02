@@ -12,7 +12,6 @@ const DEFAULTS = {
   siteTagline: "Find Your Dream Property",
   logo: "",
   favicon: "",
-  primaryColor: "#dc3545",
   footerText: "© 2024 Proty. All rights reserved.",
   googleAnalyticsId: "",
   facebookPixelId: "",
@@ -30,7 +29,8 @@ export default function AdminSiteConfig() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await api.put("/site-config", form);
+      const { primaryColor: _ignored, ...payload } = form;
+      await api.put("/site-config", payload);
       toast.success("Config saved");
     } catch {} finally { setSaving(false); }
   };
@@ -49,7 +49,9 @@ export default function AdminSiteConfig() {
               <div><label className="ap-label">Site Name</label><input className="ap-input" value={form.siteName} onChange={(e) => setForm((p) => ({ ...p, siteName: e.target.value }))} /></div>
               <div><label className="ap-label">Tagline</label><input className="ap-input" value={form.siteTagline} onChange={(e) => setForm((p) => ({ ...p, siteTagline: e.target.value }))} /></div>
               <div><label className="ap-label">Footer Text</label><input className="ap-input" value={form.footerText} onChange={(e) => setForm((p) => ({ ...p, footerText: e.target.value }))} /></div>
-              <div><label className="ap-label">Primary Color</label><input type="color" style={{ height: "2.5rem", width: "5rem", border: "1px solid #d1d5db", borderRadius: "0.375rem", cursor: "pointer" }} value={form.primaryColor} onChange={(e) => setForm((p) => ({ ...p, primaryColor: e.target.value }))} /></div>
+              <p className="text-sm" style={{ color: "#6b7280", margin: 0 }}>
+                Site primary color is fixed in theme SCSS / <code>lib/brandPrimary.js</code> (not edited here).
+              </p>
             </div>
           </div>
           <div className="admin-card" style={{ padding: "1.5rem" }}>

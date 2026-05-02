@@ -31,9 +31,9 @@ export default async function Header1({ parentClass = "header" }) {
                     <img
                       className="logo_header"
                       alt=""
-                      data-light="/images/logo/logo@2x.png"
-                      data-dark="/images/logo/logo-2@2x.png"
-                      src="/images/logo/logo@2x.png"
+                      data-light="/images/logo/logo.png"
+                      data-dark="/images/logo/logo.png"
+                      src="/images/logo/logo.png"
                     />
                   </Link>
                 </div>
@@ -43,7 +43,7 @@ export default async function Header1({ parentClass = "header" }) {
                   </ul>
                 </nav>
                 <div className="header-right">
-                  {phone && (
+                  {/* {phone && (
                     <div className="phone-number">
                       <div className="icons">
                         <svg
@@ -66,8 +66,7 @@ export default async function Header1({ parentClass = "header" }) {
                         <a href={`tel:${phone}`}>{phone}</a>
                       </p>
                     </div>
-                  )}
-                  <DashboardNav />
+                  )} */}
                   <div className="btn-add">
                     <button
                       className="tf-btn style-border pd-23"

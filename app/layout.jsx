@@ -34,7 +34,7 @@ export default async function RootLayout({ children }) {
       <body className="popup-loader">
         {/* Admin-managed scripts (Google Analytics, GTM, Meta Pixel, custom) */}
         {injectedScripts && <ScriptInjector scripts={injectedScripts} />}
-        <ThemeLoader initialColor="#dc3545" />
+        <ThemeLoader />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

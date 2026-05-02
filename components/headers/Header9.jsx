@@ -15,7 +15,7 @@ export default function Header9() {
                     <Image
                       id="logo_header"
                       alt=""
-                      src="/images/logo/logo-2@2x.png"
+                      src="/images/logo/logo.png"
                       width={272}
                       height={85}
                     />

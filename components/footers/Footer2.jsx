@@ -52,7 +52,7 @@ export default function Footer2({ parentClass = "" }) {
         "https://express-brevomail.vercel.app/api/contacts",
         {
           email,
-        }
+        },
       );
 
       if ([200, 201].includes(response.status)) {
@@ -84,7 +84,7 @@ export default function Footer2({ parentClass = "" }) {
                     alt="logo-footer"
                     width={272}
                     height={85}
-                    src="/images/logo/logo-2@2x.png"
+                    src="/images/logo/logo.png"
                   />
                 </Link>
               </div>

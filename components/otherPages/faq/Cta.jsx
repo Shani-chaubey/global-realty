@@ -13,7 +13,7 @@ export default function Cta() {
                   alt=""
                   width={272}
                   height={85}
-                  src="/images/logo/logo-2@2x.png"
+                  src="/images/logo/logo.png"
                 />
               </div>
               <div className="image-wrap">

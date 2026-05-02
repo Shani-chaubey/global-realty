@@ -220,3 +220,105 @@
     }
   }
 }
+
+/* Break hero search out of col-lg-8 so the advanced panel aligns to the viewport (not a narrow column). */
+.page-title.home01 .hero-filter-breakout {
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  box-sizing: border-box;
+  padding-left: max(12px, env(safe-area-inset-left, 0px));
+  padding-right: max(12px, env(safe-area-inset-right, 0px));
+}
+
+/* Home hero: advanced filter panel anchors to the search bar (not full row height) */
+.page-title.home01 .wg-filter--hero {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: min(1100px, 100%);
+  min-width: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page-title.home01 .content-inner {
+  min-width: 0;
+}
+
+/* Theme uses width:1280px + absolute; keep panel within the (now viewport-wide) hero breakout */
+.page-title.home01 .wg-filter--hero .wd-search-form {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0;
+  left: 0 !important;
+  right: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  transform: none !important;
+  box-sizing: border-box;
+}
+
+.page-title.home01 .wg-filter--hero .wd-search-form.show {
+  max-height: min(72vh, 640px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  z-index: 6;
+}
+
+@media (max-width: 991px) {
+  .page-title.home01 .wg-filter--hero .wd-search-form .group-select {
+    grid-template-columns: 1fr !important;
+  }
+  .page-title.home01 .wg-filter--hero .wd-search-form .group-price {
+    grid-template-columns: 1fr !important;
+  }
+  .page-title.home01 .wg-filter--hero .wd-search-form .group-amenities {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Home hero: active filter chips + controls readable on dark overlay */
+.page-title.home01 .hero-filter-chip {
+  background-color: #fff !important;
+  color: var(--Heading, #111827) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.page-title.home01 .hero-filter-chip button {
+  color: var(--Primary, #78a535) !important;
+}
+
+/* Dropdown list: selected row clearly visible on home panel */
+.page-title.home01 .wg-filter--hero .nice-select .list .option.selected {
+  background-color: #fff !important;
+  color: var(--Heading, #111827) !important;
+  box-shadow: inset 0 0 0 2px var(--Primary, #78a535);
+}
+
+.page-title.home01 .wg-filter--hero .nice-select .list .option:hover {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Amenities: checked state uses solid white fill + primary check (default uses white tick on primary) */
+.page-title.home01
+  .wg-filter--hero
+  .checkbox-item.style-1
+  label
+  input:checked
+  ~ .btn-checkbox {
+  background-color: #fff !important;
+  border-color: var(--Primary, #78a535) !important;
+}
+
+.page-title.home01
+  .wg-filter--hero
+  .checkbox-item.style-1
+  label
+  input:checked
+  ~ .btn-checkbox::after {
+  color: var(--Primary, #78a535) !important;
+}

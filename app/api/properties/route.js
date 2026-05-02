@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongoose";
 import Property from "@/models/Property";
+import PropertyType from "@/models/PropertyType";
 import Amenity from "@/models/Amenity";
 import mongoose from "mongoose";
 import { generateSlug } from "@/lib/apiHelpers";
@@ -48,7 +49,19 @@ export async function GET(request) {
     if (pincode) query.pincode = pincode;
 
     const propertyType = searchParams.get("propertyType");
-    if (propertyType) query.propertyType = propertyType;
+    if (propertyType) {
+      const raw = propertyType.trim();
+      if (isObjectId(raw)) {
+        query.propertyType = new mongoose.Types.ObjectId(raw);
+      } else {
+        const pt = await PropertyType.findOne({
+          slug: raw.toLowerCase(),
+        })
+          .select("_id")
+          .lean();
+        if (pt?._id) query.propertyType = pt._id;
+      }
+    }
 
     const propertySubType = searchParams.get("propertySubType");
     if (propertySubType) query.propertySubType = propertySubType;

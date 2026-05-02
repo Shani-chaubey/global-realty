@@ -1,4 +1,6 @@
 "use client";
+
+import { BRAND_PRIMARY_HEX } from "@/lib/brandPrimary";
 import { useEffect } from "react";
 import { hexToRgba } from "@/lib/colorUtils";
 
@@ -11,23 +13,14 @@ function applyThemeColor(hex) {
   root.style.setProperty("--primary-section-bg", hexToRgba(hex, 0.06));
 }
 
-export default function ThemeLoader({ initialColor = "#dc3545" }) {
+/**
+ * Applies the fixed theme primary so `--color-primary` matches SCSS `--Primary`.
+ * (Site color is not read from the database.)
+ */
+export default function ThemeLoader() {
   useEffect(() => {
-    applyThemeColor(initialColor);
-
-    async function loadTheme() {
-      try {
-        const res = await fetch("/api/site-config", { cache: "no-store" });
-        const data = await res.json();
-        const color = data?.data?.primaryColor || initialColor;
-        applyThemeColor(color);
-      } catch {
-        applyThemeColor(initialColor);
-      }
-    }
-
-    loadTheme();
-  }, [initialColor]);
+    applyThemeColor(BRAND_PRIMARY_HEX);
+  }, []);
 
   return null;
 }

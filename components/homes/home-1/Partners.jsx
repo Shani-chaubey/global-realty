@@ -2,7 +2,7 @@
 import Image from "next/image";
 import SplitTextAnimation from "@/components/common/SplitTextAnimation";
 import BrandSlider from "@/components/common/BrandSlider";
-export default function Partners() {
+export default function Partners({ partnerLogos = [] }) {
   return (
     <section className="section-work-together ">
       <div className="wg-partner  tf-spacing-1">
@@ -21,7 +21,7 @@ export default function Partners() {
                   website.
                 </p>
               </div>
-              <BrandSlider />
+              <BrandSlider logos={partnerLogos} />
             </div>
           </div>
         </div>
