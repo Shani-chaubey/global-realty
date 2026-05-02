@@ -219,11 +219,15 @@ const PropertySchema = new mongoose.Schema(
     metaDescription: { type: String, default: "" },
     metaKeywords:    { type: String, default: "" },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    // `isNew` collides with Mongoose document API; field name kept for existing data
+    suppressReservedKeysWarning: true,
+  }
 );
 
 PropertySchema.index({ title: "text", description: "text", address: "text" });
-PropertySchema.index({ slug: 1 });
+// slug: unique index is already created by `unique: true` on the field
 PropertySchema.index({ city: 1, state: 1, country: 1 });
 PropertySchema.index({ status: 1, listingType: 1 });
 PropertySchema.index({ price: 1 });

@@ -10,6 +10,7 @@ import "../styles/listing.css";
 import "../styles/details.css";
 import "photoswipe/style.css";
 import "rc-slider/assets/index.css";
+import { Suspense } from "react";
 import ClientLayout from "@/components/common/ClientLayout";
 import connectDB from "@/lib/mongoose";
 import ScriptSettings from "@/models/ScriptSettings";
@@ -35,7 +36,9 @@ export default async function RootLayout({ children }) {
         {/* Admin-managed scripts (Google Analytics, GTM, Meta Pixel, custom) */}
         {injectedScripts && <ScriptInjector scripts={injectedScripts} />}
         <ThemeLoader />
-        <ClientLayout>{children}</ClientLayout>
+        <Suspense fallback={null}>
+          <ClientLayout>{children}</ClientLayout>
+        </Suspense>
       </body>
     </html>
   );
