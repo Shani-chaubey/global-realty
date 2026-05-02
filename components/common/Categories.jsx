@@ -34,7 +34,7 @@ export default function Categories({
           name: row.name,
           slug: row.slug,
         }),
-        isActive: index === 0,
+        isActive: false,
       }))
     : categories.map((category, index) => ({
         key: index,

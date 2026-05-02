@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongoose";
 import Property from "@/models/Property";
+import "@/models/City";
+import "@/models/State";
+import "@/models/Country";
 
 export async function GET(request, { params }) {
   try {
@@ -16,6 +19,13 @@ export async function GET(request, { params }) {
       .populate("propertySubType", "name slug")
       .populate("amenities", "name icon category")
       .populate("agentId", "name email phone avatar")
+      .populate({
+        path: "city",
+        select: "name slug state",
+        populate: { path: "state", select: "name code" },
+      })
+      .populate("state", "name code")
+      .populate("country", "name code")
       .lean();
 
     if (!property) {

@@ -6,10 +6,20 @@ import PropertyGridItems from "@/components/properties/PropertyGridItems";
 const fetcher = (url) => api.get(url).then((r) => r.data);
 const getLabel = (v) => (v && typeof v === "object" ? v.name || "" : v || "");
 const getRefId = (v) => (v && typeof v === "object" ? v._id || "" : v || "");
+/** Prefer slug in listing URLs; fall back to id for legacy objects without slug. */
+const getSubTypeQueryValue = (v) => {
+  if (!v) return "";
+  if (typeof v === "object") {
+    const slug = String(v.slug || "").trim();
+    if (slug) return slug;
+    return v._id ? String(v._id) : "";
+  }
+  return String(v);
+};
 export default function RelatedProperties({ city, propertySubType, currentId }) {
   const params = new URLSearchParams({ limit: 8 });
   const cityParam = getRefId(city);
-  const subTypeParam = getRefId(propertySubType);
+  const subTypeParam = getSubTypeQueryValue(propertySubType);
   if (cityParam) params.set("city", cityParam);
   if (subTypeParam) params.set("propertySubType", subTypeParam);
 

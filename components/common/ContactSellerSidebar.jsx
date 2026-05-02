@@ -4,10 +4,23 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import api from "@/lib/axios";
+import {
+  firstErrorMessage,
+  validateInquiryForm,
+} from "@/lib/inquiryFormValidation";
 
 const emptyForm = { name: "", email: "", phone: "", message: "" };
 
-const defaultAvatar = "https://www.w3schools.com/howto/img_avatar.png";
+const defaultAvatar = "https://www.w3.org/w3schools.com/howto/img_avatar.png";
+
+function clearErr(setter, key) {
+  setter((prev) => {
+    if (!prev[key]) return prev;
+    const n = { ...prev };
+    delete n[key];
+    return n;
+  });
+}
 
 export default function ContactSellerSidebar({
   property,
@@ -18,10 +31,12 @@ export default function ContactSellerSidebar({
   const [form1, setForm1] = useState(emptyForm);
   const [submitting1, setSubmitting1] = useState(false);
   const [submitted1, setSubmitted1] = useState(false);
+  const [errors1, setErrors1] = useState({});
 
   const [form2, setForm2] = useState(emptyForm);
   const [submitting2, setSubmitting2] = useState(false);
   const [submitted2, setSubmitted2] = useState(false);
+  const [errors2, setErrors2] = useState({});
   const [contactInfo, setContactInfo] = useState({ phone: "", email: "" });
 
   const agentRef = property?.agentId || {};
@@ -83,19 +98,27 @@ export default function ContactSellerSidebar({
 
   const handleSubmit1 = async (e) => {
     e.preventDefault();
-    if (!form1.name || !form1.email || !form1.message) {
-      toast.error("Please fill all required fields");
+    const { ok, errors } = validateInquiryForm(form1, { minMessage: 10 });
+    if (!ok) {
+      setErrors1(errors);
+      const msg = firstErrorMessage(errors);
+      if (msg) toast.error(msg);
       return;
     }
+    setErrors1({});
     await submitInquiry(form1, setSubmitting1, setSubmitted1);
   };
 
   const handleSubmit2 = async (e) => {
     e.preventDefault();
-    if (!form2.name || !form2.email || !form2.message) {
-      toast.error("Please fill all required fields");
+    const { ok, errors } = validateInquiryForm(form2, { minMessage: 10 });
+    if (!ok) {
+      setErrors2(errors);
+      const msg = firstErrorMessage(errors);
+      if (msg) toast.error(msg);
       return;
     }
+    setErrors2({});
     await submitInquiry(form2, setSubmitting2, setSubmitted2);
   };
 
@@ -109,7 +132,11 @@ export default function ContactSellerSidebar({
       className={`tf-sidebar sticky-sidebar${className ? ` ${className}` : ""}`}
       id={id}
     >
-      <form className="form-contact-seller mb-30" onSubmit={handleSubmit1}>
+      <form
+        className="form-contact-seller mb-30"
+        onSubmit={handleSubmit1}
+        noValidate
+      >
         <h4 className="heading-title mb-30">Contact Sellers</h4>
 
         <div className="seller-info">
@@ -162,11 +189,16 @@ export default function ContactSellerSidebar({
                 className="form-control"
                 placeholder="Full Name *"
                 value={form1.name}
-                onChange={(e) =>
-                  setForm1((p) => ({ ...p, name: e.target.value }))
-                }
-                required
+                onChange={(e) => {
+                  setForm1((p) => ({ ...p, name: e.target.value }));
+                  clearErr(setErrors1, "name");
+                }}
+                aria-invalid={!!errors1.name}
+                autoComplete="name"
               />
+              {errors1.name ? (
+                <span className="form-field-error">{errors1.name}</span>
+              ) : null}
             </fieldset>
             <fieldset className="mb-12">
               <input
@@ -174,22 +206,33 @@ export default function ContactSellerSidebar({
                 className="form-control"
                 placeholder="Email *"
                 value={form1.email}
-                onChange={(e) =>
-                  setForm1((p) => ({ ...p, email: e.target.value }))
-                }
-                required
+                onChange={(e) => {
+                  setForm1((p) => ({ ...p, email: e.target.value }));
+                  clearErr(setErrors1, "email");
+                }}
+                aria-invalid={!!errors1.email}
+                autoComplete="email"
               />
+              {errors1.email ? (
+                <span className="form-field-error">{errors1.email}</span>
+              ) : null}
             </fieldset>
             <fieldset className="mb-12">
               <input
-                type="text"
+                type="tel"
                 className="form-control"
                 placeholder="Phone"
                 value={form1.phone}
-                onChange={(e) =>
-                  setForm1((p) => ({ ...p, phone: e.target.value }))
-                }
+                onChange={(e) => {
+                  setForm1((p) => ({ ...p, phone: e.target.value }));
+                  clearErr(setErrors1, "phone");
+                }}
+                aria-invalid={!!errors1.phone}
+                autoComplete="tel"
               />
+              {errors1.phone ? (
+                <span className="form-field-error">{errors1.phone}</span>
+              ) : null}
             </fieldset>
             <fieldset className="mb-30">
               <textarea
@@ -197,11 +240,15 @@ export default function ContactSellerSidebar({
                 rows={5}
                 placeholder={messagePlaceholder}
                 value={form1.message}
-                onChange={(e) =>
-                  setForm1((p) => ({ ...p, message: e.target.value }))
-                }
-                required
+                onChange={(e) => {
+                  setForm1((p) => ({ ...p, message: e.target.value }));
+                  clearErr(setErrors1, "message");
+                }}
+                aria-invalid={!!errors1.message}
               />
+              {errors1.message ? (
+                <span className="form-field-error">{errors1.message}</span>
+              ) : null}
             </fieldset>
             <button
               type="submit"
@@ -215,7 +262,11 @@ export default function ContactSellerSidebar({
         )}
       </form>
 
-      <form className="form-contact-agent" onSubmit={handleSubmit2}>
+      <form
+        className="form-contact-agent"
+        onSubmit={handleSubmit2}
+        noValidate
+      >
         <h4 className="heading-title mb-30">More About This Property</h4>
 
         {submitted2 ? (
@@ -236,11 +287,16 @@ export default function ContactSellerSidebar({
                 className="form-control"
                 placeholder="Your name *"
                 value={form2.name}
-                onChange={(e) =>
-                  setForm2((p) => ({ ...p, name: e.target.value }))
-                }
-                required
+                onChange={(e) => {
+                  setForm2((p) => ({ ...p, name: e.target.value }));
+                  clearErr(setErrors2, "name");
+                }}
+                aria-invalid={!!errors2.name}
+                autoComplete="name"
               />
+              {errors2.name ? (
+                <span className="form-field-error">{errors2.name}</span>
+              ) : null}
             </fieldset>
             <fieldset>
               <input
@@ -248,22 +304,33 @@ export default function ContactSellerSidebar({
                 className="form-control"
                 placeholder="Email *"
                 value={form2.email}
-                onChange={(e) =>
-                  setForm2((p) => ({ ...p, email: e.target.value }))
-                }
-                required
+                onChange={(e) => {
+                  setForm2((p) => ({ ...p, email: e.target.value }));
+                  clearErr(setErrors2, "email");
+                }}
+                aria-invalid={!!errors2.email}
+                autoComplete="email"
               />
+              {errors2.email ? (
+                <span className="form-field-error">{errors2.email}</span>
+              ) : null}
             </fieldset>
             <fieldset className="phone">
               <input
-                type="text"
+                type="tel"
                 className="form-control"
                 placeholder="Phone"
                 value={form2.phone}
-                onChange={(e) =>
-                  setForm2((p) => ({ ...p, phone: e.target.value }))
-                }
+                onChange={(e) => {
+                  setForm2((p) => ({ ...p, phone: e.target.value }));
+                  clearErr(setErrors2, "phone");
+                }}
+                aria-invalid={!!errors2.phone}
+                autoComplete="tel"
               />
+              {errors2.phone ? (
+                <span className="form-field-error">{errors2.phone}</span>
+              ) : null}
             </fieldset>
             <fieldset>
               <textarea
@@ -271,11 +338,15 @@ export default function ContactSellerSidebar({
                 rows={5}
                 placeholder="Message *"
                 value={form2.message}
-                onChange={(e) =>
-                  setForm2((p) => ({ ...p, message: e.target.value }))
-                }
-                required
+                onChange={(e) => {
+                  setForm2((p) => ({ ...p, message: e.target.value }));
+                  clearErr(setErrors2, "message");
+                }}
+                aria-invalid={!!errors2.message}
               />
+              {errors2.message ? (
+                <span className="form-field-error">{errors2.message}</span>
+              ) : null}
             </fieldset>
             <div className="wrap-btn">
               <button

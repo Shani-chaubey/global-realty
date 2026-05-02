@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import DropdownSelect from "../common/DropdownSelect";
 import PaginationRound from "../common/PaginationRound";
@@ -81,8 +80,6 @@ export default function Agents() {
     pageSafe * PAGE_SIZE,
   );
 
-  const detailHref = (a) => `/team/${a.slug || a._id}`;
-
   return (
     <section className="section-agent">
       <div className="tf-container">
@@ -146,18 +143,16 @@ export default function Agents() {
                   className="agent-item hover-img"
                 >
                   <div className="image-wrap">
-                    <Link href={detailHref(agent)}>
-                      <Image
-                        className="lazyload agent-card-photo"
-                        data-src={agent.photo || "/images/section/agent-item-1.jpg"}
-                        alt=""
-                        width={400}
-                        height={320}
-                        src={
-                          agent.photo || "/images/section/agent-item-1.jpg"
-                        }
-                      />
-                    </Link>
+                    <Image
+                      className="lazyload agent-card-photo"
+                      data-src={agent.photo || "/images/section/agent-item-1.jpg"}
+                      alt=""
+                      width={400}
+                      height={320}
+                      src={
+                        agent.photo || "/images/section/agent-item-1.jpg"
+                      }
+                    />
                     <ul className="tf-social style-3">
                       {agent.socialFacebook ? (
                         <li>
@@ -207,11 +202,7 @@ export default function Agents() {
                   </div>
                   <div className="content">
                     <div className="author">
-                      <h5 className="name lh-30">
-                        <Link href={detailHref(agent)}>
-                          {agent.name}
-                        </Link>
-                      </h5>
+                      <h5 className="name lh-30">{agent.name}</h5>
                       <p className="text-2 lh-18">
                         {agent.role || "Agent"}
                       </p>

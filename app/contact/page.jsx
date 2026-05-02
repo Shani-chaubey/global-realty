@@ -18,7 +18,6 @@ export default function page() {
         <div className="main-content">
           <Contact />
           <About />
-          <Brands />
           <Cta />
         </div>
         <Footer1 />

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import BackToTop from "@/components/common/BackToTop";
 import MobileMenu from "@/components/headers/MobileMenu";
@@ -66,7 +66,9 @@ export default function ClientLayout({ children }) {
   return (
     <>
       {children}
-      <MobileMenu />
+      <Suspense fallback={null}>
+        <MobileMenu />
+      </Suspense>
       <BackToTop />
       <SettingsHandler />
       <Login />

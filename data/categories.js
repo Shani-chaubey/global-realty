@@ -1,7 +1,7 @@
 export const categories = [
   { name: "Apartment", icon: "icon-apartment1", isActive: false },
   { name: "Villa", icon: "icon-villa", isActive: false },
-  { name: "Studio", icon: "icon-studio", isActive: true },
+  { name: "Studio", icon: "icon-studio", isActive: false },
   { name: "Office", icon: "icon-office1", isActive: false },
   { name: "Townhouse", icon: "icon-townhouse", isActive: false },
   { name: "Commercial", icon: "icon-commercial", isActive: false },

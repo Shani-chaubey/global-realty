@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useComparison } from "./PropertyComparison";
+import { useComparison, MAX_COMPARE } from "./PropertyComparison";
 
 export default function CompareBar() {
   const { ids, count, clearAll } = useComparison();
@@ -32,7 +32,7 @@ export default function CompareBar() {
     >
       <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
         <span style={{ fontWeight: 600, fontSize: "0.95rem" }}>
-          Compare ({count}/4 selected)
+          Compare ({count}/{MAX_COMPARE} selected)
         </span>
         <div style={{ display: "flex", gap: "0.5rem" }}>
           {ids.map((id, i) => (

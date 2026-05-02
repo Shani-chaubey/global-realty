@@ -40,6 +40,7 @@ export default function AdminInquiries() {
     )},
     { key: "email", label: "Email" },
     { key: "phone", label: "Phone", render: (r) => r.phone || "—" },
+    { key: "interest", label: "Interest", render: (r) => r.interest || "—" },
     { key: "propertyTitle", label: "Property", render: (r) => r.propertyTitle || r.propertyId?.title || "General" },
     { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
     { key: "createdAt", label: "Date", render: (r) => new Date(r.createdAt).toLocaleDateString("en-IN") },
@@ -78,6 +79,7 @@ export default function AdminInquiries() {
               <div><span className="ap-detail-label">Name:</span> <span className="ap-detail-value">{selected.name}</span></div>
               <div><span className="ap-detail-label">Email:</span> <span className="ap-detail-value">{selected.email}</span></div>
               <div><span className="ap-detail-label">Phone:</span> <span className="ap-detail-value">{selected.phone || "—"}</span></div>
+              <div><span className="ap-detail-label">Interest:</span> <span className="ap-detail-value">{selected.interest || "—"}</span></div>
               <div><span className="ap-detail-label">Date:</span> <span className="ap-detail-value">{new Date(selected.createdAt).toLocaleString("en-IN")}</span></div>
             </div>
             {selected.propertyTitle && (

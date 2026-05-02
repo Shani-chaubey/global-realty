@@ -70,8 +70,10 @@ export default function FilterTop({
   /* ── Remote data ── */
   const { data: typesData } = useSWR("/property-types", fetcher);
   const { data: amenitiesData } = useSWR("/amenities", fetcher);
+  const { data: citiesRes } = useSWR("/website/property-cities", fetcher);
   const propertyTypes = typesData?.data || [];
   const amenityList = amenitiesData?.data || [];
+  const cityOptionsFromDb = Array.isArray(citiesRes?.data) ? citiesRes.data : [];
 
   /* ── Sync state when URL changes ── */
   useEffect(() => {
@@ -355,18 +357,7 @@ export default function FilterTop({
       <div className="group-select">
         <div className="box-select">
           <DropdownSelect
-            options={[
-              "City",
-              "Mumbai",
-              "Delhi",
-              "Bangalore",
-              "Hyderabad",
-              "Pune",
-              "Chennai",
-              "Kolkata",
-              "Ahmedabad",
-              "Jaipur",
-            ]}
+            options={["City", ...cityOptionsFromDb]}
             selectedValue={city || "City"}
             onChange={(v) => setCity(v === "City" ? "" : v)}
             addtionalParentClass=""

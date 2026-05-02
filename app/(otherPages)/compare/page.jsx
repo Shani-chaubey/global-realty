@@ -5,7 +5,7 @@ import Header1 from "@/components/headers/Header1";
 import PropertyComparison from "@/components/compare/PropertyComparison";
 
 export const metadata = {
-  title: "Compare Properties | Proty Real Estate",
+  title: "Compare | Proty Real Estate",
 };
 
 export default function page() {
@@ -13,13 +13,9 @@ export default function page() {
     <>
       <div id="wrapper" className="counter-scroll">
         <Header1 />
-        <Breadcumb pageName="Compare Properties" />
+        <Breadcumb pageName="Compare" />
         <div className="main-content">
-          <section className="flat-section">
-            <div className="tf-container">
-              <PropertyComparison />
-            </div>
-          </section>
+          <PropertyComparison />
           <Cta />
         </div>
         <Footer1 />

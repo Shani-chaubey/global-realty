@@ -16,7 +16,6 @@ import PropertyTypeModel from "@/models/PropertyType";
 import TestimonialModel from "@/models/Testimonial";
 import BlogModel from "@/models/Blog";
 import HeroSectionModel from "@/models/HeroSection";
-import ContactInfoModel from "@/models/ContactInfo";
 import HelpCenterContentModel from "@/models/HelpCenterContent";
 import PartnerLogoModel from "@/models/PartnerLogo";
 import { resolveHelpCenterContent } from "@/lib/helpCenterResolve";
@@ -41,7 +40,6 @@ async function getHomePageData() {
       testimonials,
       blogs,
       heroSlides,
-      contactInfo,
       topCitiesRaw,
       propertyTypeCounts,
       propertyTypes,
@@ -68,7 +66,6 @@ async function getHomePageData() {
         .limit(5)
         .lean()
         .catch(() => []),
-      ContactInfoModel.findOne().lean().catch(() => null),
       PropertyModel.aggregate([
         { $match: { isActive: { $ne: false }, city: { $type: "objectId" } } },
         { $group: { _id: "$city", propertyCount: { $sum: 1 } } },
@@ -151,7 +148,6 @@ async function getHomePageData() {
       blogs: JSON.parse(JSON.stringify(blogs)),
       heroSlides: JSON.parse(JSON.stringify(heroSlides)),
       topCities: JSON.parse(JSON.stringify(topCities)),
-      contactInfo: contactInfo ? JSON.parse(JSON.stringify(contactInfo)) : null,
       categoryItems: JSON.parse(JSON.stringify(categoryItems)),
       helpCenterContent: JSON.parse(JSON.stringify(helpCenterContent)),
       partnerLogos: JSON.parse(JSON.stringify(partnerLogos)),
@@ -163,7 +159,6 @@ async function getHomePageData() {
       blogs: [],
       heroSlides: [],
       topCities: [],
-      contactInfo: null,
       categoryItems: [],
       helpCenterContent: resolveHelpCenterContent(null),
       partnerLogos: [],
@@ -178,7 +173,6 @@ export default async function Home() {
     blogs,
     heroSlides,
     topCities,
-    contactInfo,
     categoryItems,
     helpCenterContent,
     partnerLogos,
@@ -211,7 +205,7 @@ export default async function Home() {
         <Blogs blogs={blogs} />
         <Testimonials testimonials={testimonials} />
       </div>
-      <Footer1 contactInfo={contactInfo} />
+      <Footer1 />
     </>
   );
 }

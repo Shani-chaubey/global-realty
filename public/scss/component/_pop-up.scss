@@ -76,8 +76,9 @@
     }
 }
 
+/* Above sticky header (9999), compare bar (9999), mobile-nav-wrap (99999) */
 .modal {
-    z-index: 9999;
+    z-index: 120000;
     .title-box {
         margin-bottom: 40px;
         @include mixin.flex(center, space-between);
@@ -91,6 +92,10 @@
             }
         }
     }
+}
+
+.modal-backdrop {
+    z-index: 119990;
 }
 
 .modal-content {

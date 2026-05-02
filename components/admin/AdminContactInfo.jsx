@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 import api from "@/lib/axios";
+import ImageUploader from "@/components/ui/ImageUploader";
 
 const fetcher = (url) => api.get(url).then((r) => r.data);
 
@@ -12,6 +13,9 @@ const EMPTY = {
   address: "",
   mapEmbedUrl: "",
   workingHours: "Mon-Sat: 9am - 6pm",
+  contactPageImage: "",
+  contactAboutTitle: "",
+  contactAboutSubtitle: "",
   socialLinks: { facebook: "", instagram: "", linkedin: "", youtube: "", twitter: "", whatsapp: "" },
 };
 
@@ -29,6 +33,9 @@ export default function AdminContactInfo() {
         address: d.address || "",
         mapEmbedUrl: d.mapEmbedUrl || "",
         workingHours: d.workingHours || "Mon-Sat: 9am - 6pm",
+        contactPageImage: d.contactPageImage || "",
+        contactAboutTitle: d.contactAboutTitle || "",
+        contactAboutSubtitle: d.contactAboutSubtitle || "",
         socialLinks: { ...EMPTY.socialLinks, ...(d.socialLinks || {}) },
       });
     }
@@ -79,6 +86,24 @@ export default function AdminContactInfo() {
             <div><label className="ap-label">Address</label><textarea className="ap-input" rows={3} value={form.address} onChange={(e) => setForm((p) => ({ ...p, address: e.target.value }))} /></div>
             <div><label className="ap-label">Working Hours</label><input className="ap-input" value={form.workingHours} onChange={(e) => setForm((p) => ({ ...p, workingHours: e.target.value }))} /></div>
             <div><label className="ap-label">Google Map Embed URL</label><input className="ap-input" value={form.mapEmbedUrl} onChange={(e) => setForm((p) => ({ ...p, mapEmbedUrl: e.target.value }))} placeholder="https://maps.google.com/embed?..." /></div>
+            <div>
+              <label className="ap-label">Contact page — heading</label>
+              <input className="ap-input" value={form.contactAboutTitle} onChange={(e) => setForm((p) => ({ ...p, contactAboutTitle: e.target.value }))} placeholder="Shown next to the contact image (optional)" />
+            </div>
+            <div>
+              <label className="ap-label">Contact page — intro text</label>
+              <textarea className="ap-input" rows={3} value={form.contactAboutSubtitle} onChange={(e) => setForm((p) => ({ ...p, contactAboutSubtitle: e.target.value }))} placeholder="Short paragraph under the heading" />
+            </div>
+            <div>
+              <label className="ap-label">Contact page image</label>
+              <p className="text-1" style={{ marginBottom: "0.5rem", fontSize: "0.875rem", opacity: 0.85 }}>Recommended ~550×560px or similar; displays in a fixed aspect frame on /contact.</p>
+              <ImageUploader
+                folder="cms/contact"
+                label="Upload image"
+                value={form.contactPageImage}
+                onChange={(url) => setForm((p) => ({ ...p, contactPageImage: url }))}
+              />
+            </div>
           </div>
         </div>
         <div className="admin-card" style={{ padding: "1.5rem" }}>

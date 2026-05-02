@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { useComparison } from "@/components/compare/PropertyComparison";
+import { useComparison, MAX_COMPARE } from "@/components/compare/PropertyComparison";
 
 const getLabel = (value) => {
   if (!value) return "";
@@ -177,8 +177,8 @@ export default function PropertyOverview({ property }) {
       toast.success("Removed from compare");
       return;
     }
-    if (count >= 4) {
-      toast.error("You can compare up to 4 properties");
+    if (count >= MAX_COMPARE) {
+      toast.error(`You can compare up to ${MAX_COMPARE} properties`);
       return;
     }
     addToCompare(property._id);

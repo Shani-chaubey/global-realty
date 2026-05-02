@@ -17,8 +17,8 @@ export default function Partners({ partnerLogos = [] }) {
                   className="text-1 text_white wow animate__fadeInUp animate__animated"
                   data-wow-duration="1.5s"
                 >
-                  Thousands of luxury home enthusiasts just like you visit our
-                  website.
+                  We focus on sales—helping owners list premium homes and reach
+                  serious buyers, from first viewing to closing.
                 </p>
               </div>
               <BrandSlider logos={partnerLogos} />
@@ -33,20 +33,20 @@ export default function Partners({ partnerLogos = [] }) {
               <div className="content">
                 <div className="heading-section mb-30">
                   <h2 className="title split-text effect-right">
-                    <SplitTextAnimation text="Are You Selling Or" />
+                    <SplitTextAnimation text="Ready to Buy" />
                     <br />
-                    <SplitTextAnimation text="Renting Your Property?" />
+                    <SplitTextAnimation text="Your Dream Home?" />
                   </h2>
                   <p
                     className="text-1 split-text split-lines-transform"
                     data-wow-duration="1.5s"
                   >
-                    Thousands of luxury home enthusiasts just like you visit our
-                    website.
+                    Get a free home appraisal and
+                    find your dream home with confidence.
                   </p>
                 </div>
-                <a href="#" className="tf-btn bg-color-primary fw-7 pd-11">
-                  Request your free appraisal
+                <a href="/contact" className="tf-btn bg-color-primary fw-7 pd-11">
+                  Request your free home appraisal
                 </a>
                 <div
                   className="person wow animate__fadeInRight animate__animated"

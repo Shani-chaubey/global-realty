@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useComparison } from "@/components/compare/PropertyComparison";
+import toast from "react-hot-toast";
+import { useComparison, MAX_COMPARE } from "@/components/compare/PropertyComparison";
 
 const PLACEHOLDER = "/images/section/box-house.jpg";
 const isObjectIdLike = (v) => typeof v === "string" && /^[a-f\d]{24}$/i.test(v);
@@ -32,7 +33,7 @@ const formatPrice = (p) => {
 };
 
 export default function PropertyCard({ property, variant = "default" }) {
-  const { addToCompare, removeFromCompare, isInCompare } = useComparison();
+  const { addToCompare, removeFromCompare, isInCompare, count } = useComparison();
   const imgSrc = getImageSrc(property);
   const slug = property.slug || property._id || property.id;
   const compareId = property._id || property.id;
@@ -197,8 +198,15 @@ export default function PropertyCard({ property, variant = "default" }) {
               }}
               onClick={() => {
                 if (!compareId) return;
-                if (inCompare) removeFromCompare(compareId);
-                else addToCompare(compareId);
+                if (inCompare) {
+                  removeFromCompare(compareId);
+                  return;
+                }
+                if (count >= MAX_COMPARE) {
+                  toast.error(`You can compare up to ${MAX_COMPARE} properties`);
+                  return;
+                }
+                addToCompare(compareId);
               }}
               title={inCompare ? "Remove from compare" : "Add to compare"}
             >

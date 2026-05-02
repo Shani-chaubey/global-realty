@@ -457,3 +457,15 @@ form {
     }
   }
 }
+
+.form-field-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #c53030;
+}
+
+fieldset.mb-12 .form-field-error {
+  margin-top: 4px;
+}

@@ -1,30 +1,141 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useEffect, useId, useRef, useState } from "react";
+import {
+  sanitizeEmailInput,
+  sanitizeMessageText,
+  sanitizePhoneDigits,
+  sanitizeSingleLineText,
+  validateInquiryForm,
+} from "@/lib/inquiryFormValidation";
 
 const INITIAL_FORM = {
   name: "",
   email: "",
   phone: "",
+  interest: "",
   message: "",
-  budget: "",
-  propertyType: "",
 };
 
+const PHONE_DIGITS = 10;
+
+const MODAL_VALIDATE_OPTS = {
+  requirePhone: true,
+  phoneMinDigits: PHONE_DIGITS,
+  phoneMaxDigits: PHONE_DIGITS,
+  minMessage: 10,
+  requireInterest: true,
+  minInterest: 3,
+};
+
+function SuccessCheckIcon({ gradId }) {
+  const gid = `inquiry-check-${gradId}`.replace(/[^a-zA-Z0-9_-]/g, "");
+  return (
+    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M7 12.5 L11 16.5 L17.5 8"
+        stroke={`url(#${gid})`}
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <defs>
+        <linearGradient id={gid} x1="6" y1="12.5" x2="18.5" y2="12.5" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#047857" />
+          <stop offset="1" stopColor="#10b981" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
 export default function InquiryModal() {
+  const successIconGradId = useId();
+  const modalRef = useRef(null);
+  const autoCloseTimerRef = useRef(null);
   const [form, setForm] = useState(INITIAL_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
 
-  const set = (key) => (e) => setForm((p) => ({ ...p, [key]: e.target.value }));
+  /**
+   * Listen on the real modal node (ref) so events survive Strict Mode / remounts.
+   * Clear errors on shown so reopen never shows stale blur/submit validation.
+   */
+  useEffect(() => {
+    const el = modalRef.current;
+    if (!el) return undefined;
+
+    const clearErrors = () => {
+      setFieldErrors({});
+      setError("");
+      setSubmitting(false);
+    };
+
+    const onShown = () => {
+      clearErrors();
+    };
+
+    const onHidden = () => {
+      if (autoCloseTimerRef.current != null) {
+        clearTimeout(autoCloseTimerRef.current);
+        autoCloseTimerRef.current = null;
+      }
+      setSuccess(false);
+      clearErrors();
+    };
+
+    el.addEventListener("shown.bs.modal", onShown);
+    el.addEventListener("hidden.bs.modal", onHidden);
+    return () => {
+      el.removeEventListener("shown.bs.modal", onShown);
+      el.removeEventListener("hidden.bs.modal", onHidden);
+      if (autoCloseTimerRef.current != null) {
+        clearTimeout(autoCloseTimerRef.current);
+        autoCloseTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  const updateField = (key, value) => {
+    setForm((p) => ({ ...p, [key]: value }));
+    setError("");
+    setFieldErrors((prev) => {
+      if (!prev[key]) return prev;
+      const n = { ...prev };
+      delete n[key];
+      return n;
+    });
+  };
+
+  const formSnapshot = () => ({
+    name: form.name,
+    email: form.email,
+    phone: form.phone,
+    interest: form.interest,
+    message: form.message,
+  });
+
+  /** Re-validate a single field after blur so errors show without waiting for submit. */
+  const validateFieldOnBlur = (fieldKey) => {
+    const { errors } = validateInquiryForm(formSnapshot(), MODAL_VALIDATE_OPTS);
+    setFieldErrors((prev) => {
+      const next = { ...prev };
+      if (errors[fieldKey]) next[fieldKey] = errors[fieldKey];
+      else delete next[fieldKey];
+      return next;
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.phone) {
-      setError("Please fill in all required fields.");
+    const { ok, errors } = validateInquiryForm(formSnapshot(), MODAL_VALIDATE_OPTS);
+    if (!ok) {
+      setFieldErrors(errors);
+      setError("");
       return;
     }
+    setFieldErrors({});
     setError("");
     setSubmitting(true);
     try {
@@ -32,21 +143,28 @@ export default function InquiryModal() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...form,
-          source: "website-inquiry-popup",
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
+          interest: form.interest.trim(),
+          message: form.message.trim(),
+          pageName: "header-get-in-touch",
         }),
       });
       if (res.ok) {
         setSuccess(true);
         setForm(INITIAL_FORM);
-        setTimeout(() => {
-          setSuccess(false);
-          const modal = document.getElementById("modalInquiry");
-          if (modal) {
-            const bsModal = window.bootstrap?.Modal?.getInstance(modal);
-            if (bsModal) bsModal.hide();
-          }
-        }, 3000);
+        setFieldErrors({});
+        if (autoCloseTimerRef.current != null) {
+          clearTimeout(autoCloseTimerRef.current);
+        }
+        autoCloseTimerRef.current = setTimeout(() => {
+          autoCloseTimerRef.current = null;
+          const modalEl = modalRef.current;
+          if (!modalEl) return;
+          const bsModal = window.bootstrap?.Modal?.getInstance(modalEl);
+          if (bsModal) bsModal.hide();
+        }, 4800);
       } else {
         setError("Something went wrong. Please try again.");
       }
@@ -58,193 +176,238 @@ export default function InquiryModal() {
   };
 
   return (
-    <div className="modal fade" id="modalInquiry" tabIndex={-1} aria-labelledby="inquiryModalLabel" aria-hidden="true">
-      <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 680 }}>
-        <div className="modal-content" style={{ borderRadius: 20, overflow: "hidden", border: "none" }}>
-          <div style={{ display: "flex", minHeight: 520 }}>
-            {/* Left decorative panel */}
-            <div
-              style={{
-                width: 220,
-                background: "linear-gradient(160deg, var(--color-primary, #F1913D) 0%, #c0392b 100%)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "2rem 1.25rem",
-                color: "#fff",
-                flexShrink: 0,
-              }}
-              className="d-none d-md-flex"
-            >
-              <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🏠</div>
-              <h4 style={{ fontWeight: 700, fontSize: "1.15rem", textAlign: "center", marginBottom: "0.75rem" }}>
-                Find Your Dream Property
-              </h4>
-              <p style={{ fontSize: "0.85rem", opacity: 0.9, textAlign: "center", lineHeight: 1.6 }}>
-                Our experts will reach out within 24 hours to help you find the perfect home.
-              </p>
-              <ul style={{ listStyle: "none", padding: 0, marginTop: "1.5rem", width: "100%" }}>
-                {["Expert Guidance", "Best Deals", "Zero Brokerage", "Verified Properties"].map((f) => (
-                  <li key={f} style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.6rem", fontSize: "0.8rem" }}>
-                    <span style={{ width: 18, height: 18, borderRadius: "50%", background: "rgba(255,255,255,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", flexShrink: 0 }}>✓</span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Right form panel */}
-            <div style={{ flex: 1, padding: "2rem 1.75rem", display: "flex", flexDirection: "column" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
-                <div>
-                  <h3 style={{ fontWeight: 700, fontSize: "1.35rem", margin: 0 }}>Get in Touch</h3>
-                  <p style={{ color: "#6b7280", fontSize: "0.875rem", marginTop: "0.25rem" }}>
-                    Tell us what you're looking for
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.25rem", color: "#9ca3af", lineHeight: 1 }}
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  ×
-                </button>
-              </div>
-
-              {success ? (
-                <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", gap: "1rem" }}>
-                  <div style={{ fontSize: "3.5rem" }}>🎉</div>
-                  <h4 style={{ fontWeight: 700, color: "#059669" }}>Thank you!</h4>
-                  <p style={{ color: "#6b7280" }}>We've received your inquiry and will contact you within 24 hours.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "0.875rem", flex: 1 }}>
-                  {error && (
-                    <div style={{ background: "#fee2e2", color: "#dc2626", padding: "0.6rem 0.9rem", borderRadius: 8, fontSize: "0.875rem" }}>
-                      {error}
-                    </div>
-                  )}
-
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-                    <div>
-                      <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "0.3rem" }}>
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        value={form.name}
-                        onChange={set("name")}
-                        placeholder="Your name"
-                        required
-                        style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 10, border: "1px solid #e5e7eb", fontSize: "0.9rem", outline: "none" }}
-                      />
-                    </div>
-                    <div>
-                      <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "0.3rem" }}>
-                        Phone *
-                      </label>
-                      <input
-                        type="tel"
-                        value={form.phone}
-                        onChange={set("phone")}
-                        placeholder="+91 XXXXX XXXXX"
-                        required
-                        style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 10, border: "1px solid #e5e7eb", fontSize: "0.9rem", outline: "none" }}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "0.3rem" }}>
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={set("email")}
-                      placeholder="your@email.com"
-                      required
-                      style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 10, border: "1px solid #e5e7eb", fontSize: "0.9rem", outline: "none" }}
-                    />
-                  </div>
-
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-                    <div>
-                      <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "0.3rem" }}>
-                        Property Type
-                      </label>
-                      <select
-                        value={form.propertyType}
-                        onChange={set("propertyType")}
-                        style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 10, border: "1px solid #e5e7eb", fontSize: "0.9rem", outline: "none", background: "#fff" }}
-                      >
-                        <option value="">Any Type</option>
-                        <option>Apartment</option>
-                        <option>Villa</option>
-                        <option>House</option>
-                        <option>Plot</option>
-                        <option>Commercial</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "0.3rem" }}>
-                        Budget (₹)
-                      </label>
-                      <select
-                        value={form.budget}
-                        onChange={set("budget")}
-                        style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 10, border: "1px solid #e5e7eb", fontSize: "0.9rem", outline: "none", background: "#fff" }}
-                      >
-                        <option value="">Select Budget</option>
-                        <option>Under 25 Lakhs</option>
-                        <option>25L – 50L</option>
-                        <option>50L – 1 Crore</option>
-                        <option>1Cr – 2Cr</option>
-                        <option>Above 2 Crore</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label style={{ fontSize: "0.8rem", fontWeight: 600, color: "#374151", display: "block", marginBottom: "0.3rem" }}>
-                      Message
-                    </label>
-                    <textarea
-                      value={form.message}
-                      onChange={set("message")}
-                      placeholder="Tell us more about what you're looking for..."
-                      rows={3}
-                      style={{ width: "100%", padding: "0.55rem 0.75rem", borderRadius: 10, border: "1px solid #e5e7eb", fontSize: "0.9rem", outline: "none", resize: "vertical" }}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    style={{
-                      background: "var(--color-primary, #F1913D)",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: 10,
-                      padding: "0.75rem 1.5rem",
-                      fontWeight: 700,
-                      fontSize: "1rem",
-                      cursor: submitting ? "not-allowed" : "pointer",
-                      opacity: submitting ? 0.7 : 1,
-                      marginTop: "0.25rem",
-                    }}
-                  >
-                    {submitting ? "Sending..." : "Send Inquiry →"}
+    <div
+      ref={modalRef}
+      className="modal fade"
+      id="modalInquiry"
+      tabIndex={-1}
+      aria-labelledby="inquiryModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        className="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+        style={{ maxWidth: success ? 580 : 600 }}
+      >
+        <div
+          className={`modal-content${success ? "" : " inquiry-modal-sheet"}`}
+          style={{ borderRadius: 22, overflow: "hidden", border: "none" }}
+        >
+          <div
+            style={{
+              padding: success ? "1.25rem 1.75rem 2rem" : "2rem 2.35rem 2.15rem",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {success ? (
+              <>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.35rem" }}>
+                  <button type="button" className="inquiry-modal-close inquiry-modal-close--ghost" data-bs-dismiss="modal" aria-label="Close">
+                    ×
                   </button>
-
-                  <p style={{ fontSize: "0.75rem", color: "#9ca3af", textAlign: "center" }}>
-                    By submitting, you agree to our privacy policy. We'll never spam you.
+                </div>
+                <div className="inquiry-modal-success" role="status" aria-live="polite" aria-atomic="true">
+                <div className="inquiry-modal-success__glow" aria-hidden />
+                <div className="inquiry-modal-success__glow-mint" aria-hidden />
+                <span className="inquiry-success-sparkle inquiry-success-sparkle--1" aria-hidden />
+                <span className="inquiry-success-sparkle inquiry-success-sparkle--2" aria-hidden />
+                <span className="inquiry-success-sparkle inquiry-success-sparkle--3" aria-hidden />
+                <span className="inquiry-success-sparkle inquiry-success-sparkle--4" aria-hidden />
+                <div className="inquiry-modal-success__content">
+                  <div className="inquiry-success-icon-wrap">
+                    <div className="inquiry-success-icon-ring" aria-hidden />
+                    <div className="inquiry-success-icon-ring inquiry-success-icon-ring--delay" aria-hidden />
+                    <div className="inquiry-success-icon-circle">
+                      <SuccessCheckIcon gradId={successIconGradId} />
+                    </div>
+                  </div>
+                  <h2 id="inquiryModalLabel" className="inquiry-success-title">
+                    Thank you — we&apos;ve got it!
+                  </h2>
+                  <p className="inquiry-success-sub">
+                    Your message is in safe hands. Our team will review your inquiry and reach out within{" "}
+                    <strong style={{ color: "#374151", fontWeight: 700 }}>24 hours</strong> with next steps.
                   </p>
-                </form>
-              )}
-            </div>
+                  <div className="inquiry-success-badges">
+                    <span className="inquiry-success-badge">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                        <path
+                          d="M12 8v4l2.5 1.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke="currentColor"
+                          strokeWidth="1.75"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      Fast response
+                    </span>
+                    <span className="inquiry-success-badge">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                        <path
+                          d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          stroke="currentColor"
+                          strokeWidth="1.75"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      Dedicated expert
+                    </span>
+                  </div>
+                  <p className="inquiry-success-hint">This window will close automatically in a moment.</p>
+                </div>
+              </div>
+              </>
+            ) : (
+              <div className="inquiry-modal-form-layout">
+                <div className="inquiry-modal-form-layout__glow" aria-hidden />
+                <div className="inquiry-modal-form-layout__glow-bottom" aria-hidden />
+                <div className="inquiry-modal-form-layout__inner">
+                  <header className="inquiry-modal-form-head">
+                    <div className="inquiry-modal-form-head-text">
+                      <p className="inquiry-modal-form-eyebrow">We&apos;re here to help</p>
+                      <h2 id="inquiryModalLabel" className="inquiry-modal-form-title">
+                        Get in Touch
+                      </h2>
+                      <p className="inquiry-modal-form-sub">
+                        Share a few details and our team will reach out with tailored options.
+                      </p>
+                    </div>
+                    <button type="button" className="inquiry-modal-close" data-bs-dismiss="modal" aria-label="Close">
+                      ×
+                    </button>
+                  </header>
+                  <form className="inquiry-modal-form" onSubmit={handleSubmit} noValidate>
+                    {error ? <div className="inquiry-modal-error-banner">{error}</div> : null}
+
+                    <div className="inquiry-modal-grid-2">
+                      <div>
+                        <label className="inquiry-modal-field-label" htmlFor="inquiry-name">
+                          Full name *
+                        </label>
+                        <input
+                          id="inquiry-name"
+                          type="text"
+                          className={`inquiry-modal-input${fieldErrors.name ? " inquiry-modal-input--invalid" : ""}`}
+                          value={form.name}
+                          onChange={(e) => updateField("name", sanitizeSingleLineText(e.target.value))}
+                          onBlur={() => validateFieldOnBlur("name")}
+                          placeholder="Your name"
+                          aria-invalid={!!fieldErrors.name}
+                          aria-describedby={fieldErrors.name ? "inquiry-name-error" : undefined}
+                          autoComplete="name"
+                        />
+                        {fieldErrors.name ? (
+                          <span id="inquiry-name-error" className="form-field-error inquiry-modal-field-error" role="alert">
+                            {fieldErrors.name}
+                          </span>
+                        ) : null}
+                      </div>
+                      <div>
+                        <label className="inquiry-modal-field-label" htmlFor="inquiry-phone">
+                          Phone *
+                        </label>
+                        <input
+                          id="inquiry-phone"
+                          type="tel"
+                          inputMode="numeric"
+                          maxLength={PHONE_DIGITS}
+                          className={`inquiry-modal-input${fieldErrors.phone ? " inquiry-modal-input--invalid" : ""}`}
+                          value={form.phone}
+                          onChange={(e) => updateField("phone", sanitizePhoneDigits(e.target.value, PHONE_DIGITS))}
+                          onBlur={() => validateFieldOnBlur("phone")}
+                          placeholder="10-digit mobile number"
+                          aria-invalid={!!fieldErrors.phone}
+                          aria-describedby={fieldErrors.phone ? "inquiry-phone-error" : undefined}
+                          autoComplete="tel"
+                        />
+                        {fieldErrors.phone ? (
+                          <span id="inquiry-phone-error" className="form-field-error inquiry-modal-field-error" role="alert">
+                            {fieldErrors.phone}
+                          </span>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="inquiry-modal-field-label" htmlFor="inquiry-email">
+                        Email *
+                      </label>
+                      <input
+                        id="inquiry-email"
+                        type="email"
+                        className={`inquiry-modal-input${fieldErrors.email ? " inquiry-modal-input--invalid" : ""}`}
+                        value={form.email}
+                        onChange={(e) => updateField("email", sanitizeEmailInput(e.target.value))}
+                        onBlur={() => validateFieldOnBlur("email")}
+                        placeholder="your@email.com"
+                        aria-invalid={!!fieldErrors.email}
+                        aria-describedby={fieldErrors.email ? "inquiry-email-error" : undefined}
+                        autoComplete="email"
+                      />
+                      {fieldErrors.email ? (
+                        <span id="inquiry-email-error" className="form-field-error inquiry-modal-field-error" role="alert">
+                          {fieldErrors.email}
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div>
+                      <label className="inquiry-modal-field-label" htmlFor="inquiry-interest">
+                        What are you interested in? *
+                      </label>
+                      <input
+                        id="inquiry-interest"
+                        type="text"
+                        className={`inquiry-modal-input${fieldErrors.interest ? " inquiry-modal-input--invalid" : ""}`}
+                        value={form.interest}
+                        onChange={(e) => updateField("interest", sanitizeSingleLineText(e.target.value))}
+                        onBlur={() => validateFieldOnBlur("interest")}
+                        placeholder="e.g. buying, renting, investment…"
+                        autoComplete="off"
+                        aria-invalid={!!fieldErrors.interest}
+                        aria-describedby={fieldErrors.interest ? "inquiry-interest-error" : undefined}
+                      />
+                      {fieldErrors.interest ? (
+                        <span id="inquiry-interest-error" className="form-field-error inquiry-modal-field-error" role="alert">
+                          {fieldErrors.interest}
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <div>
+                      <label className="inquiry-modal-field-label" htmlFor="inquiry-message">
+                        Your message *
+                      </label>
+                      <textarea
+                        id="inquiry-message"
+                        className={`inquiry-modal-input${fieldErrors.message ? " inquiry-modal-input--invalid" : ""}`}
+                        value={form.message}
+                        onChange={(e) => updateField("message", sanitizeMessageText(e.target.value))}
+                        onBlur={() => validateFieldOnBlur("message")}
+                        placeholder="Tell us more about what you're looking for..."
+                        rows={4}
+                        aria-invalid={!!fieldErrors.message}
+                        aria-describedby={fieldErrors.message ? "inquiry-message-error" : undefined}
+                      />
+                      {fieldErrors.message ? (
+                        <span id="inquiry-message-error" className="form-field-error inquiry-modal-field-error" role="alert">
+                          {fieldErrors.message}
+                        </span>
+                      ) : null}
+                    </div>
+
+                    <button type="submit" className="inquiry-modal-submit" disabled={submitting}>
+                      {submitting ? "Sending…" : "Send message"}
+                    </button>
+
+                    <p className="inquiry-modal-footnote">
+                      By submitting, you agree to our privacy policy. We&apos;ll never spam you.
+                    </p>
+                  </form>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

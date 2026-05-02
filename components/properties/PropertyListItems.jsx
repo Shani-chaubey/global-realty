@@ -2,7 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useComparison } from "@/components/compare/PropertyComparison";
+import toast from "react-hot-toast";
+import { useComparison, MAX_COMPARE } from "@/components/compare/PropertyComparison";
 
 const PLACEHOLDER = "/images/section/box-house.jpg";
 const isObjectIdLike = (v) => typeof v === "string" && /^[a-f\d]{24}$/i.test(v);
@@ -21,7 +22,7 @@ const getImageSrc = (images) => {
 };
 
 export default function PropertyListItems({ properties = [], showItems }) {
-  const { addToCompare, removeFromCompare, isInCompare } = useComparison();
+  const { addToCompare, removeFromCompare, isInCompare, count } = useComparison();
   const items = showItems ? properties.slice(0, showItems) : properties;
 
   const formatPrice = (p) => {
@@ -94,7 +95,17 @@ export default function PropertyListItems({ properties = [], showItems }) {
                   <button
                     className={`compare flex gap-8 items-center text-1${inCompare ? " text-color-primary" : ""}`}
                     style={{ background: "none", border: "none", cursor: "pointer", color: inCompare ? "var(--color-primary)" : undefined }}
-                    onClick={() => inCompare ? removeFromCompare(property._id) : addToCompare(property._id)}
+                    onClick={() => {
+                      if (inCompare) {
+                        removeFromCompare(property._id);
+                        return;
+                      }
+                      if (count >= MAX_COMPARE) {
+                        toast.error(`You can compare up to ${MAX_COMPARE} properties`);
+                        return;
+                      }
+                      addToCompare(property._id);
+                    }}
                   >
                     <i className="icon-compare" />
                     {inCompare ? "Added" : "Compare"}

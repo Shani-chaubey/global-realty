@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Nav from "./Nav";
 import Link from "next/link";
 import DashboardNav from "./DashboardNav";
@@ -39,11 +39,13 @@ export default async function Header1({ parentClass = "header" }) {
                 </div>
                 <nav className="main-menu">
                   <ul className="navigation ">
-                    <Nav />
+                    <Suspense fallback={null}>
+                      <Nav />
+                    </Suspense>
                   </ul>
                 </nav>
                 <div className="header-right">
-                  {/* {phone && (
+                  {/* {phone ? (
                     <div className="phone-number">
                       <div className="icons">
                         <svg
@@ -63,10 +65,12 @@ export default async function Header1({ parentClass = "header" }) {
                         </svg>
                       </div>
                       <p>
-                        <a href={`tel:${phone}`}>{phone}</a>
+                        <a href={`tel:${String(phone).replace(/\s/g, "")}`}>
+                          {phone}
+                        </a>
                       </p>
                     </div>
-                  )} */}
+                  ) : null} */}
                   <div className="btn-add">
                     <button
                       className="tf-btn style-border pd-23"

@@ -11,26 +11,26 @@ export default function Banner() {
               <div className="content">
                 <div className="heading-section mb-32">
                   <h2 className="title split-text effect-right">
-                    <SplitTextAnimation text="Are You Selling Or" />
+                    <SplitTextAnimation text="Ready to Buy" />
                     <br />
-                    <SplitTextAnimation text="Renting Your Property?" />
+                    <SplitTextAnimation text="Your Dream Home?" />
                   </h2>
                   <p
                     className="text-1 wow animate__fadeInUp animate__animated"
                     data-wow-duration="1.5s"
                     data-wow-delay="0s"
                   >
-                    Thousands of luxury home enthusiasts just like you visit our
-                    website.
+                    Get a free home appraisal and
+                    find your dream home with confidence.
                   </p>
                 </div>
                 <a
-                  href="#"
+                  href="/contact"
                   className="tf-btn bg-color-primary pd-11 fw-7 wow animate__fadeInUp animate__animated"
                   data-wow-duration="1.5s"
                   data-wow-delay="0s"
                 >
-                  Request your free appraisal
+                  Request your free home appraisal
                 </a>
                 <div
                   className="person wow animate__fadeInRight animate__animated"

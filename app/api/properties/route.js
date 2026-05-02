@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongoose";
 import Property from "@/models/Property";
 import PropertyType from "@/models/PropertyType";
+import PropertySubType from "@/models/PropertySubType";
 import Amenity from "@/models/Amenity";
+import "@/models/City";
+import "@/models/State";
+import "@/models/Country";
 import mongoose from "mongoose";
 import { generateSlug } from "@/lib/apiHelpers";
 
@@ -64,7 +68,19 @@ export async function GET(request) {
     }
 
     const propertySubType = searchParams.get("propertySubType");
-    if (propertySubType) query.propertySubType = propertySubType;
+    if (propertySubType) {
+      const raw = propertySubType.trim();
+      if (isObjectId(raw)) {
+        query.propertySubType = new mongoose.Types.ObjectId(raw);
+      } else {
+        const pst = await PropertySubType.findOne({
+          slug: raw.toLowerCase(),
+        })
+          .select("_id")
+          .lean();
+        if (pst?._id) query.propertySubType = pst._id;
+      }
+    }
 
     const listingType = searchParams.get("listingType");
     if (listingType) query.listingType = listingType;
@@ -123,7 +139,11 @@ export async function GET(request) {
         .populate("propertyType", "name slug")
         .populate("propertySubType", "name slug")
         .populate("amenities", "name icon category")
-        .populate("city", "name slug")
+        .populate({
+          path: "city",
+          select: "name slug state",
+          populate: { path: "state", select: "name code" },
+        })
         .populate("state", "name code")
         .populate("country", "name code")
         .sort(sort)

@@ -1388,6 +1388,10 @@
     .wrap-map {
       height: 60vh !important;
     }
+    &.section-contact-map .wrap-map {
+      height: 300px !important;
+      max-height: 42vh !important;
+    }
   }
   .section-contact-help {
     .image-wrap {

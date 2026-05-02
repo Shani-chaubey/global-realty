@@ -1,22 +1,172 @@
 "use client";
-import { navLinks } from "@/data/menu";
+
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import React from "react";
+import useSWR from "swr";
+import api from "@/lib/axios";
+
+const fetcher = (url) => api.get(url).then((r) => r.data);
+
+function isCityNavActive(pathname, searchParams, cities) {
+  if (pathname !== "/properties") return false;
+  const c = searchParams.get("city") || "";
+  if (!c) return false;
+  return cities.some((x) => x.name === c);
+}
+
+function subtypeQueryMatchesItem(item, param) {
+  if (!param) return false;
+  const slug = String(item.slug || "").trim();
+  if (slug && slug === param) return true;
+  return String(item._id) === param;
+}
+
+function isPropertiesNavActive(pathname, searchParams, menu) {
+  if (pathname !== "/properties") return false;
+  const t = searchParams.get("type") || "";
+  const st = searchParams.get("propertySubType") || "";
+  if (!t) return false;
+  return menu.some((type) => {
+    if (type.slug !== t) return false;
+    if (!st) return true;
+    return type.subtypes.some((s) => subtypeQueryMatchesItem(s, st));
+  });
+}
+
+function isSubtypeItemActive(pathname, searchParams, typeSlug, item) {
+  if (pathname !== "/properties") return false;
+  if (searchParams.get("type") !== typeSlug) return false;
+  const st = searchParams.get("propertySubType") || "";
+  if (item.slug === "all") return !st;
+  return subtypeQueryMatchesItem(item, st);
+}
+
+/** Highlight the property-type row when that type is in the URL. */
+function isTypeRowActive(pathname, searchParams, typeSlug) {
+  if (pathname !== "/properties") return false;
+  return searchParams.get("type") === typeSlug;
+}
 
 export default function Nav() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { data, isLoading } = useSWR("/website/nav-menu", fetcher);
+  const payload = data?.data;
+  const cities = payload?.topCities || [];
+  const propertiesMenu = payload?.propertiesMenu || [];
+
+  const cityMenuActive =
+    !isLoading && isCityNavActive(pathname, searchParams, cities);
+  const propsMenuActive =
+    !isLoading && isPropertiesNavActive(pathname, searchParams, propertiesMenu);
+
+  const blogActive =
+    pathname === "/blogs" ||
+    pathname.startsWith("/blog") ||
+    pathname.startsWith("/blogs/");
 
   return (
     <>
-      {navLinks.map((item) => (
-        <li
-          key={item.href}
-          className={pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href)) ? "current-menu" : ""}
-        >
-          <Link href={item.href}>{item.label}</Link>
-        </li>
-      ))}
+      <li className={pathname === "/" ? "current-menu" : ""}>
+        <Link href="/">Home</Link>
+      </li>
+
+      <li
+        className={`has-child ${cityMenuActive ? "current-menu" : ""}`}
+      >
+        <a href="#">Find By City</a>
+        <ul className="submenu">
+          {isLoading ? (
+            <li>
+              <span className="text-1">Loading…</span>
+            </li>
+          ) : cities.length === 0 ? (
+            <li>
+              <span className="text-1">No cities yet</span>
+            </li>
+          ) : (
+            cities.map((c) => (
+              <li
+                key={c.name}
+                className={
+                  pathname === "/properties" &&
+                  searchParams.get("city") === c.name
+                    ? "current-item"
+                    : ""
+                }
+              >
+                <Link href={c.href}>{c.name}</Link>
+              </li>
+            ))
+          )}
+        </ul>
+      </li>
+
+      <li
+        className={`has-child style-2 ${propsMenuActive ? "current-menu" : ""}`}
+      >
+        <a href="#">Properties</a>
+        <ul className="submenu">
+          {isLoading ? (
+            <li>
+              <span className="text-1">Loading…</span>
+            </li>
+          ) : propertiesMenu.length === 0 ? (
+            <li>
+              <Link href="/properties">All properties</Link>
+            </li>
+          ) : (
+            propertiesMenu.map((type) => (
+              <li
+                key={type._id}
+                className={
+                  isTypeRowActive(pathname, searchParams, type.slug)
+                    ? "current-item"
+                    : ""
+                }
+              >
+                <a href="#">{type.name}</a>
+                <ul className="submenu2">
+                  {type.subtypes.map((item) => (
+                    <li
+                      key={item._id}
+                      className={
+                        isSubtypeItemActive(
+                          pathname,
+                          searchParams,
+                          type.slug,
+                          item,
+                        )
+                          ? "current-item"
+                          : ""
+                      }
+                    >
+                      <Link href={item.href}>{item.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))
+          )}
+        </ul>
+      </li>
+
+      <li className={pathname.startsWith("/career") ? "current-menu" : ""}>
+        <Link href="/career">Career</Link>
+      </li>
+
+      <li className={pathname.startsWith("/team") ? "current-menu" : ""}>
+        <Link href="/team">Team</Link>
+      </li>
+
+      <li className={blogActive ? "current-menu" : ""}>
+        <Link href="/blogs">Blog</Link>
+      </li>
+
+      <li className={pathname === "/contact" ? "current-menu" : ""}>
+        <Link href="/contact">Contact</Link>
+      </li>
     </>
   );
 }

@@ -7,6 +7,9 @@ const ContactInfoSchema = new mongoose.Schema(
     address: { type: String, default: "" },
     mapEmbedUrl: { type: String, default: "" },
     workingHours: { type: String, default: "Mon-Sat: 9am - 6pm" },
+    contactPageImage: { type: String, default: "" },
+    contactAboutTitle: { type: String, default: "" },
+    contactAboutSubtitle: { type: String, default: "" },
     socialLinks: {
       facebook: { type: String, default: "" },
       instagram: { type: String, default: "" },

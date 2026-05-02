@@ -32,15 +32,17 @@ export default function Cta() {
                     most money possible.
                   </p>
                 </div>
-                <a
-                  href="#"
+                <button
+                  type="button"
                   className="tf-btn style-2 fw-6 pd-25 wow animate__fadeInUp animate__animated"
                   data-wow-duration="1s"
                   data-wow-delay="0s"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalInquiry"
                 >
                   Find your location agent
                   <i className="icon-MagnifyingGlass fw-6" />
-                </a>
+                </button>
               </div>
             </div>
             <div

@@ -6,6 +6,10 @@ import Image from "next/image";
 import { properties4 } from "@/data/properties";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
+import {
+  firstErrorMessage,
+  validateInquiryForm,
+} from "@/lib/inquiryFormValidation";
 
 export default function AgentDetails({ agent }) {
   const [form, setForm] = useState({
@@ -15,6 +19,7 @@ export default function AgentDetails({ agent }) {
     message: "",
   });
   const [sending, setSending] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState({});
 
   if (!agent) return null;
 
@@ -34,12 +39,25 @@ export default function AgentDetails({ agent }) {
     { url: agent.socialInstagram, icon: "icon-ins" },
   ].filter((s) => s.url);
 
+  const clearErr = (key) => {
+    setFieldErrors((prev) => {
+      if (!prev[key]) return prev;
+      const n = { ...prev };
+      delete n[key];
+      return n;
+    });
+  };
+
   const submitContact = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
-      toast.error("Please fill all required fields");
+    const { ok, errors } = validateInquiryForm(form, { minMessage: 10 });
+    if (!ok) {
+      setFieldErrors(errors);
+      const msg = firstErrorMessage(errors);
+      if (msg) toast.error(msg);
       return;
     }
+    setFieldErrors({});
     setSending(true);
     try {
       await api.post("/inquiries", {
@@ -228,6 +246,7 @@ export default function AgentDetails({ agent }) {
               <form
                 onSubmit={submitContact}
                 className="form-contact-agent style-2 mb-30"
+                noValidate
               >
                 <h4 className="heading-title mb-30">Contact Me</h4>
                 <fieldset>
@@ -237,12 +256,17 @@ export default function AgentDetails({ agent }) {
                     placeholder="Your name"
                     name="name"
                     id="name"
-                    required
                     value={form.name}
-                    onChange={(e) =>
-                      setForm((p) => ({ ...p, name: e.target.value }))
-                    }
+                    onChange={(e) => {
+                      setForm((p) => ({ ...p, name: e.target.value }));
+                      clearErr("name");
+                    }}
+                    aria-invalid={!!fieldErrors.name}
+                    autoComplete="name"
                   />
+                  {fieldErrors.name ? (
+                    <span className="form-field-error">{fieldErrors.name}</span>
+                  ) : null}
                 </fieldset>
                 <fieldset>
                   <input
@@ -251,25 +275,36 @@ export default function AgentDetails({ agent }) {
                     placeholder="Email"
                     name="email"
                     id="email-contact"
-                    required
                     value={form.email}
-                    onChange={(e) =>
-                      setForm((p) => ({ ...p, email: e.target.value }))
-                    }
+                    onChange={(e) => {
+                      setForm((p) => ({ ...p, email: e.target.value }));
+                      clearErr("email");
+                    }}
+                    aria-invalid={!!fieldErrors.email}
+                    autoComplete="email"
                   />
+                  {fieldErrors.email ? (
+                    <span className="form-field-error">{fieldErrors.email}</span>
+                  ) : null}
                 </fieldset>
                 <fieldset className="phone">
                   <input
-                    type="text"
+                    type="tel"
                     className="form-control"
                     placeholder="Your phone number"
                     name="phone"
                     id="phone"
                     value={form.phone}
-                    onChange={(e) =>
-                      setForm((p) => ({ ...p, phone: e.target.value }))
-                    }
+                    onChange={(e) => {
+                      setForm((p) => ({ ...p, phone: e.target.value }));
+                      clearErr("phone");
+                    }}
+                    aria-invalid={!!fieldErrors.phone}
+                    autoComplete="tel"
                   />
+                  {fieldErrors.phone ? (
+                    <span className="form-field-error">{fieldErrors.phone}</span>
+                  ) : null}
                 </fieldset>
                 <fieldset>
                   <textarea
@@ -278,12 +313,16 @@ export default function AgentDetails({ agent }) {
                     rows={10}
                     placeholder="Message"
                     id="message"
-                    required
                     value={form.message}
-                    onChange={(e) =>
-                      setForm((p) => ({ ...p, message: e.target.value }))
-                    }
+                    onChange={(e) => {
+                      setForm((p) => ({ ...p, message: e.target.value }));
+                      clearErr("message");
+                    }}
+                    aria-invalid={!!fieldErrors.message}
                   />
+                  {fieldErrors.message ? (
+                    <span className="form-field-error">{fieldErrors.message}</span>
+                  ) : null}
                 </fieldset>
                 <div className="wrap-btn">
                   <button

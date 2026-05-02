@@ -33,6 +33,7 @@ export default function Properties2({ defaultGrid = true }) {
   const search = searchParams.get("q") || "";
   const city = searchParams.get("city") || "";
   const type = searchParams.get("type") || "";
+  const propertySubType = searchParams.get("propertySubType") || "";
   const status = searchParams.get("status") || "";
   const beds = searchParams.get("beds") || "";
   const baths = searchParams.get("baths") || "";
@@ -52,6 +53,7 @@ export default function Properties2({ defaultGrid = true }) {
       if (search) params.set("keyword", search);
       if (city) params.set("city", city);
       if (type) params.set("propertyType", type);
+      if (propertySubType) params.set("propertySubType", propertySubType);
       if (status) params.set("status", status);
       if (beds) params.set("bedrooms", beds);
       if (baths) params.set("bathrooms", baths);
@@ -78,6 +80,7 @@ export default function Properties2({ defaultGrid = true }) {
     search,
     city,
     type,
+    propertySubType,
     status,
     beds,
     baths,
@@ -101,6 +104,7 @@ export default function Properties2({ defaultGrid = true }) {
     search,
     city,
     type,
+    propertySubType,
     status,
     beds,
     baths,

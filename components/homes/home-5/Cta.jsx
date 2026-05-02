@@ -22,10 +22,15 @@ export default function Cta() {
                   the most money possible.
                 </p>
               </div>
-              <a href="#" className="tf-btn style-2 fw-6">
+              <button
+                type="button"
+                className="tf-btn style-2 fw-6"
+                data-bs-toggle="modal"
+                data-bs-target="#modalInquiry"
+              >
                 Find your location agent
                 <i className="icon-MagnifyingGlass fw-6" />
-              </a>
+              </button>
             </div>
           </div>
         </div>

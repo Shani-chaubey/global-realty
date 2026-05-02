@@ -2,10 +2,21 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import axios from "axios";
-import { footerData } from "@/data/footerLinks";
+
+const defaultConfig = {
+  navLinks: [],
+  topCities: [],
+  topSubTypes: [],
+  footerText: "",
+  socialFacebook: "",
+  socialTwitter: "",
+  socialLinkedin: "",
+  socialInstagram: "",
+};
+
 export default function Footer1({ logo = "/images/logo/logo.png" }) {
   const [contactInfo, setContactInfo] = useState({ phone: "", email: "" });
+  const [cfg, setCfg] = useState(defaultConfig);
 
   useEffect(() => {
     fetch("/api/website/contact-info")
@@ -17,6 +28,15 @@ export default function Footer1({ logo = "/images/logo/logo.png" }) {
             email: res.data.emails?.[0] || "",
           });
         }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/website/footer-config")
+      .then((r) => r.json())
+      .then((res) => {
+        if (res?.success && res.data) setCfg({ ...defaultConfig, ...res.data });
       })
       .catch(() => {});
   }, []);
@@ -41,13 +61,13 @@ export default function Footer1({ logo = "/images/logo/logo.png" }) {
       heading.addEventListener("click", toggleOpen);
     });
 
-    // Clean up event listeners when the component unmounts
     return () => {
       headings.forEach((heading) => {
         heading.removeEventListener("click", toggleOpen);
       });
     };
-  }, []); // Empty dependency array means this will run only once on mount
+  }, [cfg.navLinks.length, cfg.topCities.length, cfg.topSubTypes.length]);
+
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
 
@@ -59,32 +79,42 @@ export default function Footer1({ logo = "/images/logo/logo.png" }) {
   };
 
   const sendEmail = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
     const email = e.target.email.value;
 
     try {
-      const response = await axios.post(
-        "https://express-brevomail.vercel.app/api/contacts",
-        {
-          email,
-        },
-      );
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json().catch(() => ({}));
 
-      if ([200, 201].includes(response.status)) {
-        e.target.reset(); // Reset the form
-        setSuccess(true); // Set success state
+      if (response.ok && data.success) {
+        e.target.reset();
+        setSuccess(true);
         handleShowMessage();
       } else {
-        setSuccess(false); // Handle unexpected responses
+        setSuccess(false);
         handleShowMessage();
       }
-    } catch (error) {
-      console.error("Error:", error.response?.data || "An error occurred");
-      setSuccess(false); // Set error state
+    } catch {
+      setSuccess(false);
       handleShowMessage();
-      e.target.reset(); // Reset the form
+      e.target.reset();
     }
   };
+
+  const copyright =
+    cfg.footerText ||
+    `Copyright © ${new Date().getFullYear()} Proty Real Estate`;
+
+  const socials = [
+    { url: cfg.socialFacebook, icon: "icon-fb", label: "Facebook" },
+    { url: cfg.socialTwitter, icon: "icon-X", label: "X" },
+    { url: cfg.socialLinkedin, icon: "icon-linked", label: "LinkedIn" },
+    { url: cfg.socialInstagram, icon: "icon-ins", label: "Instagram" },
+  ].filter((s) => s.url && /^https?:\/\//i.test(s.url));
 
   return (
     <footer id="footer">
@@ -139,31 +169,65 @@ export default function Footer1({ logo = "/images/logo/logo.png" }) {
           </div>
           <div className="footer-main">
             <div className="row">
-              {footerData.map((column, index) => (
-                <div className="col-lg-3 col-md-6" key={index}>
-                  <div
-                    className={`footer-menu-list footer-col-block ${
-                      column.className || ""
-                    }`}
-                  >
-                    <h5 className="title lh-30 title-desktop">
-                      {column.title}
-                    </h5>
-                    <h5 className="title lh-30 title-mobile">{column.title}</h5>
-                    <ul className="tf-collapse-content">
-                      {column.links.map((link, linkIndex) => (
-                        <li key={linkIndex}>
-                          {link.href.startsWith("/") ? (
-                            <Link href={link.href}>{link.text}</Link>
-                          ) : (
-                            <a href={link.href}>{link.text}</a>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <div className="col-lg-3 col-md-6">
+                <div className="footer-menu-list footer-col-block">
+                  <h5 className="title lh-30 title-desktop">Pages</h5>
+                  <h5 className="title lh-30 title-mobile">Pages</h5>
+                  <ul className="tf-collapse-content">
+                    {cfg.navLinks.map((link, linkIndex) => (
+                      <li key={`${link.href}-${linkIndex}`}>
+                        {link.href.startsWith("/") ? (
+                          <Link href={link.href}>{link.label}</Link>
+                        ) : (
+                          <a href={link.href}>{link.label}</a>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
+              </div>
+              <div className="col-lg-3 col-md-6">
+                <div className="footer-menu-list footer-col-block">
+                  <h5 className="title lh-30 title-desktop">Top cities</h5>
+                  <h5 className="title lh-30 title-mobile">Top cities</h5>
+                  <ul className="tf-collapse-content">
+                    {cfg.topCities.length === 0 ? (
+                      <li>
+                        <span className="text-1" style={{ color: "var(--Note)" }}>
+                          —
+                        </span>
+                      </li>
+                    ) : (
+                      cfg.topCities.map((c) => (
+                        <li key={c.name}>
+                          <Link href={c.href}>{c.name}</Link>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+              </div>
+              <div className="col-lg-3 col-md-6">
+                <div className="footer-menu-list footer-col-block style-2">
+                  <h5 className="title lh-30 title-desktop">Properties</h5>
+                  <h5 className="title lh-30 title-mobile">Properties</h5>
+                  <ul className="tf-collapse-content">
+                    {cfg.topSubTypes.length === 0 ? (
+                      <li>
+                        <span className="text-1" style={{ color: "var(--Note)" }}>
+                          —
+                        </span>
+                      </li>
+                    ) : (
+                      cfg.topSubTypes.map((t) => (
+                        <li key={t._id}>
+                          <Link href={t.href}>{t.name}</Link>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+              </div>
               <div className="col-lg-3 col-md-6">
                 <div className="footer-menu-list newsletter ">
                   <h5 className="title lh-30 mb-19">Newsletter</h5>
@@ -222,9 +286,9 @@ export default function Footer1({ logo = "/images/logo/logo.png" }) {
                         <form onSubmit={sendEmail} id="sib-form">
                           <div className="sib-form-block ">
                             <div className="sib-text-form-block">
-                              <p className="text-1">
+                              <div className="text-1">
                                 Sign up to receive the latest articles
-                              </p>
+                              </div>
                             </div>
                           </div>
                           <div className="sib-input sib-form-block mb-11">
@@ -233,10 +297,10 @@ export default function Footer1({ logo = "/images/logo/logo.png" }) {
                                 <fieldset className="entry__field">
                                   <input
                                     className="input input-nl "
-                                    type="text"
+                                    type="email"
                                     id="EMAIL"
                                     name="email"
-                                    autoComplete="off"
+                                    autoComplete="email"
                                     placeholder="Your email address"
                                     data-required="true"
                                     required
@@ -261,29 +325,6 @@ export default function Footer1({ logo = "/images/logo/logo.png" }) {
                               Subscribe
                             </button>
                           </div>
-                          <div className="sib-optin sib-form-block">
-                            <div className="form__entry entry_mcq">
-                              <div className="form__label-row ">
-                                <div className="checkbox-item ">
-                                  <label className="mb-0">
-                                    <span className="text-2 text-color-default">
-                                      I have read and agree to the terms &amp;
-                                      conditions
-                                    </span>
-                                    <input
-                                      type="checkbox"
-                                      className="input_replaced"
-                                      defaultValue={1}
-                                      id="OPT_IN"
-                                      name="OPT_IN"
-                                    />
-                                    <span className="btn-checkbox" />
-                                  </label>
-                                </div>
-                              </div>
-                              <label className="entry__error entry__error--primary"></label>
-                            </div>
-                          </div>
                         </form>
                       </div>
                     </div>
@@ -304,37 +345,26 @@ export default function Footer1({ logo = "/images/logo/logo.png" }) {
         </div>
         <div className="col-12">
           <div className="footer-bottom">
-            <p>
-              Copyright © {new Date().getFullYear()}{" "}
-              <span className="fw-7">PROTY - REAL ESTATE</span> . Designed &amp;
-              Developed by
-              <a href="#">Themesflat</a>
-            </p>
-            <div className="wrap-social">
-              <div className="text-3  fw-6 text_white">Follow us</div>
-              <ul className="tf-social ">
-                <li>
-                  <a href="#">
-                    <i className="icon-fb" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="icon-X" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="icon-linked" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="icon-ins" />
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <p>{copyright}</p>
+            {socials.length > 0 ? (
+              <div className="wrap-social">
+                <div className="text-3  fw-6 text_white">Follow us</div>
+                <ul className="tf-social ">
+                  {socials.map((s) => (
+                    <li key={s.label}>
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={s.label}
+                      >
+                        <i className={s.icon} />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
