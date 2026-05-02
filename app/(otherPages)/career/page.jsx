@@ -38,11 +38,12 @@ export default async function page() {
         <PageTitle
           heroTitle={career.heroTitle}
           heroSubtitle={career.heroSubtitle}
+          bannerImage={career.heroBannerImage}
         />
         <div className="main-content">
           <Jobs career={career} jobs={jobs} />
           <Benefits career={career} />
-          <Reviews career={career} />
+          
           <Cta />
         </div>
         <Footer1 />

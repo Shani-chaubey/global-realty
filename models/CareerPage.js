@@ -13,6 +13,7 @@ const CareerPageSchema = new mongoose.Schema(
     key: { type: String, unique: true, default: "main", index: true },
     heroTitle: { type: String, default: "" },
     heroSubtitle: { type: String, default: "" },
+    heroBannerImage: { type: String, default: "" },
     jobsSectionTitle: { type: String, default: "" },
     jobsSectionSubtitle: { type: String, default: "" },
     jobsLoadMoreUrl: { type: String, default: "" },

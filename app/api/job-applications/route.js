@@ -1,0 +1,53 @@
+import { NextResponse } from "next/server";
+import connectDB from "@/lib/mongoose";
+import JobApplication from "@/models/JobApplication";
+import mongoose from "mongoose";
+
+export async function POST(request) {
+  try {
+    await connectDB();
+    const body = await request.json();
+    const {
+      fullName,
+      email,
+      phone,
+      linkedinUrl = "",
+      jobPostingId,
+      jobTitle = "",
+      department = "",
+      location = "",
+      salaryLabel = "",
+      coverLetter,
+      resumeUrl,
+    } = body;
+
+    if (!fullName?.trim() || !email?.trim() || !phone?.trim()) {
+      return NextResponse.json({ success: false, error: "Name, email, and phone are required." }, { status: 400 });
+    }
+    if (!coverLetter?.trim()) {
+      return NextResponse.json({ success: false, error: "Cover letter is required." }, { status: 400 });
+    }
+    if (!resumeUrl?.trim()) {
+      return NextResponse.json({ success: false, error: "Resume (PDF) is required." }, { status: 400 });
+    }
+
+    const created = await JobApplication.create({
+      fullName: String(fullName).trim(),
+      email: String(email).trim(),
+      phone: String(phone).trim(),
+      linkedinUrl: String(linkedinUrl || "").trim(),
+      jobTitle: String(jobTitle || "").trim(),
+      department: String(department || "").trim(),
+      location: String(location || "").trim(),
+      salaryLabel: String(salaryLabel || "").trim(),
+      coverLetter: String(coverLetter).trim(),
+      resumeUrl: String(resumeUrl).trim(),
+      ...(jobPostingId && mongoose.Types.ObjectId.isValid(String(jobPostingId))
+        ? { jobPostingId: String(jobPostingId) }
+        : {}),
+    });
+    return NextResponse.json({ success: true, data: created }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}

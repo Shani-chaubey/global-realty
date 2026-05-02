@@ -277,3 +277,44 @@
 .imgup-trigger__text { font-size: 0.875rem; }
 .imgup-trigger__hint { font-size: 0.75rem; color: #9ca3af; }
 .imgup-trigger:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.imgup-preview--firebase img { max-height: 11rem; width: 100%; max-width: 20rem; }
+.imgup-firebase-zone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 0.75rem;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  transition: border-color 0.15s, background 0.15s;
+}
+[data-theme="dark"] .imgup-firebase-zone {
+  border-color: #475569;
+  background: linear-gradient(180deg, rgba(30,41,59,0.5) 0%, rgba(15,23,42,0.4) 100%);
+}
+.imgup-firebase-zone--active {
+  border-color: #3b82f6;
+  background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+}
+.imgup-firebase-zone__icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 0 auto 0.5rem;
+  color: #3b82f6;
+}
+.imgup-firebase-zone__title {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+}
+.imgup-firebase-zone__hint {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted, #64748b);
+  margin-top: 0.25rem;
+}
+.imgup-firebase-progress { padding: 0.5rem 0; }
+.imgup-firebase-progress__label { font-size: 0.8125rem; font-weight: 600; color: #1d4ed8; margin-bottom: 0.5rem; }
+.imgup-firebase-progress__bar { height: 0.35rem; background: #dbeafe; border-radius: 9999px; overflow: hidden; max-width: 14rem; margin: 0 auto; }
+.imgup-firebase-progress__fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #2563eb); border-radius: 9999px; transition: width 0.12s linear; }

@@ -95,7 +95,6 @@ button.tf-btn.bg-color-primary {
 .tf-btn.style-border,
 a.tf-btn.style-border {
   border-color: var(--color-primary) !important;
-  color: var(--color-primary) !important;
 }
 
 .tf-btn.style-border:hover,

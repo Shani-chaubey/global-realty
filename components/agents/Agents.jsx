@@ -88,14 +88,14 @@ export default function Agents() {
       <div className="tf-container">
         <div className="row">
           <div className="box-title style-2 mb-48">
-            <h2>Agents</h2>
+            <h2>Our team</h2>
             <div className="wrap-sort">
               <form onSubmit={(e) => e.preventDefault()}>
                 <fieldset>
                   <input
                     className=""
                     type="text"
-                    placeholder="Agent name"
+                    placeholder="Member name"
                     name="name"
                     tabIndex={2}
                     value={q}
@@ -148,11 +148,11 @@ export default function Agents() {
                   <div className="image-wrap">
                     <Link href={detailHref(agent)}>
                       <Image
-                        className="lazyload"
+                        className="lazyload agent-card-photo"
                         data-src={agent.photo || "/images/section/agent-item-1.jpg"}
                         alt=""
-                        width={435}
-                        height={585}
+                        width={400}
+                        height={320}
                         src={
                           agent.photo || "/images/section/agent-item-1.jpg"
                         }

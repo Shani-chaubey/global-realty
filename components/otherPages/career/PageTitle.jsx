@@ -1,16 +1,27 @@
 "use client";
 
-import { useState } from "react";
-
+/**
+ * Career hero: optional CMS banner (fixed height) + title/subtitle overlay.
+ * When `bannerImage` is set, it overrides the default SCSS background image.
+ */
 export default function PageTitle({
   heroTitle = "A Culture of Inclusivity and Belonging",
   heroSubtitle = "Thousands of luxury home enthusiasts just like you visit our website.",
+  bannerImage = "",
 }) {
-  const [activeItem, setActiveItem] = useState("For sale");
-  const items = ["For sale", "For rent"];
+  const hasBanner = Boolean(String(bannerImage || "").trim());
 
   return (
-    <div className="page-title career">
+    <div
+      className={`page-title career${hasBanner ? " career-page-title--cms-banner" : ""}`}
+      style={
+        hasBanner
+          ? {
+              backgroundImage: `url(${bannerImage})`,
+            }
+          : undefined
+      }
+    >
       <div className="tf-container">
         <div className="row justify-center">
           <div className="col-lg-8">
@@ -18,40 +29,6 @@ export default function PageTitle({
               <div className="heading-title">
                 <h1 className="title">{heroTitle}</h1>
                 <p className="h6 fw-4">{heroSubtitle}</p>
-              </div>
-              <div className="wg-filter">
-                <div className="form-title">
-                  <div className="tf-dropdown-sort" data-bs-toggle="dropdown">
-                    <div className="btn-select">
-                      <span className="text-sort-value">{activeItem}</span>
-                      <i className="icon-CaretDown" />
-                    </div>
-                    <div className="dropdown-menu">
-                      {items.map((item) => (
-                        <div
-                          key={item}
-                          className={`select-item ${
-                            activeItem === item ? "active" : ""
-                          }`}
-                          onClick={() => setActiveItem(item)}
-                          role="presentation"
-                        >
-                          <span className="text-value-item">{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <form onSubmit={(e) => e.preventDefault()}>
-                    <fieldset>
-                      <input type="text" placeholder="Find job here" />
-                    </fieldset>
-                  </form>
-                  <div className="wrap-btn">
-                    <span className="tf-btn bg-color-primary fw-7 pd-3">
-                      Search <i className="icon-MagnifyingGlass fw-6" />
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

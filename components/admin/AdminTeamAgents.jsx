@@ -4,6 +4,7 @@ import useSWR, { mutate } from "swr";
 import toast from "react-hot-toast";
 import Modal from "@/components/ui/Modal";
 import DataTable from "@/components/ui/DataTable";
+import ImageUploader from "@/components/ui/ImageUploader";
 import api from "@/lib/axios";
 
 const fetcher = (url) => api.get(url).then((r) => r.data);
@@ -97,20 +98,43 @@ export default function AdminTeamAgents() {
   const columns = [
     { key: "order", label: "#", render: (r) => r.order },
     {
+      key: "photo",
+      label: "Photo",
+      render: (r) => {
+        const src = r.photo || "";
+        if (!src) return <span className="ap-thumb-placeholder">—</span>;
+        return (
+          <img
+            src={src}
+            alt=""
+            className="ap-avatar"
+            width={36}
+            height={36}
+            style={{ objectFit: "cover" }}
+          />
+        );
+      },
+    },
+    {
       key: "name",
       label: "Name",
       render: (r) => (
-        <p
-          style={{
-            overflow: "hidden",
-            display: "-webkit-box",
-            WebkitBoxOrient: "vertical",
-            WebkitLineClamp: 2,
-            fontSize: "0.875rem",
-          }}
-        >
-          {r.name}
-        </p>
+        <div className="ap-agent-table-name">
+          <div style={{ minWidth: 0 }}>
+            <p
+              className="ap-row-title"
+              style={{
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 2,
+              }}
+            >
+              {r.name}
+            </p>
+            <p className="ap-row-meta">{r.city || "—"}</p>
+          </div>
+        </div>
       ),
     },
     { key: "role", label: "Role", render: (r) => r.role || "—" },
@@ -146,16 +170,28 @@ export default function AdminTeamAgents() {
 
   return (
     <div className="ap-page-body">
-      <div className="ap-header">
-        <h1 className="ap-title">Team agents</h1>
-        <button onClick={openAdd} className="ap-btn-primary">
+      <div className="ap-header ap-header--col" style={{ alignItems: "stretch" }}>
+        <div>
+          <h1 className="ap-title">Team agents</h1>
+          <p className="ap-subtitle">
+            Card and hero images upload to Firebase Storage (same bucket as the standalone admin). Public list: <code>/agents</code>
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={openAdd}
+          className="ap-btn-primary"
+          style={{ alignSelf: "flex-start" }}
+        >
           + Add agent
         </button>
       </div>
-      <p className="text-1 text-color-3 mb-16" style={{ maxWidth: "42rem" }}>
-        Public URL: <code>/agents-details/[id]</code> — uses Mongo id or slug.
-        List: <code>/agents</code>
-      </p>
+      <div className="ap-cms-intro">
+        <p className="ap-cms-intro__title">Agent profiles</p>
+        <p className="ap-cms-intro__text">
+          Detail page: <code>/agents-details/[id or slug]</code>. Slug is generated from name if left empty.
+        </p>
+      </div>
       <div className="admin-card" style={{ overflow: "hidden" }}>
         <DataTable columns={columns} data={data?.data} loading={isLoading} />
       </div>
@@ -165,236 +201,230 @@ export default function AdminTeamAgents() {
         title={editing ? "Edit agent" : "Add agent"}
         size="lg"
       >
-        <div className="ap-form-stack">
-          <div>
-            <label className="ap-label">Name *</label>
-            <input
-              className="ap-input"
-              value={form.name}
-              onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-            />
-          </div>
-          <div>
-            <label className="ap-label">Slug (optional)</label>
-            <input
-              className="ap-input"
-              placeholder="auto from name if empty"
-              value={form.slug}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, slug: e.target.value }))
-              }
-            />
-          </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "0.75rem",
-            }}
-          >
+        <div
+          className="ap-form-stack"
+          style={{
+            maxHeight: "min(70vh, 720px)",
+            overflowY: "auto",
+            paddingRight: "0.25rem",
+          }}
+        >
+          <div className="ap-cms-modal-section">
+            <div className="ap-cms-modal-section__label">Basics</div>
             <div>
-              <label className="ap-label">Role</label>
+              <label className="ap-label">Name *</label>
               <input
                 className="ap-input"
-                value={form.role}
+                value={form.name}
+                onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+              />
+            </div>
+            <div>
+              <label className="ap-label">Slug (optional)</label>
+              <input
+                className="ap-input"
+                placeholder="auto from name if empty"
+                value={form.slug}
+                onChange={(e) => setForm((p) => ({ ...p, slug: e.target.value }))}
+              />
+            </div>
+            <div className="ap-grid-2col">
+              <div>
+                <label className="ap-label">Role</label>
+                <input
+                  className="ap-input"
+                  value={form.role}
+                  onChange={(e) => setForm((p) => ({ ...p, role: e.target.value }))}
+                />
+              </div>
+              <div>
+                <label className="ap-label">Order</label>
+                <input
+                  type="number"
+                  className="ap-input"
+                  value={form.order}
+                  onChange={(e) =>
+                    setForm((p) => ({ ...p, order: Number(e.target.value) }))
+                  }
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="ap-cms-modal-section">
+            <div className="ap-cms-modal-section__label">Photos</div>
+            <div>
+              <label className="ap-label">Card photo</label>
+              <ImageUploader
+                backend="firebase"
+                folder="cms/team-agents"
+                value={form.photo}
+                onChange={(url) => setForm((p) => ({ ...p, photo: url }))}
+                label="Upload card image"
+              />
+            </div>
+            <div>
+              <label className="ap-label">Detail hero</label>
+              <ImageUploader
+                backend="firebase"
+                folder="cms/team-agents"
+                value={form.detailPhoto}
+                onChange={(url) => setForm((p) => ({ ...p, detailPhoto: url }))}
+                label="Upload hero image"
+              />
+            </div>
+          </div>
+
+          <div className="ap-cms-modal-section">
+            <div className="ap-cms-modal-section__label">Workplace</div>
+            <div className="ap-grid-2col">
+              <div>
+                <label className="ap-label">Agency</label>
+                <input
+                  className="ap-input"
+                  value={form.agency}
+                  onChange={(e) =>
+                    setForm((p) => ({ ...p, agency: e.target.value }))
+                  }
+                />
+              </div>
+              <div>
+                <label className="ap-label">City</label>
+                <input
+                  className="ap-input"
+                  value={form.city}
+                  onChange={(e) => setForm((p) => ({ ...p, city: e.target.value }))}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="ap-label">Company link</label>
+              <input
+                className="ap-input"
+                value={form.companyLink}
                 onChange={(e) =>
-                  setForm((p) => ({ ...p, role: e.target.value }))
+                  setForm((p) => ({ ...p, companyLink: e.target.value }))
                 }
               />
             </div>
             <div>
-              <label className="ap-label">Order</label>
+              <label className="ap-label">Address</label>
               <input
-                type="number"
                 className="ap-input"
-                value={form.order}
+                value={form.address}
                 onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    order: Number(e.target.value),
-                  }))
+                  setForm((p) => ({ ...p, address: e.target.value }))
                 }
               />
             </div>
+            <div className="ap-grid-2col">
+              <div>
+                <label className="ap-label">Phone</label>
+                <input
+                  className="ap-input"
+                  value={form.phone}
+                  onChange={(e) =>
+                    setForm((p) => ({ ...p, phone: e.target.value }))
+                  }
+                />
+              </div>
+              <div>
+                <label className="ap-label">Email</label>
+                <input
+                  className="ap-input"
+                  value={form.email}
+                  onChange={(e) =>
+                    setForm((p) => ({ ...p, email: e.target.value }))
+                  }
+                />
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="ap-label">Photo URL (card)</label>
-            <input
-              className="ap-input"
-              value={form.photo}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, photo: e.target.value }))
-              }
-            />
-          </div>
-          <div>
-            <label className="ap-label">Detail hero image URL</label>
-            <input
-              className="ap-input"
-              value={form.detailPhoto}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, detailPhoto: e.target.value }))
-              }
-            />
-          </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "0.75rem",
-            }}
-          >
+
+          <div className="ap-cms-modal-section">
+            <div className="ap-cms-modal-section__label">About</div>
             <div>
-              <label className="ap-label">Agency</label>
+              <label className="ap-label">About title</label>
               <input
                 className="ap-input"
-                value={form.agency}
+                placeholder="About {name}"
+                value={form.aboutTitle}
                 onChange={(e) =>
-                  setForm((p) => ({ ...p, agency: e.target.value }))
+                  setForm((p) => ({ ...p, aboutTitle: e.target.value }))
                 }
               />
             </div>
             <div>
-              <label className="ap-label">City (filter)</label>
-              <input
+              <label className="ap-label">Bio</label>
+              <textarea
                 className="ap-input"
-                value={form.city}
+                rows={4}
+                value={form.bio}
                 onChange={(e) =>
-                  setForm((p) => ({ ...p, city: e.target.value }))
+                  setForm((p) => ({ ...p, bio: e.target.value }))
                 }
               />
             </div>
           </div>
-          <div>
-            <label className="ap-label">Company link</label>
-            <input
-              className="ap-input"
-              value={form.companyLink}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, companyLink: e.target.value }))
-              }
-            />
-          </div>
-          <div>
-            <label className="ap-label">Address</label>
-            <input
-              className="ap-input"
-              value={form.address}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, address: e.target.value }))
-              }
-            />
-          </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "0.75rem",
-            }}
-          >
-            <div>
-              <label className="ap-label">Phone</label>
-              <input
-                className="ap-input"
-                value={form.phone}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, phone: e.target.value }))
-                }
-              />
-            </div>
-            <div>
-              <label className="ap-label">Email</label>
-              <input
-                className="ap-input"
-                value={form.email}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, email: e.target.value }))
-                }
-              />
-            </div>
-          </div>
-          <div>
-            <label className="ap-label">About title</label>
-            <input
-              className="ap-input"
-              placeholder="About {name}"
-              value={form.aboutTitle}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, aboutTitle: e.target.value }))
-              }
-            />
-          </div>
-          <div>
-            <label className="ap-label">Bio</label>
-            <textarea
-              className="ap-input"
-              rows={4}
-              value={form.bio}
-              onChange={(e) =>
-                setForm((p) => ({ ...p, bio: e.target.value }))
-              }
-            />
-          </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "0.75rem",
-            }}
-          >
-            <div>
-              <label className="ap-label">Facebook</label>
-              <input
-                className="ap-input"
-                value={form.socialFacebook}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    socialFacebook: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div>
-              <label className="ap-label">X / Twitter</label>
-              <input
-                className="ap-input"
-                value={form.socialTwitter}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    socialTwitter: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div>
-              <label className="ap-label">LinkedIn</label>
-              <input
-                className="ap-input"
-                value={form.socialLinkedin}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    socialLinkedin: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div>
-              <label className="ap-label">Instagram</label>
-              <input
-                className="ap-input"
-                value={form.socialInstagram}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    socialInstagram: e.target.value,
-                  }))
-                }
-              />
+
+          <div className="ap-cms-modal-section">
+            <div className="ap-cms-modal-section__label">Social</div>
+            <div className="ap-grid-2col">
+              <div>
+                <label className="ap-label">Facebook</label>
+                <input
+                  className="ap-input"
+                  value={form.socialFacebook}
+                  onChange={(e) =>
+                    setForm((p) => ({
+                      ...p,
+                      socialFacebook: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div>
+                <label className="ap-label">X / Twitter</label>
+                <input
+                  className="ap-input"
+                  value={form.socialTwitter}
+                  onChange={(e) =>
+                    setForm((p) => ({
+                      ...p,
+                      socialTwitter: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div>
+                <label className="ap-label">LinkedIn</label>
+                <input
+                  className="ap-input"
+                  value={form.socialLinkedin}
+                  onChange={(e) =>
+                    setForm((p) => ({
+                      ...p,
+                      socialLinkedin: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div>
+                <label className="ap-label">Instagram</label>
+                <input
+                  className="ap-input"
+                  value={form.socialInstagram}
+                  onChange={(e) =>
+                    setForm((p) => ({
+                      ...p,
+                      socialInstagram: e.target.value,
+                    }))
+                  }
+                />
+              </div>
             </div>
           </div>
+
           <label className="ap-checkbox-row">
             <input
               type="checkbox"
@@ -403,7 +433,7 @@ export default function AdminTeamAgents() {
                 setForm((p) => ({ ...p, isActive: e.target.checked }))
               }
             />
-            <span className="ap-checkbox-label">Active</span>
+            <span className="ap-checkbox-label">Show on site (active)</span>
           </label>
           <div className="ap-form-footer">
             <button onClick={() => setModal(false)} className="ap-btn-cancel">

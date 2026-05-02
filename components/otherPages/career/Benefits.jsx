@@ -15,11 +15,12 @@ export default function Benefits({ career = {} }) {
         { iconClass: "icon-pig", label: "Attractive salary and bonus" },
         { iconClass: "icon-family", label: "Family life" },
       ];
-  const cta = career.benefitsCtaLabel || "Join our team";
-  const ctaHref = career.benefitsCtaHref || "#";
+  const cta = career.benefitsCtaLabel || "View openings";
+  const ctaHref = career.benefitsCtaHref || "#career-openings";
+  const ctaIsHash = typeof ctaHref === "string" && ctaHref.startsWith("#");
 
   return (
-    <section className="section-benefits">
+    <section className="section-benefits" style={{ marginBottom: "100px" }}>
       <div className="tf-container">
         <div className="row">
           <div className="col-12">
@@ -92,7 +93,16 @@ export default function Benefits({ career = {} }) {
                     </div>
                   ))}
                 </div>
-                {ctaHref && ctaHref !== "#" ? (
+                {ctaIsHash ? (
+                  <a
+                    href={ctaHref}
+                    className="tf-btn bg-color-primary fw-7 pd-17 wow animate__fadeInUp animate__animated"
+                    data-wow-duration="1s"
+                    data-wow-delay="0s"
+                  >
+                    {cta}
+                  </a>
+                ) : ctaHref && ctaHref !== "#" ? (
                   <Link
                     href={ctaHref}
                     className="tf-btn bg-color-primary fw-7 pd-17 wow animate__fadeInUp animate__animated"
@@ -103,7 +113,7 @@ export default function Benefits({ career = {} }) {
                   </Link>
                 ) : (
                   <a
-                    href={ctaHref}
+                    href="#"
                     className="tf-btn bg-color-primary fw-7 pd-17 wow animate__fadeInUp animate__animated"
                     data-wow-duration="1s"
                     data-wow-delay="0s"
