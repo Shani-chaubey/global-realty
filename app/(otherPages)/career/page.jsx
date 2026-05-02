@@ -4,7 +4,6 @@ import Header1 from "@/components/headers/Header1";
 import Benefits from "@/components/otherPages/career/Benefits";
 import Jobs from "@/components/otherPages/career/Jobs";
 import PageTitle from "@/components/otherPages/career/PageTitle";
-import Reviews from "@/components/otherPages/career/Reviews";
 import { mergeCareerPage } from "@/lib/careerPageDefaults";
 import { getPageSeo } from "@/lib/seo";
 import connectDB from "@/lib/mongoose";
