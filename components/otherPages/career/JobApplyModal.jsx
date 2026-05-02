@@ -103,8 +103,8 @@ export default function JobApplyModal({ open, onClose, job }) {
           <strong>{job.title}</strong>
           {job.location ? ` · ${job.location}` : ""}
         </p>
-        <div className="row g-3 mb-16">
-          <div className="col-12 col-md-6">
+        <div className="job-apply-grid mb-16">
+          <div className="job-apply-field">
             <label className="text-2 fw-6 d-block mb-8">Full name *</label>
             <input
               className="form-control"
@@ -114,7 +114,7 @@ export default function JobApplyModal({ open, onClose, job }) {
               autoComplete="name"
             />
           </div>
-          <div className="col-12 col-md-6">
+          <div className="job-apply-field">
             <label className="text-2 fw-6 d-block mb-8">Email *</label>
             <input
               type="email"
@@ -125,7 +125,7 @@ export default function JobApplyModal({ open, onClose, job }) {
               autoComplete="email"
             />
           </div>
-          <div className="col-12 col-md-6">
+          <div className="job-apply-field">
             <label className="text-2 fw-6 d-block mb-8">Phone *</label>
             <input
               type="tel"
@@ -136,7 +136,7 @@ export default function JobApplyModal({ open, onClose, job }) {
               autoComplete="tel"
             />
           </div>
-          <div className="col-12 col-md-6">
+          <div className="job-apply-field">
             <label className="text-2 fw-6 d-block mb-8">LinkedIn (optional)</label>
             <input
               type="url"
@@ -146,7 +146,7 @@ export default function JobApplyModal({ open, onClose, job }) {
               onChange={(e) => setLinkedinUrl(e.target.value)}
             />
           </div>
-          <div className="col-12">
+          <div className="job-apply-field job-apply-field--full">
             <label className="text-2 fw-6 d-block mb-8">Cover letter *</label>
             <textarea
               className="form-control"
@@ -157,7 +157,7 @@ export default function JobApplyModal({ open, onClose, job }) {
               required
             />
           </div>
-          <div className="col-12">
+          <div className="job-apply-field job-apply-field--full">
             <label className="text-2 fw-6 d-block mb-8">Resume (PDF) *</label>
             <input
               type="file"

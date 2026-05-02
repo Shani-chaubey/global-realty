@@ -73,7 +73,7 @@ export default function Featured() {
               <div className="info">
                 <div className="text-4 lh-22">Agent</div>
                 <h6 className="name fw-6 text-color-heading">
-                  <Link href={`/agents-details/1`}>John Smith</Link>
+                  <Link href={`/team/1`}>John Smith</Link>
                 </h6>
               </div>
             </div>

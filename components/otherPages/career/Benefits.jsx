@@ -1,6 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+
+function scrollToSection(e, href) {
+  if (typeof href !== "string" || !href.startsWith("#")) return;
+  e.preventDefault();
+  const id = href.slice(1) || "career-openings";
+  document.getElementById(id)?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
 
 export default function Benefits({ career = {} }) {
   const title = career.benefitsTitle || "Benefits when you work at Proty";
@@ -113,7 +125,8 @@ export default function Benefits({ career = {} }) {
                   </Link>
                 ) : (
                   <a
-                    href="#"
+                    href="#career-openings"
+                    onClick={(e) => scrollToSection(e, "#career-openings")}
                     className="tf-btn bg-color-primary fw-7 pd-17 wow animate__fadeInUp animate__animated"
                     data-wow-duration="1s"
                     data-wow-delay="0s"

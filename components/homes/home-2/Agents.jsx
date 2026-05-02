@@ -25,7 +25,7 @@ export default function Agents() {
                   key={agent.id}
                 >
                   <div className="image-wrap">
-                    <Link href={`/agents-details/${agent.id}`}>
+                    <Link href={`/team/${agent.id}`}>
                       <Image
                         className="lazyload"
                         data-src={agent.imageSrc}
@@ -61,7 +61,7 @@ export default function Agents() {
                   <div className="content">
                     <div className="author">
                       <h5 className="name lh-30">
-                        <Link href={`/agents-details/${agent.id}`}>
+                        <Link href={`/team/${agent.id}`}>
                           {agent.name}
                         </Link>
                       </h5>

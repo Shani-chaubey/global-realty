@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import DropdownSelect from "../common/DropdownSelect";
+import PaginationRound from "../common/PaginationRound";
 import useSWR from "swr";
 import api from "@/lib/axios";
 
@@ -80,8 +81,7 @@ export default function Agents() {
     pageSafe * PAGE_SIZE,
   );
 
-  const detailHref = (a) =>
-    `/agents-details/${a.slug || a._id}`;
+  const detailHref = (a) => `/team/${a.slug || a._id}`;
 
   return (
     <section className="section-agent">
@@ -240,55 +240,40 @@ export default function Agents() {
             </div>
           )}
           {!isLoading && total === 0 ? (
-            <p className="text-1">No agents found.</p>
+            <div className="team-empty-state" role="status">
+              <div className="team-empty-state__icon" aria-hidden>
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <h3 className="team-empty-state__title">No team members yet</h3>
+              <p className="team-empty-state__text">
+                We’re building our roster. Adjust your filters or check back soon—new profiles appear here as soon as they’re published.
+              </p>
+            </div>
           ) : null}
-          {totalPages > 0 ? (
+          {totalPages > 1 ? (
             <div className="wrap-pagination">
-              <p className="text-1">
-                {`${(pageSafe - 1) * PAGE_SIZE + 1} – ${Math.min(
+              <p
+                className="text-1"
+                style={{
+                  textAlign: "center",
+                  marginBottom: 16,
+                  color: "#6b7280",
+                }}
+              >
+                {`Showing ${(pageSafe - 1) * PAGE_SIZE + 1}–${Math.min(
                   pageSafe * PAGE_SIZE,
                   total,
-                )} of ${total} agent${total === 1 ? "" : "s"}`}
+                )} of ${total} team member${total === 1 ? "" : "s"}`}
               </p>
-              <ul className="wg-pagination justify-center">
-                <li className="arrow">
-                  <button
-                    type="button"
-                    className="border-0 bg-transparent p-0"
-                    disabled={pageSafe <= 1}
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    aria-label="Previous page"
-                  >
-                    <i className="icon-arrow-left" />
-                  </button>
-                </li>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (p) => (
-                    <li key={p} className={p === pageSafe ? "active" : ""}>
-                      <button
-                        type="button"
-                        className="border-0 bg-transparent"
-                        onClick={() => setPage(p)}
-                      >
-                        {p}
-                      </button>
-                    </li>
-                  ),
-                )}
-                <li className="arrow">
-                  <button
-                    type="button"
-                    className="border-0 bg-transparent p-0"
-                    disabled={pageSafe >= totalPages}
-                    onClick={() =>
-                      setPage((p) => Math.min(totalPages, p + 1))
-                    }
-                    aria-label="Next page"
-                  >
-                    <i className="icon-arrow-right" />
-                  </button>
-                </li>
-              </ul>
+              <PaginationRound
+                page={pageSafe}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
             </div>
           ) : null}
         </div>

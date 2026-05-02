@@ -49,7 +49,7 @@ export default function Agents() {
                       data-wow-delay="0s"
                     >
                       <div className="image-wrap">
-                        <Link href={`/agents-details/${agent.id}`}>
+                        <Link href={`/team/${agent.id}`}>
                           <Image
                             className="lazyload"
                             alt=""
@@ -84,7 +84,7 @@ export default function Agents() {
                       <div className="content justify-center">
                         <div className="author text-center">
                           <h5 className="name lh-30">
-                            <Link href={`/agents-details/${agent.id}`}>
+                            <Link href={`/team/${agent.id}`}>
                               {agent.name}
                             </Link>
                           </h5>
@@ -114,7 +114,7 @@ export default function Agents() {
                     data-wow-delay="0s"
                   >
                     <div className="image-wrap">
-                      <Link href={`/agents-details/${agent.id}`}>
+                      <Link href={`/team/${agent.id}`}>
                         <Image
                           className="lazyload"
                           alt=""
@@ -149,7 +149,7 @@ export default function Agents() {
                     <div className="content justify-center">
                       <div className="author text-center">
                         <h5 className="name lh-30">
-                          <Link href={`/agents-details/${agent.id}`}>
+                          <Link href={`/team/${agent.id}`}>
                             {agent.name}
                           </Link>
                         </h5>

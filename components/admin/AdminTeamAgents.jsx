@@ -174,7 +174,7 @@ export default function AdminTeamAgents() {
         <div>
           <h1 className="ap-title">Team agents</h1>
           <p className="ap-subtitle">
-            Card and hero images upload to Firebase Storage (same bucket as the standalone admin). Public list: <code>/agents</code>
+            Card and hero images upload to Firebase Storage (same bucket as the standalone admin). Public list: <code>/team</code>
           </p>
         </div>
         <button
@@ -189,7 +189,7 @@ export default function AdminTeamAgents() {
       <div className="ap-cms-intro">
         <p className="ap-cms-intro__title">Agent profiles</p>
         <p className="ap-cms-intro__text">
-          Detail page: <code>/agents-details/[id or slug]</code>. Slug is generated from name if left empty.
+          Detail page: <code>/team/[id or slug]</code>. Slug is generated from name if left empty.
         </p>
       </div>
       <div className="admin-card" style={{ overflow: "hidden" }}>

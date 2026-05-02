@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      { source: "/agents", destination: "/team", permanent: true },
+      { source: "/agents-details/:slug*", destination: "/team/:slug*", permanent: true },
+    ];
+  },
   images: {
     // Allow external property image URLs from admin/data sources
     remotePatterns: [

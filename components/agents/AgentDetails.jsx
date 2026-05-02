@@ -18,7 +18,7 @@ export default function AgentDetails({ agent }) {
 
   if (!agent) return null;
 
-  const basePath = `/agents-details/${agent.slug || agent._id}`;
+  const basePath = `/team/${agent.slug || agent._id}`;
   const heroImg =
     agent.detailPhoto ||
     agent.photo ||

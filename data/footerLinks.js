@@ -5,7 +5,7 @@ export const footerData = [
       { text: "Contact", href: "/contact" },
       { text: "Why choose us?", href: "/service-details" },
       { text: "Customer reviews", href: "#" },
-      { text: "Our team", href: "/agents" },
+      { text: "Our team", href: "/team" },
       { text: "Careers with realty", href: "/career" },
       { text: "Work with us", href: "/career" },
     ],

@@ -65,7 +65,7 @@ export default function Agents() {
                     data-wow-delay={agent.delay}
                   >
                     <div className="image-wrap">
-                      <Link href={`/agents-details/${agent.id}`}>
+                      <Link href={`/team/${agent.id}`}>
                         <Image
                           className="lazyload"
                           data-src={agent.imageSrc}
@@ -80,7 +80,7 @@ export default function Agents() {
                       <div className="author">
                         <h5 className="name lh-30">
                           <Link
-                            href={`/agents-details/${agent.id}`}
+                            href={`/team/${agent.id}`}
                             className="text_white link"
                           >
                             {agent.name}
