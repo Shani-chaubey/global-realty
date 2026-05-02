@@ -13,6 +13,10 @@ const PAGES = [
   { page: "contact", label: "Contact Page" },
   { page: "about", label: "About Page" },
   { page: "compare", label: "Compare Page" },
+  { page: "team", label: "Team Page" },
+  { page: "career", label: "Career Page" },
+  { page: "faq", label: "FAQ Page" },
+  { page: "home-loan-process", label: "Home Loan Process" },
 ];
 
 function SEOPageEditor({ pageSlug, pageLabel }) {

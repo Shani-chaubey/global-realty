@@ -6,10 +6,21 @@ import Jobs from "@/components/otherPages/career/Jobs";
 import PageTitle from "@/components/otherPages/career/PageTitle";
 import Reviews from "@/components/otherPages/career/Reviews";
 import { mergeCareerPage } from "@/lib/careerPageDefaults";
+import { getPageSeo } from "@/lib/seo";
 import connectDB from "@/lib/mongoose";
 import CareerPage from "@/models/CareerPage";
 import JobPosting from "@/models/JobPosting";
 import React from "react";
+
+export const revalidate = 60;
+
+export async function generateMetadata() {
+  const { metadata } = await getPageSeo("career", {
+    title: "Careers | Global Realty",
+    description: "Join our team and build your career in real estate.",
+  });
+  return metadata;
+}
 
 async function getCareerData() {
   try {

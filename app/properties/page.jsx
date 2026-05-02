@@ -6,6 +6,8 @@ import Properties2 from "@/components/properties/Properties2";
 import { Suspense } from "react";
 import { getPageSeo } from "@/lib/seo";
 
+export const revalidate = 60;
+
 export async function generateMetadata() {
   const { metadata } = await getPageSeo("properties", {
     title: "Properties | Global Realty",

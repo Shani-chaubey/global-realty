@@ -5,7 +5,18 @@ import Facts from "@/components/otherPages/LoanProcess/Facts";
 import LoanCalculator from "@/components/otherPages/LoanProcess/LoanCalculator";
 import PageTitle from "@/components/otherPages/LoanProcess/PageTitle";
 import Process from "@/components/otherPages/LoanProcess/Process";
+import { getPageSeo } from "@/lib/seo";
 import React from "react";
+
+export const revalidate = 60;
+
+export async function generateMetadata() {
+  const { metadata } = await getPageSeo("home-loan-process", {
+    title: "Home Loan Process | Global Realty",
+    description: "Understand the home loan process and get closer to owning your property.",
+  });
+  return metadata;
+}
 
 export default function page() {
   return (

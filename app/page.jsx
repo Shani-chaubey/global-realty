@@ -23,6 +23,9 @@ import { getPageSeo } from "@/lib/seo";
 import mongoose from "mongoose";
 import { Suspense } from "react";
 
+/** Re-fetch DB SEO periodically so admin updates appear without redeploying */
+export const revalidate = 60;
+
 export async function generateMetadata() {
   const { metadata } = await getPageSeo("home", {
     title: "Home | Global Realty - Real Estate",

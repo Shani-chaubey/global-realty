@@ -6,6 +6,8 @@ import Header1 from "@/components/headers/Header1";
 import React, { Suspense } from "react";
 import { getPageSeo } from "@/lib/seo";
 
+export const revalidate = 60;
+
 export async function generateMetadata() {
   const { metadata } = await getPageSeo("blog", {
     title: "Blogs | Global Realty",
