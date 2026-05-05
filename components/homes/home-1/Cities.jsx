@@ -78,10 +78,10 @@ export default function Cities({ cities = [] }) {
                   <h6 className="text_white">{city.cityName}</h6>
                   <a
                     href={`/properties?city=${encodeURIComponent(city.cityName)}`}
-                    className="text-1 tf-btn style-border pd-23 text_white bg-white"
+                    className="text-1 tf-btn style-border pd-23 neighborhoods-cta-btn"
                   >
                     {city.propertyCount} Projects{" "}
-                    <i className="icon-arrow-right" />
+                    <i className="icon-arrow-right neighborhoods-cta-btn__arrow" />
                   </a>
                 </div>
               </div>

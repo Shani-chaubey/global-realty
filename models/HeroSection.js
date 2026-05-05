@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 
 const HeroSectionSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String, default: "" },
     subtitle: { type: String, default: "" },
     backgroundImage: { type: String, default: "" },
+    backgroundVideo: { type: String, default: "" },
     ctaText: { type: String, default: "Explore Properties" },
     ctaLink: { type: String, default: "/properties" },
     order: { type: Number, default: 0 },

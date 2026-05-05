@@ -46,7 +46,7 @@ export default function Categories({
       }));
 
   return (
-    <section className={parentClass}>
+    <section className={`${parentClass} try-searching-section`}>
       <div className="tf-container">
         <div className="heading-section text-center mb-48">
           <h2 className="title split-text effect-right">

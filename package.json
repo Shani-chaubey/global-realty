@@ -9,6 +9,7 @@
     "lint": "next lint",
     "seed:dashboard": "node scripts/seed-dashboard.js",
     "seed:data": "node scripts/seed-data.js",
+    "seed:about": "node scripts/seed-about-section.js",
     "seed:bulk": "node scripts/seed-bulk-real-estate-data.js",
     "seed:agents-career": "node ../admin-dashboard/scripts/seed-agents-career.mjs"
   },

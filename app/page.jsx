@@ -3,6 +3,7 @@ import Header1 from "@/components/headers/Header1";
 import Blogs from "@/components/homes/home-1/Blogs";
 import Categories from "@/components/common/Categories";
 import Cities from "@/components/homes/home-1/Cities";
+import AboutHomeSection from "@/components/homes/home-1/AboutHomeSection";
 import HelpCenter from "@/components/homes/home-1/HelpCenter";
 import Hero from "@/components/homes/home-1/Hero";
 import LoanCalculator from "@/components/homes/home-1/LoanCalculator";
@@ -18,6 +19,7 @@ import BlogModel from "@/models/Blog";
 import HeroSectionModel from "@/models/HeroSection";
 import HelpCenterContentModel from "@/models/HelpCenterContent";
 import PartnerLogoModel from "@/models/PartnerLogo";
+import AboutSectionModel from "@/models/AboutSection";
 import { resolveHelpCenterContent } from "@/lib/helpCenterResolve";
 import { getPageSeo } from "@/lib/seo";
 import mongoose from "mongoose";
@@ -48,6 +50,7 @@ async function getHomePageData() {
       propertyTypes,
       helpCenterDoc,
       partnerLogosRaw,
+      aboutSectionRaw,
     ] = await Promise.all([
       PropertyModel.find({ isActive: { $ne: false } })
         .sort({ createdAt: -1 })
@@ -94,6 +97,7 @@ async function getHomePageData() {
         .select("name image link order")
         .lean()
         .catch(() => []),
+      AboutSectionModel.findOne({ isActive: true }).lean().catch(() => null),
     ]);
 
     let topCities = [];
@@ -145,6 +149,27 @@ async function getHomePageData() {
         link: (p.link && String(p.link).trim()) || "",
       }));
 
+    const aboutSection = aboutSectionRaw
+      ? {
+          eyebrow: String(aboutSectionRaw.eyebrow || "Why Choose Our Properties"),
+          title: String(aboutSectionRaw.title || ""),
+          description: String(aboutSectionRaw.description || ""),
+          image: String(aboutSectionRaw.image || ""),
+          highlights: Array.isArray(aboutSectionRaw.highlights)
+            ? aboutSectionRaw.highlights.map((x) => String(x || "").trim()).filter(Boolean)
+            : Array.isArray(aboutSectionRaw.stats)
+              ? aboutSectionRaw.stats
+                  .map((x) =>
+                    `${String(x?.label || "").trim()}${x?.value ? ` - ${String(x.value).trim()}` : ""}`.trim()
+                  )
+                  .filter(Boolean)
+              : [],
+          ctaText: String(aboutSectionRaw.ctaText || "Read More"),
+          ctaLink: String(aboutSectionRaw.ctaLink || "/about-us"),
+          isActive: aboutSectionRaw.isActive !== false,
+        }
+      : null;
+
     return {
       properties: JSON.parse(JSON.stringify(properties)),
       testimonials: JSON.parse(JSON.stringify(testimonials)),
@@ -154,6 +179,7 @@ async function getHomePageData() {
       categoryItems: JSON.parse(JSON.stringify(categoryItems)),
       helpCenterContent: JSON.parse(JSON.stringify(helpCenterContent)),
       partnerLogos: JSON.parse(JSON.stringify(partnerLogos)),
+      aboutSection: JSON.parse(JSON.stringify(aboutSection)),
     };
   } catch {
     return {
@@ -165,6 +191,7 @@ async function getHomePageData() {
       categoryItems: [],
       helpCenterContent: resolveHelpCenterContent(null),
       partnerLogos: [],
+      aboutSection: null,
     };
   }
 }
@@ -179,6 +206,7 @@ export default async function Home() {
     categoryItems,
     helpCenterContent,
     partnerLogos,
+    aboutSection,
   } = await getHomePageData();
 
   return (
@@ -200,6 +228,7 @@ export default async function Home() {
       <div className="main-content">
         <Categories items={categoryItems} />
         <Properties properties={properties} />
+        <AboutHomeSection content={aboutSection} />
         <HelpCenter content={helpCenterContent} />
         <LoanCalculator />
         <Cities cities={topCities} />
